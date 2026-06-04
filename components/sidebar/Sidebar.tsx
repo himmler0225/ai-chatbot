@@ -2,6 +2,8 @@
 
 import { Plus, MessageSquare, Settings, LogOut, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import type { ChatSession } from '@/types'
 
 interface SidebarProps {
@@ -23,33 +25,62 @@ export function Sidebar({
 
   return (
     <>
-      {/* Mobile menu button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 md:hidden p-2 rounded-lg bg-card border border-border hover:bg-secondary"
-      >
-        {isOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
+      {/* Mobile menu trigger */}
+      <div className="fixed top-4 left-4 z-50 md:hidden">
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Menu size={20} />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-64 p-0">
+            <SidebarContent 
+              sessions={sessions} 
+              activeSessionId={activeSessionId} 
+              onNewChat={onNewChat} 
+              onSelectSession={(id) => {
+                onSelectSession(id)
+                setIsOpen(false)
+              }} 
+              onDeleteSession={onDeleteSession} 
+            />
+          </SheetContent>
+        </Sheet>
+      </div>
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed md:relative w-64 h-screen glass glass-border flex flex-col transition-transform duration-300 z-40 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        }`}
-      >
-        {/* Header */}
-        <div className="p-4 border-b border-sidebar-border">
-          <button
-            onClick={() => {
-              onNewChat()
-              setIsOpen(false)
-            }}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg gradient-button text-white transition-all"
-          >
-            <Plus size={18} />
-            <span>Cuộc trò chuyện mới</span>
-          </button>
-        </div>
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex w-64 h-screen glass glass-border flex-col border-r">
+        <SidebarContent 
+          sessions={sessions} 
+          activeSessionId={activeSessionId} 
+          onNewChat={onNewChat} 
+          onSelectSession={onSelectSession} 
+          onDeleteSession={onDeleteSession} 
+        />
+      </aside>
+    </>
+  )
+}
+
+function SidebarContent({
+  sessions,
+  activeSessionId,
+  onNewChat,
+  onSelectSession,
+  onDeleteSession,
+}: SidebarProps) {
+  return (
+    <>
+      {/* Header */}
+      <div className="p-4 border-b border-sidebar-border">
+        <Button
+          onClick={onNewChat}
+          className="w-full gap-2 gradient-button text-white"
+        >
+          <Plus size={18} />
+          <span>Cuộc trò chuyện mới</span>
+        </Button>
+      </div>
 
         {/* Chat history */}
         <div className="flex-1 overflow-y-auto p-3 space-y-2">
@@ -95,18 +126,17 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="p-3 border-t border-sidebar-border space-y-2">
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent/50 transition-colors text-sm">
-            <Settings size={18} />
-            <span>Cài đặt</span>
-          </button>
-          <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent/50 transition-colors text-sm">
-            <LogOut size={18} />
-            <span>Đăng xuất</span>
-          </button>
-        </div>
-      </aside>
+      {/* Footer */}
+      <div className="p-3 border-t border-sidebar-border space-y-2 mt-auto">
+        <Button variant="ghost" className="w-full justify-start gap-2 text-sidebar-foreground">
+          <Settings size={18} />
+          <span>Cài đặt</span>
+        </Button>
+        <Button variant="ghost" className="w-full justify-start gap-2 text-sidebar-foreground">
+          <LogOut size={18} />
+          <span>Đăng xuất</span>
+        </Button>
+      </div>
     </>
   )
 }

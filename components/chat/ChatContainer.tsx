@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { Sidebar } from './Sidebar'
+import { Sidebar } from '@/components/sidebar'
 import { ChatArea } from './ChatArea'
 import type { ChatSession, Message } from '@/types'
 

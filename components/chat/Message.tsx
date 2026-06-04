@@ -1,6 +1,6 @@
 'use client'
 
-import { ToolCall } from './ToolCall'
+import { ToolCall } from '@/components/tools'
 import type { Message as MessageType } from '@/types'
 
 interface MessageProps {

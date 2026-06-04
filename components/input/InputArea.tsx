@@ -2,6 +2,8 @@
 
 import { Send } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 
 interface InputAreaProps {
   onSendMessage: (content: string) => void
@@ -49,7 +51,7 @@ export function InputArea({ onSendMessage, isLoading }: InputAreaProps) {
   return (
     <div className="glass-dark glass-border p-4 md:p-6 border-t">
       <div className="max-w-4xl mx-auto flex gap-3">
-        <textarea
+        <Textarea
           ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -57,16 +59,16 @@ export function InputArea({ onSendMessage, isLoading }: InputAreaProps) {
           placeholder="Nhập câu hỏi của bạn... (Shift + Enter để xuống dòng)"
           disabled={isLoading}
           rows={1}
-          className="input-focus-glow flex-1 px-4 py-2 rounded-lg border border-border/50 bg-black/20 dark:bg-white/10 text-foreground placeholder:text-muted-foreground resize-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="input-focus-glow flex-1 resize-none overflow-hidden min-h-[44px] max-h-[120px] bg-black/20 dark:bg-white/10"
         />
-        <button
+        <Button
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
-          className="gradient-button px-4 py-2 rounded-lg text-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium text-sm"
+          className="gradient-button text-white"
+          size="icon"
         >
           <Send size={18} />
-          <span className="hidden sm:inline">Gửi</span>
-        </button>
+        </Button>
       </div>
     </div>
   )

@@ -1,9 +1,9 @@
 'use client'
 
 import { MessageList } from './MessageList'
-import { InputArea } from './InputArea'
-import { ThemeToggle } from './ThemeToggle'
-import { UserMenu } from './UserMenu'
+import { InputArea } from '@/components/input'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { UserMenu } from '@/components/UserMenu'
 import type { Message } from '@/types'
 
 interface ChatAreaProps {
