@@ -13,9 +13,11 @@ export function Message({ message }: MessageProps) {
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
-        className={`max-w-2xl space-y-3 ${
-          isUser ? 'bg-accent text-accent-foreground' : 'bg-card border border-border text-card-foreground'
-        } rounded-lg px-4 py-3`}
+        className={`max-w-2xl space-y-3 rounded-lg px-4 py-3 transition-all ${
+          isUser 
+            ? 'bg-gradient-to-r from-[#FF6B35] to-[#FF9F1C] text-white shadow-lg shadow-orange-500/20' 
+            : 'bg-card border border-border/50 text-card-foreground hover:border-orange-500/30'
+        }`}
       >
         {/* Main message content */}
         <p className="text-sm leading-relaxed text-balance">{message.content}</p>

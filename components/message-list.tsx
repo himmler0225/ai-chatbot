@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { Message } from './message'
+import { TypingIndicator } from './typing-indicator'
 import type { Message as MessageType } from '@/lib/types'
 
 interface MessageListProps {
@@ -47,17 +48,13 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
       ) : (
         <div className="space-y-4">
           {messages.map((message) => (
-            <Message key={message.id} message={message} />
+            <div key={message.id} className="message-enter">
+              <Message message={message} />
+            </div>
           ))}
           {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-card border border-border rounded-lg px-4 py-3 max-w-md">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" />
-                  <div className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: '0.2s' }} />
-                  <div className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: '0.4s' }} />
-                </div>
-              </div>
+            <div className="flex justify-start message-enter">
+              <TypingIndicator />
             </div>
           )}
           <div ref={endRef} />

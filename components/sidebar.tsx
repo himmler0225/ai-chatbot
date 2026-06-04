@@ -33,7 +33,7 @@ export function Sidebar({
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:relative w-64 h-screen bg-sidebar border-r border-sidebar-border flex flex-col transition-transform duration-300 z-40 ${
+        className={`fixed md:relative w-64 h-screen glass glass-border flex flex-col transition-transform duration-300 z-40 ${
           isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
@@ -44,7 +44,7 @@ export function Sidebar({
               onNewChat()
               setIsOpen(false)
             }}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground hover:opacity-90 transition-opacity"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg gradient-button text-white transition-all"
           >
             <Plus size={18} />
             <span>Cuộc trò chuyện mới</span>
@@ -61,10 +61,10 @@ export function Sidebar({
             sessions.map((session) => (
               <div
                 key={session.id}
-                className={`group relative px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                className={`group relative px-3 py-2 rounded-lg cursor-pointer transition-all card-hover ${
                   activeSessionId === session.id
-                    ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                    : 'text-sidebar-foreground hover:bg-sidebar-accent/50'
+                    ? 'sidebar-active bg-orange-500/10 dark:bg-orange-500/5'
+                    : 'text-sidebar-foreground'
                 }`}
                 onClick={() => {
                   onSelectSession(session.id)

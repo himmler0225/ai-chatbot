@@ -47,7 +47,7 @@ export function InputArea({ onSendMessage, isLoading }: InputAreaProps) {
   }
 
   return (
-    <div className="border-t border-border bg-card p-4 md:p-6">
+    <div className="glass-dark glass-border p-4 md:p-6 border-t">
       <div className="max-w-4xl mx-auto flex gap-3">
         <textarea
           ref={textareaRef}
@@ -57,12 +57,12 @@ export function InputArea({ onSendMessage, isLoading }: InputAreaProps) {
           placeholder="Nhập câu hỏi của bạn... (Shift + Enter để xuống dòng)"
           disabled={isLoading}
           rows={1}
-          className="flex-1 px-4 py-2 rounded-lg border border-border bg-input text-foreground placeholder:text-muted-foreground resize-none focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50 disabled:cursor-not-allowed"
+          className="input-focus-glow flex-1 px-4 py-2 rounded-lg border border-border/50 bg-black/20 dark:bg-white/10 text-foreground placeholder:text-muted-foreground resize-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         />
         <button
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
-          className="px-4 py-2 rounded-lg bg-accent text-accent-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity flex items-center gap-2 font-medium text-sm"
+          className="gradient-button px-4 py-2 rounded-lg text-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium text-sm"
         >
           <Send size={18} />
           <span className="hidden sm:inline">Gửi</span>
