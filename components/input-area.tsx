@@ -15,7 +15,16 @@ export function InputArea({ onSendMessage, isLoading }: InputAreaProps) {
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
-      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 120) + 'px'
+      const maxHeight = 120
+      const newHeight = Math.min(textareaRef.current.scrollHeight, maxHeight)
+      textareaRef.current.style.height = newHeight + 'px'
+      
+      // Show scrollbar only when content exceeds max-height
+      if (textareaRef.current.scrollHeight > maxHeight) {
+        textareaRef.current.classList.add('overflow')
+      } else {
+        textareaRef.current.classList.remove('overflow')
+      }
     }
   }, [input])
 
@@ -25,6 +34,7 @@ export function InputArea({ onSendMessage, isLoading }: InputAreaProps) {
       setInput('')
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto'
+        textareaRef.current.classList.remove('overflow')
       }
     }
   }
