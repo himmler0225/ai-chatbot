@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { Sidebar } from './sidebar'
-import { ChatArea } from './chat-area'
-import type { ChatSession, Message } from '@/lib/types'
+import { Sidebar } from './Sidebar'
+import { ChatArea } from './ChatArea'
+import type { ChatSession, Message } from '@/types'
 
 export function ChatContainer() {
   const [sessions, setSessions] = useState<ChatSession[]>([])

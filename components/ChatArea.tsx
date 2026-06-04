@@ -1,10 +1,10 @@
 'use client'
 
-import { MessageList } from './message-list'
-import { InputArea } from './input-area'
-import { ThemeToggle } from './theme-toggle'
-import { UserMenu } from './user-menu'
-import type { Message } from '@/lib/types'
+import { MessageList } from './MessageList'
+import { InputArea } from './InputArea'
+import { ThemeToggle } from './ThemeToggle'
+import { UserMenu } from './UserMenu'
+import type { Message } from '@/types'
 
 interface ChatAreaProps {
   messages: Message[]

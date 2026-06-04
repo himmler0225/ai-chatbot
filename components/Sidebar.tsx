@@ -2,7 +2,7 @@
 
 import { Plus, MessageSquare, Settings, LogOut, Menu, X } from 'lucide-react'
 import { useState } from 'react'
-import type { ChatSession } from '@/lib/types'
+import type { ChatSession } from '@/types'
 
 interface SidebarProps {
   sessions: ChatSession[]

@@ -1,7 +1,7 @@
 'use client'
 
 import { Zap } from 'lucide-react'
-import type { Tool } from '@/lib/types'
+import type { Tool } from '@/types'
 
 interface ToolCallProps {
   tool: Tool
