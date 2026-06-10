@@ -1,5 +1,0 @@
-export { ChatArea } from './ChatArea'
-export { ChatContainer } from './ChatContainer'
-export { MessageList } from './MessageList'
-export { Message } from './Message'
-export { TypingIndicator } from './TypingIndicator'

@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* ── Override Tailwind preflight conflicts with Ant Design ── */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/* Ant Design manages its own font/color resets — restore body defaults */
+body {
+  margin: 0;
+  font-family: var(--font-sans), sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: rgba(128, 128, 128, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(128, 128, 128, 0.5); }
+
+/* Markdown content */
+.message-content p                { margin-bottom: 0.6em; }
+.message-content p:last-child     { margin-bottom: 0; }
+.message-content pre {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  margin: 8px 0;
+}
+.message-content code {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.9em;
+}
+.message-content pre code        { background: transparent; padding: 0; }
+.message-content ul,
+.message-content ol              { padding-left: 1.4em; margin: 6px 0; }
+.message-content li              { margin: 2px 0; }
+.message-content h1,
+.message-content h2,
+.message-content h3              { margin: 10px 0 4px; font-weight: 600; }
+.message-content blockquote {
+  border-left: 3px solid #10a37f;
+  padding-left: 12px;
+  margin: 8px 0;
+  opacity: 0.85;
+}
+.message-content table           { border-collapse: collapse; width: 100%; margin: 8px 0; }
+.message-content th,
+.message-content td              { border: 1px solid rgba(128, 128, 128, 0.3); padding: 6px 10px; font-size: 13px; }
+.message-content th              { font-weight: 600; }
+.message-content a               { color: #10a37f; text-decoration: underline; }
