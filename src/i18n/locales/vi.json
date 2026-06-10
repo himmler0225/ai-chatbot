@@ -1,0 +1,54 @@
+{
+  "app": {
+    "name": "SellMate AI",
+    "tagline": "Trợ lý nghiên cứu thị trường YouTube & TikTok dành cho người bán hàng Việt Nam",
+    "disclaimer": "SellMate AI có thể mắc lỗi. Hãy xác minh thông tin quan trọng."
+  },
+  "chat": {
+    "newChat": "Cuộc trò chuyện mới",
+    "noChats": "Chưa có cuộc trò chuyện nào",
+    "tabChat": "Chat",
+    "tabUtilities": "Tiện ích",
+    "inputPlaceholder": "Nhập câu hỏi... (Shift+Enter xuống dòng)",
+    "reviewSummary": "Tổng hợp từ reviews thực tế",
+    "suggestions": [
+      "Review iPhone 17 trên TikTok",
+      "Trending YouTube hôm nay",
+      "So sánh Samsung vs iPhone trên YouTube"
+    ]
+  },
+  "theme": {
+    "dark": "Chế độ tối",
+    "light": "Chế độ sáng"
+  },
+  "lang": {
+    "toggle": "Ngôn ngữ",
+    "vi": "Tiếng Việt",
+    "en": "English"
+  },
+  "utilities": {
+    "shortener": {
+      "tabLabel": "Rút gọn URL",
+      "placeholder": "Nhập URL dài cần rút gọn...",
+      "button": "Rút gọn",
+      "provider": "Provider",
+      "originalUrl": "URL GỐC",
+      "copy": "Sao chép",
+      "copied": "Đã sao chép!",
+      "open": "Mở ↗"
+    },
+    "qr": {
+      "tabLabel": "Tạo mã QR",
+      "placeholder": "Nhập URL cần tạo QR...",
+      "button": "Tạo QR",
+      "color": "Màu",
+      "size": "Kích thước",
+      "rounded": "Bo tròn",
+      "generating": "Đang tạo mã QR...",
+      "download": "Tải về PNG",
+      "colorDefault": "Mặc định",
+      "colorGreen": "Xanh lá",
+      "colorDark": "Tối"
+    }
+  }
+}

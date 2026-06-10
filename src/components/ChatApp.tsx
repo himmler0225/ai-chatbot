@@ -6,7 +6,9 @@ import {
   DeleteOutlined, EditOutlined, MessageOutlined, MoonOutlined,
   PlusOutlined, RobotOutlined, SendOutlined, SunOutlined, ToolOutlined,
 } from '@ant-design/icons'
-import { useTheme }       from '@/src/app/layout'
+import { useTranslation } from 'react-i18next'
+import { useTheme, useLocale } from '@/src/context/theme'
+import '@/src/i18n/config'
 import { useChatMutation } from '@/src/hooks/useChat'
 import { genId, toTitle }  from '@/src/lib/utils'
 import type { ChatSession, HistoryMessage, Message } from '@/src/types/chat'
@@ -21,6 +23,8 @@ const { Text } = Typography
 
 export default function ChatApp() {
   const { isDark, toggleTheme } = useTheme()
+  const { locale, toggleLocale } = useLocale()
+  const { t } = useTranslation()
   const { token } = theme.useToken()
 
   const [sessions,  setSessions]  = useState<ChatSession[]>([])
@@ -32,8 +36,6 @@ export default function ChatApp() {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   const chatMutation = useChatMutation()
-
-  // ── Persist ────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     const saved = localStorage.getItem('chatSessions')
@@ -51,10 +53,8 @@ export default function ChatApp() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, chatMutation.isPending])
 
-  // ── Session actions ────────────────────────────────────────────────────────
-
   const newChat = useCallback(() => {
-    const s: ChatSession = { id: genId(), title: 'Cuộc trò chuyện mới', messages: [], createdAt: new Date(), updatedAt: new Date() }
+    const s: ChatSession = { id: genId(), title: t('chat.newChat'), messages: [], createdAt: new Date(), updatedAt: new Date() }
     setSessions(prev => [s, ...prev])
     setActiveId(s.id)
     setMessages([])
@@ -73,8 +73,6 @@ export default function ChatApp() {
       else { setActiveId(null); setMessages([]) }
     }
   }
-
-  // ── Send ───────────────────────────────────────────────────────────────────
 
   const sendMessage = useCallback(async () => {
     const content = input.trim()
@@ -112,8 +110,6 @@ export default function ChatApp() {
     })
   }, [input, chatMutation, activeId, messages])
 
-  // ── Sidebar menu ───────────────────────────────────────────────────────────
-
   const menuItems = sessions.map(s => ({
     key: s.id,
     label: (
@@ -128,8 +124,6 @@ export default function ChatApp() {
     ),
   }))
 
-  // ── Render ─────────────────────────────────────────────────────────────────
-
   return (
     <Layout className="h-screen overflow-hidden">
       {/* Sidebar */}
@@ -143,15 +137,15 @@ export default function ChatApp() {
         <div className="p-3" style={{ borderBottom: `1px solid ${token.colorBorderSecondary}` }}>
           <Button type="default" icon={<PlusOutlined />} block onClick={newChat}
             className="!text-left !justify-start !bg-transparent">
-            Cuộc trò chuyện mới
+            {t('chat.newChat')}
           </Button>
         </div>
 
         {/* Session list */}
         <div className="flex-1 overflow-y-auto py-2">
           {sessions.length === 0
-            ? <Text type="secondary" className="block text-center mt-6 text-xs px-3">
-                Chưa có cuộc trò chuyện nào
+            ? <Text type="secondary" className="block text-center mt-3 mb-3 text-xs px-3">
+                {t('chat.noChats')}
               </Text>
             : <Menu mode="inline" selectedKeys={activeId ? [activeId] : []} items={menuItems}
                 onClick={({ key }) => selectSession(key)}
@@ -160,14 +154,14 @@ export default function ChatApp() {
         </div>
 
         {/* Bottom nav */}
-        <Flex align="center" gap={4} style={{ padding: '8px 12px', borderTop: `1px solid ${token.colorBorderSecondary}` }}>
+        <Flex className='mt-15' align="center" gap={4} style={{ padding: '8px 12px', borderTop: `1px solid ${token.colorBorderSecondary}` }}>
           <Button type={view === 'chat' ? 'primary' : 'text'} size="small"
             icon={<MessageOutlined />} onClick={() => setView('chat')} style={{ flex: 1 }}>
-            Chat
+            {t('chat.tabChat')}
           </Button>
           <Button type={view === 'utilities' ? 'primary' : 'text'} size="small"
             icon={<ToolOutlined />} onClick={() => setView('utilities')} style={{ flex: 1 }}>
-            Tiện ích
+            {t('chat.tabUtilities')}
           </Button>
         </Flex>
       </Sider>
@@ -184,15 +178,20 @@ export default function ChatApp() {
           {collapsed && <Button type="text" icon={<PlusOutlined />} onClick={() => setCollapsed(false)} />}
           <Avatar size={28} icon={<RobotOutlined />} style={{ background: token.colorPrimary }} />
           <Text strong style={{ fontSize: 15 }}>SellMate AI</Text>
-          <div style={{ marginLeft: 'auto' }}>
-            <Tooltip title={isDark ? 'Chế độ sáng' : 'Chế độ tối'}>
+          <Flex gap={4} style={{ marginLeft: 'auto' }}>
+            <Tooltip title={t('lang.toggle')}>
+              <Button type="text" size="small" onClick={toggleLocale}>
+                {locale === 'vi' ? '🇻🇳' : '🇺🇸'}
+              </Button>
+            </Tooltip>
+            <Tooltip title={isDark ? t('theme.light') : t('theme.dark')}>
               <Button
                 type="text" size="small"
                 icon={isDark ? <SunOutlined /> : <MoonOutlined />}
                 onClick={toggleTheme}
               />
             </Tooltip>
-          </div>
+          </Flex>
         </Flex>
 
         {view === 'utilities' ? (
@@ -235,7 +234,7 @@ export default function ChatApp() {
                   <Input.TextArea
                     value={input} onChange={e => setInput(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-                    placeholder="Nhập câu hỏi... (Shift+Enter xuống dòng)"
+                    placeholder={t('chat.inputPlaceholder')}
                     autoSize={{ minRows: 1, maxRows: 6 }}
                     style={{ flex: 1, background: 'transparent', border: 'none', resize: 'none', fontSize: 14, padding: '4px 0', boxShadow: 'none' }}
                     disabled={chatMutation.isPending}
@@ -245,7 +244,7 @@ export default function ChatApp() {
                     style={{ borderRadius: 8, flexShrink: 0 }} />
                 </Flex>
                 <Text type="secondary" style={{ fontSize: 11, display: 'block', textAlign: 'center', marginTop: 8 }}>
-                  SellMate AI có thể mắc lỗi. Hãy xác minh thông tin quan trọng.
+                  {t('app.disclaimer')}
                 </Text>
               </div>
             </div>

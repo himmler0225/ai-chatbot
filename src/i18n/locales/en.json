@@ -1,0 +1,54 @@
+{
+  "app": {
+    "name": "SellMate AI",
+    "tagline": "YouTube & TikTok market research assistant for Vietnamese e-commerce sellers",
+    "disclaimer": "SellMate AI can make mistakes. Please verify important information."
+  },
+  "chat": {
+    "newChat": "New conversation",
+    "noChats": "No conversations yet",
+    "tabChat": "Chat",
+    "tabUtilities": "Utilities",
+    "inputPlaceholder": "Ask a question... (Shift+Enter for new line)",
+    "reviewSummary": "Summary from real reviews",
+    "suggestions": [
+      "iPhone 17 reviews on TikTok",
+      "YouTube trending today",
+      "Compare Samsung vs iPhone on YouTube"
+    ]
+  },
+  "theme": {
+    "dark": "Dark mode",
+    "light": "Light mode"
+  },
+  "lang": {
+    "toggle": "Language",
+    "vi": "Tiếng Việt",
+    "en": "English"
+  },
+  "utilities": {
+    "shortener": {
+      "tabLabel": "URL Shortener",
+      "placeholder": "Enter a long URL to shorten...",
+      "button": "Shorten",
+      "provider": "Provider",
+      "originalUrl": "ORIGINAL URL",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "open": "Open ↗"
+    },
+    "qr": {
+      "tabLabel": "QR Generator",
+      "placeholder": "Enter URL to generate QR...",
+      "button": "Generate QR",
+      "color": "Color",
+      "size": "Size",
+      "rounded": "Rounded",
+      "generating": "Generating QR code...",
+      "download": "Download PNG",
+      "colorDefault": "Default",
+      "colorGreen": "Green",
+      "colorDark": "Dark"
+    }
+  }
+}
