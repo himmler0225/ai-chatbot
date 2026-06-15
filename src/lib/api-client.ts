@@ -1,9 +1,12 @@
 import axios, { type AxiosInstance } from 'axios'
 import type {
   ApiResponse,
-  ChatPayload, ChatResponse,
-  ShortenRequest, ShortenResult,
-  QRRequest, QRResult,
+  ChatPayload,
+  ChatResponse,
+  ShortenRequest,
+  ShortenResult,
+  QRRequest,
+  QRResult,
 } from '@/src/types/chat'
 
 class ApiClient {
@@ -17,17 +20,18 @@ class ApiClient {
     })
   }
 
-  // ── Chat ───────────────────────────────────────────────────────────────────
 
   async chat(payload: ChatPayload): Promise<ChatResponse> {
     const { data } = await this.http.post<ChatResponse>('/api/chat', payload)
     return data
   }
 
-  // ── Utilities ──────────────────────────────────────────────────────────────
 
   async shortenUrl(params: ShortenRequest): Promise<ShortenResult> {
-    const { data } = await this.http.post<ApiResponse<ShortenResult>>('/api/utilities/shorten', params)
+    const { data } = await this.http.post<ApiResponse<ShortenResult>>(
+      '/api/utilities/shorten',
+      params
+    )
     if (!data.success) throw new Error(data.error ?? 'Rút gọn URL thất bại')
     return data.data
   }
@@ -37,6 +41,9 @@ class ApiClient {
     if (!data.success) throw new Error(data.error ?? 'Tạo mã QR thất bại')
     return data.data
   }
+
+
+  async transcriptVideo(videoId: string): Promise<any> {}
 }
 
 export const apiClient = new ApiClient()

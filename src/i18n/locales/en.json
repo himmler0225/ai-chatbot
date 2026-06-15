@@ -1,8 +1,8 @@
 {
   "app": {
-    "name": "SellMate AI",
-    "tagline": "YouTube & TikTok market research assistant for Vietnamese e-commerce sellers",
-    "disclaimer": "SellMate AI can make mistakes. Please verify important information."
+    "name": "ReviewMine AI",
+    "tagline": "Crawl & summarize product reviews from YouTube and TikTok",
+    "disclaimer": "ReviewMine AI can make mistakes. Please verify important information."
   },
   "chat": {
     "newChat": "New conversation",
@@ -10,6 +10,9 @@
     "tabChat": "Chat",
     "tabUtilities": "Utilities",
     "inputPlaceholder": "Ask a question... (Shift+Enter for new line)",
+    "stop": "Stop responding",
+    "guestLimitHint": "{{remaining}}/3 free tries left. Sign in to save history.",
+    "guestLimitReached": "Free tries used up. Sign in to continue without limits.",
     "reviewSummary": "Summary from real reviews",
     "suggestions": [
       "iPhone 17 reviews on TikTok",
@@ -49,6 +52,181 @@
       "colorDefault": "Default",
       "colorGreen": "Green",
       "colorDark": "Dark"
+    }
+  },
+  "landing": {
+    "badge": "Automated product review analysis",
+    "hero": {
+      "title1": "Know if a product is worth it",
+      "title2": "before you buy",
+      "desc": "Ask ReviewMine AI about any product. AI automatically aggregates real user reviews from YouTube and TikTok — no ads, no bias.",
+      "cta": "Try for free",
+      "howto": "See how it works",
+      "demo": {
+        "question": "Is iPhone 17 Pro Max worth buying?",
+        "analyzed1": "Analyzed",
+        "analyzed2": "154 comments",
+        "analyzed3": "from the 5 most-viewed YouTube videos.",
+        "quality": "Quality (47 mentions)",
+        "qualityQuote": "camera is a huge step up from 16, especially for night video",
+        "price": "Price (38 mentions)",
+        "priceQuote": "price is still steep compared to Android flagships"
+      }
+    },
+    "stats": [
+      {
+        "value": "YouTube",
+        "label": "Data source"
+      },
+      {
+        "value": "TikTok",
+        "label": "Data source"
+      },
+      {
+        "value": "< 30s",
+        "label": "Analysis time"
+      },
+      {
+        "value": "100%",
+        "label": "Real data"
+      }
+    ],
+    "how": {
+      "label": "How it works",
+      "stepPrefix": "STEP",
+      "title": "As simple as chatting",
+      "steps": [
+        {
+          "n": "01",
+          "title": "Ask about a product",
+          "body": "Type any product name you are curious about — phones, laptops, cosmetics, home appliances..."
+        },
+        {
+          "n": "02",
+          "title": "AI searches automatically",
+          "body": "ReviewMine AI finds and analyzes videos + comments from YouTube and TikTok — you do nothing else."
+        },
+        {
+          "n": "03",
+          "title": "Get a summary",
+          "body": "Receive an instant report by topic: quality, price, shipping, warranty — with real verbatim quotes."
+        }
+      ]
+    },
+    "features": {
+      "label": "Features",
+      "title": "Everything you need",
+      "subtitle": "AI Chat is the core — plus free utilities.",
+      "items": [
+        {
+          "badge": "Core",
+          "title": "AI Review Chat",
+          "body": "Ask about any product. AI analyzes hundreds of videos & comments then summarizes for you."
+        },
+        {
+          "badge": "Free",
+          "title": "URL Shortener",
+          "body": "Turn long links into short ones easy to share. Supports TinyURL and is.gd."
+        },
+        {
+          "badge": "Free",
+          "title": "QR Generator",
+          "body": "Create QR codes for any URL. Customize colors and size."
+        }
+      ]
+    },
+    "examples": {
+      "label": "Examples",
+      "title": "Ask what you really want to know",
+      "items": [
+        {
+          "q": "\"Is iPhone 17 Pro Max worth the price?\"",
+          "a": "Analyzes 120+ comments from the 5 highest-viewed YouTube videos."
+        },
+        {
+          "q": "\"Does Sony WH-1000XM6 have good noise cancelling?\"",
+          "a": "Aggregates real user reviews from YouTube & TikTok."
+        },
+        {
+          "q": "\"Is the MSI 27-inch gaming monitor shipped correctly?\"",
+          "a": "Verbatim quotes from the community — not from the seller page."
+        }
+      ]
+    },
+    "why": {
+      "label": "Why use it",
+      "title": "Real data from real users",
+      "items": [
+        {
+          "title": "No ads",
+          "body": "Data only from real user comments, not from seller pages."
+        },
+        {
+          "title": "Fast",
+          "body": "Analyzes hundreds of comments in seconds."
+        },
+        {
+          "title": "Clear attribution",
+          "body": "Every review has a source — YouTube or TikTok, how many people mentioned it."
+        },
+        {
+          "title": "Free to try",
+          "body": "No sign-up required. No credit card needed."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Get started today",
+      "desc": "No credit card required.",
+      "btn": "Open ReviewMine AI"
+    },
+    "nav": {
+      "login": "Login",
+      "register": "Sign up",
+      "goToApp": "Go to app"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "desc": "The page you're looking for has been removed, renamed, or never existed.",
+    "home": "Go home",
+    "back": "Go back"
+  },
+  "auth": {
+    "logout": "Sign out",
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Welcome back!",
+      "withGoogle": "Sign in with Google",
+      "or": "or",
+      "name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "switchPrompt": "Don't have an account?",
+      "switchAction": "Sign up"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Start for free, no credit card required",
+      "withGoogle": "Sign up with Google",
+      "or": "or",
+      "name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create account",
+      "switchPrompt": "Already have an account?",
+      "switchAction": "Sign in",
+      "successTitle": "Check your inbox!",
+      "successDesc": "We sent a confirmation link to your email. Please check your inbox and click the link to complete your registration.",
+      "successBtn": "Got it"
+    },
+    "error": {
+      "invalidCredentials": "Invalid email or password.",
+      "emailNotConfirmed": "Email not confirmed. Please check your inbox.",
+      "alreadyRegistered": "This email is already registered. Please sign in.",
+      "weakPassword": "Password must be at least 6 characters.",
+      "generic": "Something went wrong. Please try again."
     }
   }
 }

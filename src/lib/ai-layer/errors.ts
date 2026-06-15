@@ -13,7 +13,10 @@ export class AiLayerTimeoutError extends Error {
 }
 
 export class AiLayerUpstreamError extends Error {
-  constructor(public readonly status: number, body: string) {
+  constructor(
+    public readonly status: number,
+    body: string
+  ) {
     super(body)
     this.name = 'AiLayerUpstreamError'
   }

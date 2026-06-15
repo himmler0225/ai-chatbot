@@ -1,41 +1,54 @@
-// ── Shared ────────────────────────────────────────────────────────────────────
 
 export interface Tool {
-  name:   string
+  name: string
   label?: string
-  icon?:  string
+  icon?: string
 }
 
 export interface Source {
-  label: string
-  url:   string
-  type:  'product' | 'search' | 'reviews' | 'video'
+  label:     string
+  url:       string
+  type:      'product' | 'search' | 'reviews' | 'video'
+  thumbnail?: string
+  channel?:  string
+  views?:    string
+  platform?: 'youtube' | 'tiktok'
 }
 
-// ── Session / Message ─────────────────────────────────────────────────────────
+
+export interface VideoData {
+  video_id: string
+  title?: string
+  channel?: string
+  views?: number
+  thumbnail?: string
+  source_url?: string
+  platform?: 'youtube' | 'tiktok'
+  comment_count?: number
+}
 
 export interface Message {
-  id:            string
-  role:          'user' | 'assistant'
-  content:       string
-  timestamp:     Date
-  usedTools?:    Tool[]
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  timestamp: Date
+  usedTools?: Tool[]
   reviewSummary?: string | null
-  sources?:      Source[]
+  sources?: Source[]
+  videos?: VideoData[]
 }
 
 export interface ChatSession {
-  id:        string
-  title:     string
-  messages:  Message[]
+  id: string
+  title: string
+  messages: Message[]
   createdAt: Date
   updatedAt: Date
 }
 
-// ── Chat API ──────────────────────────────────────────────────────────────────
 
 export interface HistoryMessage {
-  role:    'user' | 'assistant'
+  role: 'user' | 'assistant'
   content: string
 }
 
@@ -45,45 +58,43 @@ export interface ChatPayload {
 }
 
 export interface ChatResponse {
-  message:       string
+  message: string
   reviewSummary: string | null
-  sources:       Source[]
-  usedTools:     Tool[]
-  products?:     unknown[]
+  sources: Source[]
+  usedTools: Tool[]
+  products?: unknown[]
 }
 
-// ── Utilities API ─────────────────────────────────────────────────────────────
 
 export interface ShortenRequest {
-  url:       string
+  url: string
   provider?: 'tinyurl' | 'isgd'
 }
 
 export interface ShortenResult {
   original: string
-  short:    string
+  short: string
   provider: string
 }
 
 export interface QRRequest {
-  url:      string
-  size?:    number
-  theme?:   'default' | 'green' | 'dark'
+  url: string
+  size?: number
+  theme?: 'default' | 'green' | 'dark'
   rounded?: boolean
 }
 
 export interface QRResult {
-  url:   string
+  url: string
   image: string
   theme: string
-  size:  number
+  size: number
 }
 
-// ── ApiResponse wrapper (from backend) ────────────────────────────────────────
 
 export interface ApiResponse<T> {
   success: boolean
-  data:    T
-  error:   string | null
-  meta:    Record<string, unknown>
+  data: T
+  error: string | null
+  meta: Record<string, unknown>
 }

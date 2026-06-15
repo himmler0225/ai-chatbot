@@ -1,8 +1,8 @@
 {
   "app": {
-    "name": "SellMate AI",
-    "tagline": "Trợ lý nghiên cứu thị trường YouTube & TikTok dành cho người bán hàng Việt Nam",
-    "disclaimer": "SellMate AI có thể mắc lỗi. Hãy xác minh thông tin quan trọng."
+    "name": "ReviewMine AI",
+    "tagline": "Thu thập thông tin và tóm gọn đánh giá sản phẩm từ YouTube và TikTok",
+    "disclaimer": "ReviewMine AI có thể mắc lỗi. Hãy xác minh thông tin quan trọng."
   },
   "chat": {
     "newChat": "Cuộc trò chuyện mới",
@@ -10,6 +10,9 @@
     "tabChat": "Chat",
     "tabUtilities": "Tiện ích",
     "inputPlaceholder": "Nhập câu hỏi... (Shift+Enter xuống dòng)",
+    "stop": "Dừng trả lời",
+    "guestLimitHint": "Còn {{remaining}}/3 lượt thử miễn phí. Đăng nhập để lưu lịch sử.",
+    "guestLimitReached": "Đã hết 3 lượt thử. Đăng nhập để tiếp tục không giới hạn.",
     "reviewSummary": "Tổng hợp từ reviews thực tế",
     "suggestions": [
       "Review iPhone 17 trên TikTok",
@@ -49,6 +52,181 @@
       "colorDefault": "Mặc định",
       "colorGreen": "Xanh lá",
       "colorDark": "Tối"
+    }
+  },
+  "landing": {
+    "badge": "Phân tích review sản phẩm tự động",
+    "hero": {
+      "title1": "Biết ngay sản phẩm tốt",
+      "title2": "trước khi mua",
+      "desc": "Hỏi ReviewMine AI về bất kỳ sản phẩm nào. AI tự tổng hợp nhận xét thực tế từ YouTube và TikTok — không quảng cáo, không thiên vị.",
+      "cta": "Dùng thử miễn phí",
+      "howto": "Xem cách dùng",
+      "demo": {
+        "question": "Review iPhone 17 Pro Max có đáng mua không?",
+        "analyzed1": "Đã phân tích",
+        "analyzed2": "154 bình luận",
+        "analyzed3": "từ 5 video YouTube có lượt xem cao nhất.",
+        "quality": "Chất lượng (47 lượt đề cập)",
+        "qualityQuote": "camera lên hẳn so với 16, đặc biệt quay video ban đêm",
+        "price": "Giá (38 lượt đề cập)",
+        "priceQuote": "giá vẫn hơi chát so với Android cùng phân khúc"
+      }
+    },
+    "stats": [
+      {
+        "value": "YouTube",
+        "label": "Nguồn dữ liệu"
+      },
+      {
+        "value": "TikTok",
+        "label": "Nguồn dữ liệu"
+      },
+      {
+        "value": "< 30s",
+        "label": "Thời gian phân tích"
+      },
+      {
+        "value": "100%",
+        "label": "Dữ liệu thực tế"
+      }
+    ],
+    "how": {
+      "label": "Cách dùng",
+      "stepPrefix": "BƯỚC",
+      "title": "Đơn giản như nhắn tin",
+      "steps": [
+        {
+          "n": "01",
+          "title": "Hỏi về sản phẩm",
+          "body": "Nhập tên bất kỳ sản phẩm nào bạn quan tâm — điện thoại, laptop, mỹ phẩm, đồ gia dụng..."
+        },
+        {
+          "n": "02",
+          "title": "AI tìm kiếm tự động",
+          "body": "ReviewMine AI tự tìm và phân tích video + bình luận từ YouTube và TikTok — bạn không cần làm gì thêm."
+        },
+        {
+          "n": "03",
+          "title": "Nhận bản tóm tắt",
+          "body": "Nhận ngay báo cáo theo chủ đề: chất lượng, giá, giao hàng, bảo hành — có trích dẫn nguyên văn."
+        }
+      ]
+    },
+    "features": {
+      "label": "Tính năng",
+      "title": "Mọi thứ bạn cần",
+      "subtitle": "Chat AI là cốt lõi — kèm thêm tiện ích miễn phí.",
+      "items": [
+        {
+          "badge": "Chính",
+          "title": "Chat AI Review",
+          "body": "Hỏi về bất kỳ sản phẩm nào. AI phân tích hàng trăm video & bình luận rồi tổng hợp lại cho bạn."
+        },
+        {
+          "badge": "Miễn phí",
+          "title": "Rút gọn URL",
+          "body": "Chuyển link dài thành link ngắn gọn dễ chia sẻ. Hỗ trợ TinyURL và is.gd."
+        },
+        {
+          "badge": "Miễn phí",
+          "title": "Tạo mã QR",
+          "body": "Tạo QR code cho bất kỳ URL nào. Tuỳ chỉnh màu sắc và kích thước."
+        }
+      ]
+    },
+    "examples": {
+      "label": "Ví dụ",
+      "title": "Hỏi những gì bạn thực sự muốn biết",
+      "items": [
+        {
+          "q": "\"iPhone 17 Pro Max có đáng tiền không?\"",
+          "a": "Phân tích 120+ bình luận từ 5 video YouTube có lượt xem cao nhất."
+        },
+        {
+          "q": "\"Tai nghe Sony WH-1000XM6 chống ồn tốt?\"",
+          "a": "Tổng hợp nhận xét thực tế của người dùng trên YouTube & TikTok."
+        },
+        {
+          "q": "\"Màn hình gaming MSI 27 inch giao đúng không?\"",
+          "a": "Trích dẫn review từ cộng đồng — không phải từ trang bán hàng."
+        }
+      ]
+    },
+    "why": {
+      "label": "Tại sao nên dùng",
+      "title": "Dữ liệu thực từ người dùng thực",
+      "items": [
+        {
+          "title": "Không quảng cáo",
+          "body": "Chỉ lấy dữ liệu từ bình luận người dùng thực, không từ trang bán hàng."
+        },
+        {
+          "title": "Nhanh chóng",
+          "body": "Phân tích hàng trăm bình luận trong vài chục giây."
+        },
+        {
+          "title": "Trích dẫn rõ ràng",
+          "body": "Mỗi nhận xét đều có nguồn — YouTube hay TikTok, bao nhiêu người đề cập."
+        },
+        {
+          "title": "Miễn phí dùng thử",
+          "body": "Không cần đăng ký. Không cần thẻ tín dụng."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Bắt đầu ngay hôm nay",
+      "desc": "Không cần thẻ tín dụng.",
+      "btn": "Mở ReviewMine AI"
+    },
+    "nav": {
+      "login": "Đăng nhập",
+      "register": "Đăng ký",
+      "goToApp": "Vào app"
+    }
+  },
+  "notFound": {
+    "title": "Trang không tồn tại",
+    "desc": "Trang bạn tìm kiếm đã bị xóa, đổi địa chỉ hoặc chưa từng tồn tại.",
+    "home": "Về trang chủ",
+    "back": "Quay lại"
+  },
+  "auth": {
+    "logout": "Đăng xuất",
+    "login": {
+      "title": "Đăng nhập",
+      "subtitle": "Chào mừng trở lại!",
+      "withGoogle": "Đăng nhập với Google",
+      "or": "hoặc",
+      "name": "Họ và tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "submit": "Đăng nhập",
+      "switchPrompt": "Chưa có tài khoản?",
+      "switchAction": "Đăng ký"
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Bắt đầu miễn phí, không cần thẻ tín dụng",
+      "withGoogle": "Đăng ký với Google",
+      "or": "hoặc",
+      "name": "Họ và tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "submit": "Tạo tài khoản",
+      "switchPrompt": "Đã có tài khoản?",
+      "switchAction": "Đăng nhập",
+      "successTitle": "Kiểm tra hộp thư!",
+      "successDesc": "Chúng tôi đã gửi link xác nhận đến email của bạn. Vui lòng kiểm tra hộp thư và nhấn vào link để hoàn tất đăng ký.",
+      "successBtn": "Đã hiểu"
+    },
+    "error": {
+      "invalidCredentials": "Email hoặc mật khẩu không đúng.",
+      "emailNotConfirmed": "Email chưa được xác nhận. Kiểm tra hộp thư của bạn.",
+      "alreadyRegistered": "Email này đã được đăng ký. Hãy đăng nhập.",
+      "weakPassword": "Mật khẩu phải có ít nhất 6 ký tự.",
+      "generic": "Đã có lỗi xảy ra. Vui lòng thử lại."
     }
   }
 }

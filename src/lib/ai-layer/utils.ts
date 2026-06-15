@@ -16,8 +16,10 @@ export function buildTask(payload: ChatPayload): string {
 export function mapAxiosError(err: unknown, context: string): Error {
   if (err instanceof AxiosError) {
     if (err.code === 'ECONNABORTED' || err.code === 'ETIMEDOUT') return new AiLayerTimeoutError()
-    if (err.code === 'ECONNREFUSED'  || err.code === 'ENOTFOUND')  return new AiLayerOfflineError(AI_LAYER_URL, err.message)
-    if (err.response) return new AiLayerUpstreamError(err.response.status, JSON.stringify(err.response.data))
+    if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND')
+      return new AiLayerOfflineError(AI_LAYER_URL, err.message)
+    if (err.response)
+      return new AiLayerUpstreamError(err.response.status, JSON.stringify(err.response.data))
   }
   const msg = err instanceof Error ? err.message : String(err)
   return new AiLayerOfflineError(AI_LAYER_URL, `[${context}] ${msg}`)

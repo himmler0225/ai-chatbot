@@ -4,9 +4,10 @@ import type { AgentResult } from './types'
 import { AiLayerTimeoutError, AiLayerUpstreamError } from './errors'
 import { buildTask, mapAxiosError } from './utils'
 
-const AI_LAYER_URL  = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
-const AI_LAYER_KEY  = process.env.AI_LAYER_KEY ?? ''
-const AGENT_TIMEOUT = 80_000
+const AI_LAYER_URL = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
+const AI_LAYER_KEY = process.env.AI_LAYER_KEY ?? ''
+const AGENT_TIMEOUT = 120_000
+const AGENT_MAX_ITER = 10
 
 export class AiLayerClient {
   private readonly http: AxiosInstance
@@ -23,7 +24,9 @@ export class AiLayerClient {
     let raw: ApiResponse<AgentResult>
     try {
       const { data } = await this.http.post<ApiResponse<AgentResult>>('/ai/agent/run', {
-        task: buildTask(payload), tools: 'all', max_iter: 5,
+        task: buildTask(payload),
+        tools: 'all',
+        max_iter: AGENT_MAX_ITER,
       })
       raw = data
     } catch (err) {
@@ -32,11 +35,13 @@ export class AiLayerClient {
 
     const d = raw.data
     return {
-      message:       d.result                ?? '',
-      reviewSummary: d.data?.review_summary  ?? null,
-      sources:       d.data?.sources         ?? [],
-      products:      d.data?.products        ?? [],
-      usedTools:     (d.tool_calls ?? []).map((t): Tool => ({ name: t.tool, label: t.tool, icon: '🔧' })),
+      message: d.result ?? '',
+      reviewSummary: d.data?.review_summary ?? null,
+      sources: d.data?.sources ?? [],
+      products: d.data?.products ?? [],
+      usedTools: (d.tool_calls ?? []).map(
+        (t): Tool => ({ name: t.tool, label: t.tool, icon: '🔧' })
+      ),
     }
   }
 
@@ -50,9 +55,12 @@ export class AiLayerClient {
   }
 
   toOfflineResponse(err: unknown): ChatResponse {
-    const msg = err instanceof AiLayerTimeoutError || err instanceof AiLayerUpstreamError
-      ? err.message
-      : err instanceof Error ? err.message : 'Đã có lỗi xảy ra.'
+    const msg =
+      err instanceof AiLayerTimeoutError || err instanceof AiLayerUpstreamError
+        ? err.message
+        : err instanceof Error
+          ? err.message
+          : 'Đã có lỗi xảy ra.'
     return { message: msg, usedTools: [], reviewSummary: null, sources: [], products: [] }
   }
 }

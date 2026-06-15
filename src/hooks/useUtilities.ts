@@ -4,12 +4,12 @@ import type { ShortenRequest, ShortenResult, QRRequest, QRResult } from '@/src/t
 
 export function useShortenMutation() {
   return useMutation<ShortenResult, Error, ShortenRequest>({
-    mutationFn: (params) => apiClient.shortenUrl(params),
+    mutationFn: params => apiClient.shortenUrl(params),
   })
 }
 
 export function useQRMutation() {
   return useMutation<QRResult, Error, QRRequest>({
-    mutationFn: (params) => apiClient.generateQR(params),
+    mutationFn: params => apiClient.generateQR(params),
   })
 }

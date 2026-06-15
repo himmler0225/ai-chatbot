@@ -1,8 +1,8 @@
 export interface Tool {
-  name:        string
-  label?:      string
+  name: string
+  label?: string
   description?: string
-  icon?:       string
+  icon?: string
 }
 
 export const AVAILABLE_TOOLS: Tool[] = [

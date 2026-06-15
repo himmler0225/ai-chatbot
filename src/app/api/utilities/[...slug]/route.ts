@@ -1,11 +1,8 @@
 import { aiLayer, AiLayerOfflineError } from '@/src/lib/ai-layer'
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ slug: string[] }> },
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params
-  const body     = await request.json()
+  const body = await request.json()
 
   try {
     const data = await aiLayer.callUtility(slug.join('/'), body)
@@ -14,7 +11,7 @@ export async function POST(
     if (err instanceof AiLayerOfflineError) {
       return Response.json(
         { success: false, error: err.message, data: null, meta: {} },
-        { status: 503 },
+        { status: 503 }
       )
     }
     const msg = err instanceof Error ? err.message : String(err)
