@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 export type AppView = 'chat' | 'utilities'
-export type UtilityTab = 'shorten' | 'qr'
+export type UtilityTab = 'product'
 
 interface UIState {
   collapsed: boolean
@@ -22,7 +22,7 @@ export const useUIStore = create<UIState & UIActions>(set => ({
   collapsed: false,
   drawerOpen: false,
   view: 'chat',
-  utilityTab: 'shorten',
+  utilityTab: 'product',
   authModalOpen: false,
   authModalMode: 'login',
 

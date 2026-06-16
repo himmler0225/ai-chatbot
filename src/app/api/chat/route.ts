@@ -22,8 +22,8 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const config    = await getServerConfig()
-  const layerUrl  = get(config, 'AI_LAYER_URL',  'http://localhost:8001')
-  const layerKey  = get(config, 'AI_LAYER_KEY',  '')
+  const layerUrl  = get(config, 'AI_LAYER_URL',  process.env.NEXT_PUBLIC_AI_LAYER_URL  ?? 'http://localhost:8001')
+  const layerKey  = get(config, 'AI_LAYER_KEY',  process.env.NEXT_PUBLIC_AI_LAYER_KEY  ?? '')
   const maxIter   = Number(get(config, 'AGENT_MAX_ITER', '10'))
 
   let agentResp: Response

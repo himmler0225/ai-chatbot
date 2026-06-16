@@ -1,5 +1,6 @@
 import { useCallback, useRef } from 'react'
 import type { ChatPayload, Source, Tool, VideoData } from '@/src/types/chat'
+import { chatApi } from '@/src/lib/api/chat'
 
 export interface StreamCallbacks {
   onTextDelta: (delta: string) => void
@@ -30,12 +31,7 @@ export function useAgentStream() {
 
     let resp: Response
     try {
-      resp = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      })
+      resp = await chatApi.fetchStream(payload, controller.signal)
     } catch (err) {
       if ((err as Error).name !== 'AbortError') cb.onError((err as Error).message)
       return

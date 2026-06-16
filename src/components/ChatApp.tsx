@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import { Button, Drawer, Grid, Layout } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { theme } from 'antd'
@@ -13,8 +15,8 @@ import { ChatHeader } from '@/src/components/chat/ChatHeader'
 import { ChatSidebar } from '@/src/components/chat/ChatSidebar'
 import { ChatMessages } from '@/src/components/chat/ChatMessages'
 import { ChatInput } from '@/src/components/chat/ChatInput'
-import URLShortener from '@/src/components/utilities/URLShortener'
-import QRGenerator from '@/src/components/utilities/QRGenerator'
+
+import { ProductSearch } from '@/src/components/utilities/ProductSearch'
 import AuthModal from '@/src/components/AuthModal'
 
 const { useBreakpoint } = Grid
@@ -44,6 +46,31 @@ export default function ChatApp() {
     onNewChat: newChat,
     onSelectSession: (id: string) => void selectSession(id),
     onDeleteSession: deleteSession,
+  }
+
+  const router   = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('tab') === 'util') {
+      setUI({ view: 'utilities', utilityTab: 'product' })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (view === 'utilities') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('tab') !== 'util') {
+        params.set('tab', 'util')
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+      }
+    }
+  }, [view])
+
+  const goToChat = () => {
+    setUI({ view: 'chat' })
+    router.replace(pathname, { scroll: false })
   }
 
   if (authLoading) return <ChatSkeleton />
@@ -103,7 +130,7 @@ export default function ChatApp() {
                 type="text"
                 size="small"
                 icon={<ArrowLeftOutlined />}
-                onClick={() => setUI({ view: 'chat' })}
+                onClick={goToChat}
               >
                 {t('chat.tabChat')}
               </Button>
@@ -112,13 +139,11 @@ export default function ChatApp() {
               style={{
                 flex: 1,
                 overflowY: 'auto',
-                padding: isMobile ? '16px 12px' : '24px 20px',
-                maxWidth: 620,
-                margin: '0 auto',
+                padding: isMobile ? '16px 12px' : '20px 24px',
                 width: '100%',
               }}
             >
-              {utilityTab === 'shorten' ? <URLShortener /> : <QRGenerator />}
+              <ProductSearch />
             </div>
           </div>
         ) : (

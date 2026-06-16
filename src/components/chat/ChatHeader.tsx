@@ -1,10 +1,10 @@
 'use client'
-import { Avatar, Button, Dropdown, Flex, Tooltip, Typography } from 'antd'
+import { Avatar, Button, Dropdown, Flex, Tooltip } from 'antd'
 import {
   LogoutOutlined,
+  MenuFoldOutlined,
   MenuOutlined,
   MoonOutlined,
-  PlusOutlined,
   SunOutlined,
   UserOutlined,
 } from '@ant-design/icons'
@@ -14,11 +14,7 @@ import { useTheme } from '@/src/context/theme'
 import { useAuth } from '@/src/hooks/useAuth'
 import { signOut } from '@/src/lib/supabase'
 import { useUIStore } from '@/src/store/uiStore'
-import { Logo } from '@/src/components/ui/Logo'
 import { LocaleDropdown } from '@/src/components/ui/LocaleDropdown'
-import { APP_NAME } from '@/src/constants/brand'
-
-const { Text } = Typography
 
 interface Props {
   isMobile: boolean
@@ -36,75 +32,60 @@ export function ChatHeader({ isMobile, collapsed, onMenuClick }: Props) {
   return (
     <Flex
       align="center"
-      gap={10}
+      justify="space-between"
       style={{
-        padding: '10px 16px',
+        padding: '0 12px',
+        height: 52,
         borderBottom: `1px solid ${token.colorBorderSecondary}`,
         background: token.colorBgContainer,
         flexShrink: 0,
-        minHeight: 64,
       }}
     >
-      {isMobile ? (
-        <Button type="text" icon={<MenuOutlined />} onClick={onMenuClick} />
-      ) : (
-        collapsed && <Button type="text" icon={<PlusOutlined />} onClick={onMenuClick} />
-      )}
+      {/* Left — sidebar toggle (mobile hamburger or desktop collapse button) */}
+      <div>
+        {isMobile ? (
+          <Button type="text" size="small" icon={<MenuOutlined />} onClick={onMenuClick} />
+        ) : collapsed ? (
+          <Button type="text" size="small" icon={<MenuFoldOutlined style={{ transform: 'scaleX(-1)' }} />}
+            onClick={onMenuClick} />
+        ) : null}
+      </div>
 
-      <Logo size={40} />
-      <Text strong style={{ fontSize: 15 }}>
-        {APP_NAME}
-      </Text>
-
-      <Flex gap={4} align="center" style={{ marginLeft: 'auto' }}>
+      {/* Right — controls */}
+      <Flex gap={4} align="center">
         <LocaleDropdown />
 
         <Tooltip title={isDark ? t('theme.light') : t('theme.dark')}>
-          <Button
-            type="text"
-            size="small"
+          <Button type="text" size="small"
             icon={isDark ? <SunOutlined /> : <MoonOutlined />}
             onClick={toggleTheme}
           />
         </Tooltip>
 
-        <div
-          style={{ width: 1, height: 20, background: token.colorBorderSecondary, margin: '0 4px' }}
-        />
+        <div style={{ width: 1, height: 18, background: token.colorBorderSecondary, margin: '0 4px' }} />
 
-        {!authLoading &&
-          (user ? (
-            <Dropdown
-              trigger={['click']}
-              menu={{
-                items: [
-                  {
-                    key: 'logout',
-                    label: t('auth.logout'),
-                    icon: <LogoutOutlined />,
-                    danger: true,
-                    onClick: () => void signOut(),
-                  },
-                ],
-              }}
-            >
+        {!authLoading && (
+          user ? (
+            <Dropdown trigger={['click']} menu={{
+              items: [{
+                key: 'logout', label: t('auth.logout'),
+                icon: <LogoutOutlined />, danger: true,
+                onClick: () => void signOut(),
+              }],
+            }}>
               <Avatar
                 src={user.user_metadata?.avatar_url as string | undefined}
-                size={32}
-                icon={<UserOutlined />}
+                size={30} icon={<UserOutlined />}
                 style={{ cursor: 'pointer', flexShrink: 0 }}
               />
             </Dropdown>
           ) : (
-            <Button
-              type="primary"
-              size="small"
-              style={{ borderRadius: 8 }}
-              onClick={() => openAuthModal('login')}
-            >
+            <Button type="primary" size="small" style={{ borderRadius: 8 }}
+              onClick={() => openAuthModal('login')}>
               {t('landing.nav.login')}
             </Button>
-          ))}
+          )
+        )}
       </Flex>
     </Flex>
   )
