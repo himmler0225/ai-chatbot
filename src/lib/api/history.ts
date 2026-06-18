@@ -5,8 +5,8 @@ import type { SessionRow, MessageRow } from '@/src/types/history'
 
 export type { SessionRow, MessageRow }
 
-const BASE = process.env.NEXT_PUBLIC_AI_LAYER_URL ?? 'http://localhost:8001'
-const KEY = process.env.NEXT_PUBLIC_AI_LAYER_KEY ?? ''
+const BASE = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
+const KEY = process.env.AI_LAYER_KEY ?? ''
 
 async function headers(): Promise<HeadersInit | null> {
   const { data } = await supabase.auth.getSession()
