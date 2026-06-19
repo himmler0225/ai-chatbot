@@ -26,7 +26,7 @@ export default function ChatApp() {
   const screens = useBreakpoint()
   const isMobile = !screens.md
 
-  const { userRef, newChat, selectSession, deleteSession } = useChatHistory()
+  const { user, authLoading, userRef, newChat, selectSession, deleteSession } = useChatHistory()
   const { sendMessage, stopMessage } = useSendMessage(userRef)
 
   const {
@@ -45,6 +45,12 @@ export default function ChatApp() {
   const router = useRouter()
   const pathname = usePathname()
   const sidebarOpen = isMobile ? drawerOpen : !collapsed
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace('/')
+    }
+  }, [authLoading, user, router])
 
   const syncProductUrl = useCallback((open: boolean, q?: string | null) => {
     const params = new URLSearchParams(window.location.search)

@@ -9,8 +9,6 @@ import { genId, toTitle } from '@/utils/common'
 import { historyApi, messageToRow } from '@/lib/api/history'
 import type { ChatSession, HistoryMessage, Message } from '@/types/chat'
 
-const GUEST_LIMIT = 3
-
 export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
   const { stream: agentStream, abort } = useAgentStream()
   const openAuthModal = useUIStore(s => s.openAuthModal)
@@ -21,21 +19,18 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
   }, [abort])
 
   const sendMessage = useCallback(async (overrideContent?: string) => {
-    const { input, isStreaming, activeId, messages, sessions, guestMsgCount } =
+    const { input, isStreaming, activeId, messages, sessions } =
       useChatStore.getState()
 
     const content = (overrideContent ?? input).trim()
     if (!content || isStreaming) return
 
-    if (!userRef.current && guestMsgCount >= GUEST_LIMIT) {
+    if (!userRef.current) {
       openAuthModal('login')
       return
     }
 
     useChatStore.setState({ input: '', isStreaming: true, activeTool: null })
-    if (!userRef.current) {
-      useChatStore.setState(s => ({ guestMsgCount: s.guestMsgCount + 1 }))
-    }
 
     const now = new Date()
     const isFirstMsg = messages.length === 0

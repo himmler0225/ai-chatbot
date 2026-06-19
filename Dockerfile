@@ -1,15 +1,12 @@
-# ── Stage 1: Install dependencies ─────────────────────────────────────────────
-FROM node:22-alpine AS deps
+FROM node:22-slim AS deps
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
-RUN npm ci --frozen-lockfile
+COPY package.json ./
+RUN npm install
 
-# ── Stage 2: Build ─────────────────────────────────────────────────────────────
-FROM node:22-alpine AS builder
+FROM node:22-slim AS builder
 WORKDIR /app
 
-# NEXT_PUBLIC_* are baked in at build time
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ARG NEXT_PUBLIC_AI_LAYER_URL
@@ -25,14 +22,13 @@ COPY . .
 
 RUN npm run build
 
-# ── Stage 3: Runtime ───────────────────────────────────────────────────────────
-FROM node:22-alpine AS runner
+FROM node:22-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser  --system --uid 1001 nextjs
+RUN groupadd --system --gid 1001 nodejs && \
+    useradd  --system --uid 1001 --gid nodejs nextjs
 
 COPY --from=builder /app/public                          ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone  ./
