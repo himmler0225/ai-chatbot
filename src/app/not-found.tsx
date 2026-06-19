@@ -4,11 +4,11 @@ import { Button, Flex, Typography } from 'antd'
 import { ArrowLeftOutlined, HomeOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import '@/src/i18n/config'
-import { useTheme } from '@/src/context/theme'
-import { Logo } from '@/src/components/ui/Logo'
-import { useColors } from '@/src/components/landing/useColors'
-import { PRIM, APP_NAME } from '@/src/constants/brand'
+import '@/i18n/config'
+import { useTheme } from '@/contexts/theme'
+import { Logo } from '@/components/common/ui/Logo'
+import { useColors } from '@/components/features/landing'
+import { PRIM, APP_NAME } from '@/constants/brand'
 
 const { Title, Text } = Typography
 

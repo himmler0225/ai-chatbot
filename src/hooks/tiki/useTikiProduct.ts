@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { tikiApi } from '@/src/lib/api/tiki'
-import type { TikiReview } from '@/src/types/tiki'
+import { tikiApi } from '@/lib/api/tiki'
+import type { TikiReview } from '@/types/tiki'
 
 export function useTikiDetail(id: number | undefined, enabled: boolean) {
   return useQuery({

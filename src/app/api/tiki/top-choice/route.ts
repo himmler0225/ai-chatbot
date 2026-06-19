@@ -1,11 +1,10 @@
-const MINER = process.env.DATA_MINER_URL ?? 'http://localhost:8000'
-const KEY   = process.env.DATA_MINER_KEY  ?? ''
+import { minerGet } from '@/lib/api/server'
 
 export async function GET() {
   try {
-    const r   = await fetch(`${MINER}/api/tiki/products/top-choice`, { headers: { 'X-API-Key': KEY }, next: { revalidate: 600 } })
-    const raw = await r.json()
-    const payload = raw?.data?.data ?? raw?.data ?? raw
+    const payload = await minerGet('/api/tiki/products/top-choice')
     return Response.json({ success: true, data: payload })
-  } catch { return Response.json({ success: false, data: [] }, { status: 502 }) }
+  } catch {
+    return Response.json({ success: false, data: [] }, { status: 502 })
+  }
 }

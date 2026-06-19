@@ -9,15 +9,28 @@
     "noChats": "Chưa có cuộc trò chuyện nào",
     "tabChat": "Chat",
     "tabUtilities": "Tiện ích",
+    "utilitiesSection": "Tiện ích",
+    "prepareSection": "Chuẩn bị hỏi AI",
+    "findOnTiki": "Tìm sản phẩm trên Tiki trước",
+    "searchOnTiki": "Tìm sản phẩm này trên Tiki",
+    "recents": "Gần đây",
+    "showSidebar": "Mở sidebar",
+    "hideSidebar": "Đóng sidebar",
+    "shortcuts": {
+      "product": "Tìm sản phẩm Tiki"
+    },
     "inputPlaceholder": "Nhập câu hỏi... (Shift+Enter xuống dòng)",
+    "inputPlaceholderShort": "Nhập câu hỏi...",
     "stop": "Dừng trả lời",
     "guestLimitHint": "Còn {{remaining}}/3 lượt thử miễn phí. Đăng nhập để lưu lịch sử.",
     "guestLimitReached": "Đã hết 3 lượt thử. Đăng nhập để tiếp tục không giới hạn.",
     "reviewSummary": "Tổng hợp từ reviews thực tế",
+    "greeting": "Hôm nay bạn muốn hỏi gì?",
+    "thinking": "Đang suy nghĩ...",
     "suggestions": [
-      "Review iPhone 17 trên TikTok",
-      "Trending YouTube hôm nay",
-      "So sánh Samsung vs iPhone trên YouTube"
+      "Người dùng nói gì về iPhone 16 Pro Max?",
+      "Review Samsung Galaxy S24 trên YouTube có đáng mua không?",
+      "So sánh MacBook Air M3 vs Dell XPS trên TikTok"
     ]
   },
   "theme": {
@@ -32,11 +45,15 @@
   "utilities": {
     "product": {
       "tabLabel": "Sản phẩm Tiki",
+      "panelTitle": "Tìm sản phẩm Tiki",
+      "panelHint": "Chọn sản phẩm → hỏi AI review",
+      "closePanel": "Đóng panel sản phẩm",
       "placeholder": "Tìm sản phẩm Tiki...",
       "searchBtn": "Tìm",
-      "hint": "Tìm sản phẩm để rút gọn link hoặc tạo QR chia sẻ",
-      "resultCount": "{{count}} sản phẩm • Click để xem · Rút gọn link hoặc tạo QR chia sẻ",
+      "hint": "Tìm sản phẩm, rồi bấm Hỏi AI review để phân tích YouTube & TikTok",
+      "resultCount": "{{count}} sản phẩm",
       "empty": "Không tìm thấy sản phẩm nào",
+      "loadError": "Không thể tải danh sách sản phẩm",
       "authentic": "Chính hãng",
       "tikinow": "TikiNow",
       "sold": "{{count}}k bán",
@@ -49,7 +66,9 @@
       "qrTitle": "Mã QR — {{name}}",
       "qrHint": "Quét để mở trang sản phẩm Tiki",
       "aiReview": "AI Review",
+      "aiReviewBtn": "Hỏi AI review",
       "aiReviewTooltip": "Hỏi AI review sản phẩm này trên YouTube & TikTok",
+      "aiReviewPrompt": "Review sản phẩm \"{{name}}\" trên YouTube và TikTok. Giá Tiki: {{price}}. Link: {{url}}",
       "tabSearch": "Tìm kiếm",
       "tabFlashSale": "Flash Sale",
       "tabTopDeals": "Top Deals",
@@ -89,29 +108,32 @@
   "landing": {
     "badge": "Phân tích review sản phẩm tự động",
     "hero": {
-      "title1": "Biết ngay sản phẩm tốt",
+      "title1": "Biết ngay",
+      "titleHighlight": "sản phẩm tốt",
       "title2": "trước khi mua",
-      "desc": "Hỏi ReviewMine AI về bất kỳ sản phẩm nào. AI tự tổng hợp nhận xét thực tế từ YouTube và TikTok — không quảng cáo, không thiên vị.",
-      "cta": "Dùng thử miễn phí",
+      "desc": "Hỏi ReviewMine AI về bất kỳ sản phẩm nào. AI tự tổng hợp nhận xét thực tế từ <yt></yt> và <tt></tt> — không quảng cáo, không thiên vị.",
+      "cta": "Trải nghiệm ngay",
       "howto": "Xem cách dùng",
       "demo": {
-        "question": "Review iPhone 17 Pro Max có đáng mua không?",
+        "question": "Review iPhone 15 Pro Max có đáng mua không?",
         "analyzed1": "Đã phân tích",
         "analyzed2": "154 bình luận",
-        "analyzed3": "từ 5 video YouTube có lượt xem cao nhất.",
+        "analyzed3prefix": "từ 5 video",
+        "analyzed3suffix": "có lượt xem cao nhất.",
         "quality": "Chất lượng (47 lượt đề cập)",
-        "qualityQuote": "camera lên hẳn so với 16, đặc biệt quay video ban đêm",
+        "qualityQuote": "camera lên hẳn so với 14, đặc biệt quay video ban đêm",
         "price": "Giá (38 lượt đề cập)",
-        "priceQuote": "giá vẫn hơi chát so với Android cùng phân khúc"
+        "priceQuote": "giá vẫn hơi chát so với Android cùng phân khúc",
+        "inputPlaceholder": "Nhập câu hỏi..."
       }
     },
     "stats": [
       {
-        "value": "YouTube",
+        "value": "yt",
         "label": "Nguồn dữ liệu"
       },
       {
-        "value": "TikTok",
+        "value": "tt",
         "label": "Nguồn dữ liệu"
       },
       {
@@ -148,22 +170,17 @@
     "features": {
       "label": "Tính năng",
       "title": "Mọi thứ bạn cần",
-      "subtitle": "Chat AI là cốt lõi — kèm thêm tiện ích miễn phí.",
+      "subtitle": "Chat AI là cốt lõi — tìm sản phẩm Tiki ngay cạnh cuộc trò chuyện.",
       "items": [
         {
           "badge": "Chính",
           "title": "Chat AI Review",
-          "body": "Hỏi về bất kỳ sản phẩm nào. AI phân tích hàng trăm video & bình luận rồi tổng hợp lại cho bạn."
+          "body": "Hỏi đáp sâu về thông số kỹ thuật, trải nghiệm người dùng thực tế từ YouTube & TikTok — so sánh đối thủ trong tích tắc."
         },
         {
           "badge": "Miễn phí",
-          "title": "Rút gọn URL",
-          "body": "Chuyển link dài thành link ngắn gọn dễ chia sẻ. Hỗ trợ TinyURL và is.gd."
-        },
-        {
-          "badge": "Miễn phí",
-          "title": "Tạo mã QR",
-          "body": "Tạo QR code cho bất kỳ URL nào. Tuỳ chỉnh màu sắc và kích thước."
+          "title": "Tìm sản phẩm Tiki",
+          "body": "Tìm giá Tiki, bấm Hỏi AI review — rút gọn link và tạo QR ngay trên từng sản phẩm, không cần rời khỏi chat."
         }
       ]
     },
@@ -173,11 +190,11 @@
       "items": [
         {
           "q": "\"iPhone 17 Pro Max có đáng tiền không?\"",
-          "a": "Phân tích 120+ bình luận từ 5 video YouTube có lượt xem cao nhất."
+          "a": "Phân tích 120+ bình luận từ 5 video <yt></yt> có lượt xem cao nhất."
         },
         {
           "q": "\"Tai nghe Sony WH-1000XM6 chống ồn tốt?\"",
-          "a": "Tổng hợp nhận xét thực tế của người dùng trên YouTube & TikTok."
+          "a": "Tổng hợp nhận xét thực tế của người dùng trên <yt></yt> & <tt></tt>."
         },
         {
           "q": "\"Màn hình gaming MSI 27 inch giao đúng không?\"",
@@ -199,7 +216,7 @@
         },
         {
           "title": "Trích dẫn rõ ràng",
-          "body": "Mỗi nhận xét đều có nguồn — YouTube hay TikTok, bao nhiêu người đề cập."
+          "body": "Mỗi nhận xét đều có nguồn — <yt></yt> hay <tt></tt>, bao nhiêu người đề cập."
         },
         {
           "title": "Miễn phí dùng thử",
@@ -215,7 +232,30 @@
     "nav": {
       "login": "Đăng nhập",
       "register": "Đăng ký",
-      "goToApp": "Vào app"
+      "getStarted": "Bắt đầu",
+      "getStartedShort": "Bắt đầu",
+      "goToApp": "Vào app",
+      "links": {
+        "how": { "label": "Cách dùng", "href": "#how-it-works" },
+        "features": { "label": "Tính năng", "href": "#features" },
+        "examples": { "label": "Ví dụ", "href": "#demo" },
+        "pricing": { "label": "Bảng giá", "href": "#features" }
+      }
+    },
+    "footer": {
+      "desc": "Đưa ra quyết định mua sắm thông minh hơn với sức mạnh của trí tuệ nhân tạo — tổng hợp review thực tế từ YouTube & TikTok.",
+      "productTitle": "Sản phẩm",
+      "supportTitle": "Hỗ trợ",
+      "products": {
+        "chat": "Chat AI Review",
+        "product": "Tìm sản phẩm Tiki"
+      },
+      "support": {
+        "privacy": "Chính sách bảo mật",
+        "terms": "Điều khoản dịch vụ",
+        "contact": "Liên hệ hỗ trợ"
+      },
+      "copyright": "© 2024 ReviewMine AI. Phân tích chính xác từ YouTube & TikTok."
     }
   },
   "notFound": {

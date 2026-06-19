@@ -1,5 +1,5 @@
-import { BaseApi } from '@/src/lib/client'
-import type { ChatPayload } from '@/src/types/chat'
+import { BaseApi, postSse } from '@/lib/api/client'
+import type { ChatPayload } from '@/types/chat'
 
 class ChatApi extends BaseApi {
   constructor() {
@@ -7,12 +7,7 @@ class ChatApi extends BaseApi {
   }
 
   fetchStream(payload: ChatPayload, signal: AbortSignal): Promise<Response> {
-    return fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal,
-    })
+    return postSse('/api/chat', payload, signal)
   }
 }
 

@@ -1,6 +1,7 @@
 'use client'
-import { PageLoader } from '@/src/components/PageLoader'
+
+import { ChatSkeleton } from '@/components/features/chat/ChatSkeleton'
 
 export default function Loading() {
-  return <PageLoader />
+  return <ChatSkeleton />
 }

@@ -1,4 +1,4 @@
-import type { Message } from '@/src/types/chat'
+import type { Message } from '@/types/chat'
 
 export interface SessionRow {
   id: string

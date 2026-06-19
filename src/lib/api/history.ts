@@ -1,57 +1,96 @@
 'use client'
-import { supabase } from '@/src/lib/supabase'
-import type { ChatSession, Message } from '@/src/types/chat'
-import type { SessionRow, MessageRow } from '@/src/types/history'
+
+import axios, { type AxiosInstance } from 'axios'
+import { BaseApi } from '@/lib/api/client'
+// import { supabase } from '@/lib/supabase'
+import type { ChatSession, Message } from '@/types/chat'
+import type { SessionRow, MessageRow } from '@/types/history'
 
 export type { SessionRow, MessageRow }
 
-const BASE = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
-const KEY = process.env.AI_LAYER_KEY ?? ''
+const AI_LAYER_URL = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
+const AI_LAYER_KEY = process.env.AI_LAYER_KEY ?? ''
 
-async function headers(): Promise<HeadersInit | null> {
-  const { data } = await supabase.auth.getSession()
-  const token = data.session?.access_token
-  if (!token) return null
-  return { 'Content-Type': 'application/json', 'X-API-Key': KEY, Authorization: `Bearer ${token}` }
+const aiLayerApiClient: AxiosInstance = axios.create({
+  baseURL: AI_LAYER_URL,
+  headers: { 'Content-Type': 'application/json', 'X-API-Key': AI_LAYER_KEY },
+  timeout: 30_000,
+})
+
+async function authHeaders(): Promise<Record<string, string> | null> {
+  // Supabase auth tạm thời bị vô hiệu hóa — history API cần bearer token
+  // const { data } = await supabase.auth.getSession()
+  // const token = data.session?.access_token
+  // if (!token) return null
+  // return { 'X-API-Key': AI_LAYER_KEY, Authorization: `Bearer ${token}` }
+  return null
 }
 
-async function req<T>(path: string, init?: RequestInit): Promise<T | null> {
-  const h = await headers()
-  if (!h) return null
-  try {
-    const r = await fetch(`${BASE}/ai${path}`, { ...init, headers: h })
-    if (!r.ok) return null
-    const json = await r.json()
-    return (json.data ?? null) as T
-  } catch {
-    return null
+class HistoryApi extends BaseApi {
+  constructor() {
+    super('/ai', aiLayerApiClient)
+  }
+
+  private async req<T>(
+    path: string,
+    method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
+    body?: unknown,
+  ): Promise<T | null> {
+    const headers = await authHeaders()
+    if (!headers) return null
+    try {
+      let raw: { data?: T }
+      switch (method) {
+        case 'GET':
+          raw = await this.get(path, { headers })
+          break
+        case 'POST':
+          raw = await this.post(path, body, { headers })
+          break
+        case 'PATCH':
+          raw = await this.patch(path, body, { headers })
+          break
+        case 'DELETE':
+          raw = await this.delete(path, { headers })
+          break
+      }
+      return raw.data ?? null
+    } catch {
+      return null
+    }
+  }
+
+  listSessions() {
+    return this.req<SessionRow[]>('/history/sessions', 'GET')
+  }
+
+  upsertSession(s: ChatSession) {
+    return this.req('/history/sessions', 'POST', {
+      id: s.id,
+      title: s.title,
+      created_at: s.createdAt.toISOString(),
+      updated_at: s.updatedAt.toISOString(),
+    })
+  }
+
+  patchSession(id: string, title: string) {
+    return this.req(`/history/sessions/${id}`, 'PATCH', { title })
+  }
+
+  deleteSession(id: string) {
+    return this.req(`/history/sessions/${id}`, 'DELETE')
+  }
+
+  getMessages(sessionId: string) {
+    return this.req<MessageRow[]>(`/history/sessions/${sessionId}/messages`, 'GET')
+  }
+
+  saveMessages(sessionId: string, msgs: MessageRow[]) {
+    return this.req(`/history/sessions/${sessionId}/messages`, 'POST', msgs)
   }
 }
 
-export const historyApi = {
-  listSessions: () => req<SessionRow[]>('/history/sessions'),
-
-  upsertSession: (s: ChatSession) =>
-    req('/history/sessions', {
-      method: 'POST',
-      body: JSON.stringify({
-        id: s.id,
-        title: s.title,
-        created_at: s.createdAt.toISOString(),
-        updated_at: s.updatedAt.toISOString(),
-      }),
-    }),
-
-  patchSession: (id: string, title: string) =>
-    req(`/history/sessions/${id}`, { method: 'PATCH', body: JSON.stringify({ title }) }),
-
-  deleteSession: (id: string) => req(`/history/sessions/${id}`, { method: 'DELETE' }),
-
-  getMessages: (sessionId: string) => req<MessageRow[]>(`/history/sessions/${sessionId}/messages`),
-
-  saveMessages: (sessionId: string, msgs: MessageRow[]) =>
-    req(`/history/sessions/${sessionId}/messages`, { method: 'POST', body: JSON.stringify(msgs) }),
-}
+export const historyApi = new HistoryApi()
 
 export function rowToMessage(m: MessageRow): Message {
   return {
@@ -72,10 +111,10 @@ export function messageToRow(msg: Message, _sessionId: string): MessageRow {
     role: msg.role,
     content: msg.content,
     metadata: {
-      usedTools:     msg.usedTools,
+      usedTools: msg.usedTools,
       reviewSummary: msg.reviewSummary ?? undefined,
-      sources:       msg.sources,
-      videos:        msg.videos,
+      sources: msg.sources,
+      videos: msg.videos,
     },
     created_at: msg.timestamp.toISOString(),
   }

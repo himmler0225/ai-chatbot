@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Be_Vietnam_Pro, JetBrains_Mono } from 'next/font/google'
-import { Providers } from '@/src/app/Providers'
-import './globals.css'
+import Providers from '@/providers/Providers'
+import '@/styles/globals.css'
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: '--font-sans',
@@ -26,7 +26,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={`${beVietnamPro.variable} ${jetbrainsMono.variable} h-full`}>
+      <body
+        className={`${beVietnamPro.variable} ${jetbrainsMono.variable} h-full`}
+        suppressHydrationWarning
+      >
         <Providers>{children}</Providers>
       </body>
     </html>
