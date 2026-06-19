@@ -9,15 +9,28 @@
     "noChats": "No conversations yet",
     "tabChat": "Chat",
     "tabUtilities": "Utilities",
+    "utilitiesSection": "Utilities",
+    "prepareSection": "Prepare for AI",
+    "findOnTiki": "Find products on Tiki first",
+    "searchOnTiki": "Search this on Tiki",
+    "recents": "Recents",
+    "showSidebar": "Open sidebar",
+    "hideSidebar": "Close sidebar",
+    "shortcuts": {
+      "product": "Search Tiki products"
+    },
     "inputPlaceholder": "Ask a question... (Shift+Enter for new line)",
+    "inputPlaceholderShort": "Ask anything...",
     "stop": "Stop responding",
     "guestLimitHint": "{{remaining}}/3 free tries left. Sign in to save history.",
     "guestLimitReached": "Free tries used up. Sign in to continue without limits.",
     "reviewSummary": "Summary from real reviews",
+    "greeting": "What would you like to ask today?",
+    "thinking": "Thinking...",
     "suggestions": [
-      "iPhone 17 reviews on TikTok",
-      "YouTube trending today",
-      "Compare Samsung vs iPhone on YouTube"
+      "What do users say about iPhone 16 Pro Max?",
+      "Is the Samsung Galaxy S24 worth buying based on YouTube reviews?",
+      "Compare MacBook Air M3 vs Dell XPS on TikTok"
     ]
   },
   "theme": {
@@ -32,11 +45,15 @@
   "utilities": {
     "product": {
       "tabLabel": "Tiki Products",
+      "panelTitle": "Find Tiki Products",
+      "panelHint": "Pick a product → ask AI for reviews",
+      "closePanel": "Close product panel",
       "placeholder": "Search Tiki products...",
       "searchBtn": "Search",
-      "hint": "Find products to shorten links or generate QR codes for sharing",
-      "resultCount": "{{count}} products • Click to view · Shorten link or generate QR",
+      "hint": "Find a product, then tap Ask AI review to analyze YouTube & TikTok",
+      "resultCount": "{{count}} products",
       "empty": "No products found",
+      "loadError": "Could not load products",
       "authentic": "Authentic",
       "tikinow": "TikiNow",
       "sold": "{{count}}k sold",
@@ -49,7 +66,9 @@
       "qrTitle": "QR Code — {{name}}",
       "qrHint": "Scan to open Tiki product page",
       "aiReview": "AI Review",
+      "aiReviewBtn": "Ask AI review",
       "aiReviewTooltip": "Ask AI to review this product on YouTube & TikTok",
+      "aiReviewPrompt": "Review the product \"{{name}}\" on YouTube and TikTok. Tiki price: {{price}}. Link: {{url}}",
       "tabSearch": "Search",
       "tabFlashSale": "Flash Sale",
       "tabTopDeals": "Top Deals",
@@ -89,29 +108,32 @@
   "landing": {
     "badge": "Automated product review analysis",
     "hero": {
-      "title1": "Know if a product is worth it",
+      "title1": "Know",
+      "titleHighlight": "good products",
       "title2": "before you buy",
-      "desc": "Ask ReviewMine AI about any product. AI automatically aggregates real user reviews from YouTube and TikTok — no ads, no bias.",
-      "cta": "Try for free",
+      "desc": "Ask ReviewMine AI about any product. AI automatically aggregates real user reviews from <yt></yt> and <tt></tt> — no ads, no bias.",
+      "cta": "Experience now",
       "howto": "See how it works",
       "demo": {
-        "question": "Is iPhone 17 Pro Max worth buying?",
+        "question": "Is iPhone 15 Pro Max worth buying?",
         "analyzed1": "Analyzed",
         "analyzed2": "154 comments",
-        "analyzed3": "from the 5 most-viewed YouTube videos.",
+        "analyzed3prefix": "from the 5 most-viewed",
+        "analyzed3suffix": "videos.",
         "quality": "Quality (47 mentions)",
-        "qualityQuote": "camera is a huge step up from 16, especially for night video",
+        "qualityQuote": "camera is a huge step up from 14, especially for night video",
         "price": "Price (38 mentions)",
-        "priceQuote": "price is still steep compared to Android flagships"
+        "priceQuote": "price is still steep compared to Android flagships",
+        "inputPlaceholder": "Ask a question..."
       }
     },
     "stats": [
       {
-        "value": "YouTube",
+        "value": "yt",
         "label": "Data source"
       },
       {
-        "value": "TikTok",
+        "value": "tt",
         "label": "Data source"
       },
       {
@@ -148,22 +170,17 @@
     "features": {
       "label": "Features",
       "title": "Everything you need",
-      "subtitle": "AI Chat is the core — plus free utilities.",
+      "subtitle": "AI Chat is the core — find Tiki products right beside your conversation.",
       "items": [
         {
           "badge": "Core",
           "title": "AI Review Chat",
-          "body": "Ask about any product. AI analyzes hundreds of videos & comments then summarizes for you."
+          "body": "Deep Q&A on specs and real user experiences from YouTube & TikTok — compare competitors in seconds."
         },
         {
           "badge": "Free",
-          "title": "URL Shortener",
-          "body": "Turn long links into short ones easy to share. Supports TinyURL and is.gd."
-        },
-        {
-          "badge": "Free",
-          "title": "QR Generator",
-          "body": "Create QR codes for any URL. Customize colors and size."
+          "title": "Tiki Product Search",
+          "body": "Find Tiki prices, tap Ask AI review — shorten links and generate QR on each product without leaving chat."
         }
       ]
     },
@@ -173,11 +190,11 @@
       "items": [
         {
           "q": "\"Is iPhone 17 Pro Max worth the price?\"",
-          "a": "Analyzes 120+ comments from the 5 highest-viewed YouTube videos."
+          "a": "Analyzes 120+ comments from the 5 highest-viewed <yt></yt> videos."
         },
         {
           "q": "\"Does Sony WH-1000XM6 have good noise cancelling?\"",
-          "a": "Aggregates real user reviews from YouTube & TikTok."
+          "a": "Aggregates real user reviews from <yt></yt> & <tt></tt>."
         },
         {
           "q": "\"Is the MSI 27-inch gaming monitor shipped correctly?\"",
@@ -199,7 +216,7 @@
         },
         {
           "title": "Clear attribution",
-          "body": "Every review has a source — YouTube or TikTok, how many people mentioned it."
+          "body": "Every review has a source — <yt></yt> or <tt></tt>, how many people mentioned it."
         },
         {
           "title": "Free to try",
@@ -215,7 +232,30 @@
     "nav": {
       "login": "Login",
       "register": "Sign up",
-      "goToApp": "Go to app"
+      "getStarted": "Get Started",
+      "getStartedShort": "Start",
+      "goToApp": "Go to app",
+      "links": {
+        "how": { "label": "How it works", "href": "#how-it-works" },
+        "features": { "label": "Features", "href": "#features" },
+        "examples": { "label": "Examples", "href": "#demo" },
+        "pricing": { "label": "Pricing", "href": "#features" }
+      }
+    },
+    "footer": {
+      "desc": "Make smarter purchase decisions with AI — real review insights from YouTube & TikTok.",
+      "productTitle": "Products",
+      "supportTitle": "Support",
+      "products": {
+        "chat": "Chat AI Review",
+        "product": "Tiki Product Search"
+      },
+      "support": {
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "contact": "Contact Support"
+      },
+      "copyright": "© 2024 ReviewMine AI. Precision insights from YouTube & TikTok."
     }
   },
   "notFound": {

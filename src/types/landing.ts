@@ -6,6 +6,7 @@ export interface LandingColors {
   border: string
   muted: string
   nav: string
+  accent: string
 }
 
 export interface ModalColors {

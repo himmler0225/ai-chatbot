@@ -1,4 +1,4 @@
-import type { Source } from '@/src/types/chat'
+import type { Source } from '@/types/chat'
 
 export interface AgentResult {
   result: string

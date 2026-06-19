@@ -1,29 +1,38 @@
 'use client'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { utilitiesApi } from '@/src/lib/api/utilities'
-import { useChatStore } from '@/src/store/chatStore'
-import { useUIStore } from '@/src/store/uiStore'
+import { useTranslation } from 'react-i18next'
+import { utilitiesApi } from '@/lib/api/utilities'
+import { useProductPanelContext } from '@/contexts/productPanel'
 
-export function useProductActions(productUrl: string, productName: string) {
+function fmtPrice(n: number) {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(n)
+}
+
+export function useProductActions(
+  productUrl: string,
+  productName: string,
+  productPrice?: number,
+) {
+  const { t } = useTranslation()
+  const panelCtx = useProductPanelContext()
   const [shortUrl, setShortUrl] = useState<string | null>(null)
-  const [copied,   setCopied]   = useState(false)
-  const [qrImg,    setQrImg]    = useState<string | null>(null)
-  const [qrOpen,   setQrOpen]   = useState(false)
-
-  const setInput = (v: string) => useChatStore.setState({ input: v })
-  const setView  = useUIStore(s => s.set)
+  const [copied, setCopied] = useState(false)
+  const [qrImg, setQrImg] = useState<string | null>(null)
+  const [qrOpen, setQrOpen] = useState(false)
 
   const shortenMut = useMutation({
     mutationFn: () => utilitiesApi.shorten({ url: productUrl }),
     onSuccess: async (data) => {
       setShortUrl(data.short)
       await navigator.clipboard.writeText(data.short)
-      setCopied(true); setTimeout(() => setCopied(false), 2000)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     },
     onError: async () => {
       await navigator.clipboard.writeText(productUrl)
-      setCopied(true); setTimeout(() => setCopied(false), 2000)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     },
   })
 
@@ -35,7 +44,8 @@ export function useProductActions(productUrl: string, productName: string) {
   const handleShorten = () => {
     if (shortUrl) {
       navigator.clipboard.writeText(shortUrl)
-      setCopied(true); setTimeout(() => setCopied(false), 2000)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     } else {
       shortenMut.mutate()
     }
@@ -47,14 +57,24 @@ export function useProductActions(productUrl: string, productName: string) {
   }
 
   const handleAIReview = () => {
-    setInput(`Review ${productName} trên YouTube và TikTok`)
-    setView({ view: 'chat' })
+    const prompt = t('utilities.product.aiReviewPrompt', {
+      name: productName,
+      price: productPrice != null ? fmtPrice(productPrice) : '',
+      url: productUrl,
+    })
+    panelCtx?.onAIReview(prompt)
   }
 
   return {
-    shortUrl, copied, qrImg, qrOpen, setQrOpen,
-    handleShorten, handleQR, handleAIReview,
+    shortUrl,
+    copied,
+    qrImg,
+    qrOpen,
+    setQrOpen,
+    handleShorten,
+    handleQR,
+    handleAIReview,
     isShortLoading: shortenMut.isPending,
-    isQRLoading:    qrMut.isPending,
+    isQRLoading: qrMut.isPending,
   }
 }

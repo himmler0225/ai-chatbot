@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import type { ChatPayload } from '@/src/types/chat'
+import type { ChatPayload } from '@/types/chat'
 import { AiLayerOfflineError, AiLayerTimeoutError, AiLayerUpstreamError } from './errors'
 
 const AI_LAYER_URL = process.env.AI_LAYER_URL ?? 'http://localhost:8001'

@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { tikiApi } from '@/src/lib/api/tiki'
-import type { TikiProduct } from '@/src/types/tiki'
+import { tikiApi } from '@/lib/api/tiki'
+import type { TikiProduct } from '@/types/tiki'
 
 export function useTikiSearch(q: string) {
   const query = useInfiniteQuery({

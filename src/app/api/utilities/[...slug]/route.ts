@@ -1,4 +1,4 @@
-import { aiLayer, AiLayerOfflineError } from '@/src/lib/ai-layer'
+import { aiLayer, AiLayerOfflineError } from '@/lib/ai-layer'
 
 export async function POST(request: Request, { params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params
