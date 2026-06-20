@@ -33,6 +33,12 @@ export function useChatHistory() {
     }
 
     if (initialLoadDone.current) return
+
+    if (useChatStore.getState().sessions.length > 0) {
+      initialLoadDone.current = true
+      return
+    }
+
     initialLoadDone.current = true
 
     historyApi

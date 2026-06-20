@@ -151,6 +151,13 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
       )
     } finally {
       useChatStore.setState({ isStreaming: false, activeTool: null })
+
+      if (userRef.current) {
+        const ai = useChatStore.getState().messages.find(m => m.id === aiMsgId)
+        if (ai && (ai.content || ai.cancelled)) {
+          historyApi.saveMessages(sessionId, [messageToRow(ai, sessionId)]).catch(console.error)
+        }
+      }
     }
   }, [agentStream, openAuthModal])
 
