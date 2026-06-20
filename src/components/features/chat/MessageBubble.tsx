@@ -41,7 +41,7 @@ export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, i
   const isMobile = !screens.md
   const isUser = msg.role === 'user'
 
-  if (!isUser && !msg.content && !isStreaming) return null
+  if (!isUser && !msg.content && !isStreaming && !msg.cancelled) return null
 
   const showStreamingStatus = isStreaming && (!msg.content || activeTool)
 
