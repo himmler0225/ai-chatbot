@@ -96,7 +96,10 @@ export default function ChatApp() {
   }
 
   useEffect(() => {
-    // Reset streaming state on mount in case it was stuck from a previous session
+    document.documentElement.style.opacity = '1'
+    document.documentElement.style.transition = 'opacity 0.2s ease'
+
+
     useChatStore.setState({ isStreaming: false, activeTool: null })
 
     const params = new URLSearchParams(window.location.search)
@@ -118,6 +121,7 @@ export default function ChatApp() {
       <ChatHeader sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
       <ChatMessages
         onSuggestion={text => void sendMessage(text)}
+        onRetry={text => void sendMessage(text)}
         onOpenProductPanel={() => handleOpenProductPanel()}
         isMobile={isMobile}
       />

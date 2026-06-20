@@ -24,6 +24,8 @@
     "stop": "Stop responding",
     "guestLimitHint": "1 free message used. Sign in to save history.",
     "guestLimitReached": "You've used your free message. Sign in to continue.",
+    "cancelled": "You cancelled the response.",
+    "retryTooltip": "Retry",
     "reviewSummary": "Summary from real reviews",
     "greeting": "What would you like to ask today?",
     "thinking": "Thinking...",

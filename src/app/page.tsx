@@ -33,7 +33,11 @@ export default function LandingPageView() {
     setAuthMode('login')
     setAuthOpen(true)
   }
-  const ctaAction = () => router.push('/app')
+  const ctaAction = () => {
+    document.documentElement.style.transition = 'opacity 0.2s ease'
+    document.documentElement.style.opacity = '0'
+    setTimeout(() => router.push('/app'), 180)
+  }
 
   return (
     <LandingPage $C={C}>

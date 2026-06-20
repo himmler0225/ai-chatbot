@@ -16,7 +16,14 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
 
   const stopMessage = useCallback(() => {
     abort()
-    useChatStore.setState({ isStreaming: false, activeTool: null })
+    useChatStore.setState(s => {
+      const messages = s.messages.map((m, i) =>
+        m.role === 'assistant' && i === s.messages.length - 1
+          ? { ...m, cancelled: true }
+          : m
+      )
+      return { isStreaming: false, activeTool: null, messages }
+    })
   }, [abort])
 
   const sendMessage = useCallback(async (overrideContent?: string) => {

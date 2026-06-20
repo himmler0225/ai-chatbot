@@ -7,11 +7,12 @@ import EmptyState from '@/components/features/chat/EmptyState'
 
 interface Props {
   onSuggestion: (text: string) => void
+  onRetry: (text: string) => void
   onOpenProductPanel?: () => void
   isMobile?: boolean
 }
 
-export function ChatMessages({ onSuggestion, onOpenProductPanel, isMobile = false }: Props) {
+export function ChatMessages({ onSuggestion, onRetry, onOpenProductPanel, isMobile = false }: Props) {
   const messages    = useChatStore(s => s.messages)
   const isStreaming = useChatStore(s => s.isStreaming)
   const activeTool  = useChatStore(s => s.activeTool)
@@ -37,6 +38,10 @@ export function ChatMessages({ onSuggestion, onOpenProductPanel, isMobile = fals
             {messages.map((m, i) => {
               const isLastAssistant =
                 isStreaming && m.role === 'assistant' && i === messages.length - 1
+              // Find the user message preceding this assistant message for retry
+              const prevUserMsg = m.role === 'assistant'
+                ? messages.slice(0, i).findLast(x => x.role === 'user')
+                : undefined
               return (
                 <MessageBubble
                   key={m.id}
@@ -46,6 +51,7 @@ export function ChatMessages({ onSuggestion, onOpenProductPanel, isMobile = fals
                   canSpeak={canSpeak}
                   isSpeaking={speakingId === m.id}
                   onSpeak={(id, text) => speak(id, text)}
+                  onRetry={prevUserMsg ? () => onRetry(prevUserMsg.content) : undefined}
                 />
               )
             })}

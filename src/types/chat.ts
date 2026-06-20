@@ -36,6 +36,7 @@ export interface Message {
   reviewSummary?: string | null
   sources?: Source[]
   videos?: VideoData[]
+  cancelled?: boolean
 }
 
 export interface ChatSession {

@@ -1,10 +1,12 @@
 'use client'
 
 import { Avatar, Button, Flex, Grid, Tooltip, theme } from 'antd'
-import { RobotOutlined, UserOutlined, SoundOutlined, PauseOutlined } from '@ant-design/icons'
+import { RobotOutlined, UserOutlined, SoundOutlined, PauseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { useTranslation } from 'react-i18next'
+import '@/i18n/config'
 import type { Message } from '@/types/chat'
 import SourceChips from './SourceChips'
 import ReviewSummary from './ReviewSummary'
@@ -20,6 +22,7 @@ interface Props {
   onSpeak?: (id: string, text: string) => void
   isSpeaking?: boolean
   canSpeak?: boolean
+  onRetry?: () => void
 }
 
 function Timestamp({ ts, light }: { ts: Date; light?: boolean }) {
@@ -31,7 +34,8 @@ function Timestamp({ ts, light }: { ts: Date; light?: boolean }) {
   )
 }
 
-export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, isSpeaking, canSpeak }: Props) {
+export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, isSpeaking, canSpeak, onRetry }: Props) {
+  const { t } = useTranslation()
   const { token } = theme.useToken()
   const screens = useBreakpoint()
   const isMobile = !screens.md
@@ -104,6 +108,22 @@ export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, i
               {!!msg.videos?.length && <VideoChart videos={msg.videos} />}
               {!isStreaming && msg.reviewSummary && <ReviewSummary markdown={msg.reviewSummary} />}
               {!isStreaming && !!msg.sources?.length && <SourceChips sources={msg.sources} />}
+              {msg.cancelled && (
+                <Flex align="center" gap={8} style={{ marginTop: msg.content ? 8 : 0, opacity: 0.6 }}>
+                  <span style={{ fontSize: 12 }}>{t('chat.cancelled')}</span>
+                  {onRetry && (
+                    <Tooltip title={t('chat.retryTooltip')}>
+                      <Button
+                        type="text"
+                        size="small"
+                        icon={<ReloadOutlined />}
+                        onClick={onRetry}
+                        style={{ color: token.colorPrimary, padding: '0 4px', height: 22 }}
+                      />
+                    </Tooltip>
+                  )}
+                </Flex>
+              )}
               {!isStreaming && (
                 <Flex align="center" justify="space-between" style={{ marginTop: 6 }}>
                   {canSpeak ? (

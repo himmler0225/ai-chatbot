@@ -24,6 +24,8 @@
     "stop": "Dừng trả lời",
     "guestLimitHint": "Đã dùng 1 lượt miễn phí. Đăng nhập để lưu lịch sử.",
     "guestLimitReached": "Đã dùng hết lượt miễn phí. Đăng nhập để tiếp tục.",
+    "cancelled": "Bạn đã huỷ trả lời.",
+    "retryTooltip": "Hỏi lại",
     "reviewSummary": "Tổng hợp từ reviews thực tế",
     "greeting": "Hôm nay bạn muốn hỏi gì?",
     "thinking": "Đang suy nghĩ...",
