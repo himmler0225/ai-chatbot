@@ -8,12 +8,11 @@ import type { SessionRow, MessageRow } from '@/types/history'
 
 export type { SessionRow, MessageRow }
 
-const AI_LAYER_URL = process.env.NEXT_PUBLIC_AI_LAYER_URL ?? 'http://localhost:8001'
 const AI_LAYER_KEY = process.env.NEXT_PUBLIC_AI_LAYER_KEY ?? ''
 
-const aiLayerApiClient: AxiosInstance = axios.create({
-  baseURL: AI_LAYER_URL,
-  headers: { 'Content-Type': 'application/json', 'X-API-Key': AI_LAYER_KEY },
+const historyClient: AxiosInstance = axios.create({
+  baseURL: '/api/history',
+  headers: { 'Content-Type': 'application/json' },
   timeout: 30_000,
 })
 
@@ -26,7 +25,7 @@ async function authHeaders(): Promise<Record<string, string> | null> {
 
 class HistoryApi extends BaseApi {
   constructor() {
-    super('/ai', aiLayerApiClient)
+    super('', historyClient)
   }
 
   private async req<T>(
@@ -59,11 +58,11 @@ class HistoryApi extends BaseApi {
   }
 
   listSessions() {
-    return this.req<SessionRow[]>('/history/sessions', 'GET')
+    return this.req<SessionRow[]>('/sessions', 'GET')
   }
 
   upsertSession(s: ChatSession) {
-    return this.req('/history/sessions', 'POST', {
+    return this.req('/sessions', 'POST', {
       id: s.id,
       title: s.title,
       created_at: s.createdAt.toISOString(),
@@ -72,19 +71,19 @@ class HistoryApi extends BaseApi {
   }
 
   patchSession(id: string, title: string) {
-    return this.req(`/history/sessions/${id}`, 'PATCH', { title })
+    return this.req(`/sessions/${id}`, 'PATCH', { title })
   }
 
   deleteSession(id: string) {
-    return this.req(`/history/sessions/${id}`, 'DELETE')
+    return this.req(`/sessions/${id}`, 'DELETE')
   }
 
   getMessages(sessionId: string) {
-    return this.req<MessageRow[]>(`/history/sessions/${sessionId}/messages`, 'GET')
+    return this.req<MessageRow[]>(`/sessions/${sessionId}/messages`, 'GET')
   }
 
   saveMessages(sessionId: string, msgs: MessageRow[]) {
-    return this.req(`/history/sessions/${sessionId}/messages`, 'POST', msgs)
+    return this.req(`/sessions/${sessionId}/messages`, 'POST', msgs)
   }
 }
 
