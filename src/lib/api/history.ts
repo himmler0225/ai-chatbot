@@ -99,6 +99,7 @@ export function rowToMessage(m: MessageRow): Message {
     reviewSummary: m.metadata?.reviewSummary,
     sources: m.metadata?.sources,
     videos: m.metadata?.videos,
+    cancelled: m.metadata?.cancelled,
   }
 }
 
@@ -112,6 +113,7 @@ export function messageToRow(msg: Message, _sessionId: string): MessageRow {
       reviewSummary: msg.reviewSummary ?? undefined,
       sources: msg.sources,
       videos: msg.videos,
+      cancelled: msg.cancelled,
     },
     created_at: msg.timestamp.toISOString(),
   }

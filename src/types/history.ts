@@ -16,6 +16,7 @@ export interface MessageRow {
     reviewSummary?: Message['reviewSummary']
     sources?: Message['sources']
     videos?: Message['videos']
+    cancelled?: Message['cancelled']
   } | null
   created_at: string
 }
