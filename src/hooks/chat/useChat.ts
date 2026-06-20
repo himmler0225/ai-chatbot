@@ -6,6 +6,7 @@ export interface StreamCallbacks {
   onTextDelta: (delta: string) => void
   onToolStart: (tool: string) => void
   onToolDone: (tool: string) => void
+  onDataPreview: (videos: VideoData[]) => void
   onDone: (meta: { reviewSummary: string | null; sources: Source[]; usedTools: Tool[]; videos: VideoData[] }) => void
   onError: (message: string) => void
 }
@@ -14,6 +15,7 @@ type SseEvent =
   | { type: 'text_delta'; delta: string }
   | { type: 'tool_start'; tool: string }
   | { type: 'tool_done'; tool: string }
+  | { type: 'data_preview'; videos: VideoData[] }
   | {
       type: 'done'
       data: { review_summary: string | null; sources: Source[]; videos: VideoData[]; products: unknown[] }
@@ -46,6 +48,7 @@ export function useAgentStream() {
     const decoder = new TextDecoder()
     let buffer = ''
 
+    try {
     while (true) {
       const { done, value } = await reader.read()
       if (done) break
@@ -68,6 +71,9 @@ export function useAgentStream() {
             case 'tool_done':
               cb.onToolDone(event.tool)
               break
+            case 'data_preview':
+              cb.onDataPreview(event.videos ?? [])
+              break
             case 'done':
               cb.onDone({
                 reviewSummary: event.data?.review_summary ?? null,
@@ -88,6 +94,9 @@ export function useAgentStream() {
           /* malformed SSE line — skip */
         }
       }
+    }
+    } catch (err) {
+      if ((err as Error).name !== 'AbortError') cb.onError((err as Error).message)
     }
   }, [])
 

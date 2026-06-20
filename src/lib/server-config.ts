@@ -1,10 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
+import { STALE_SERVER_CONFIG_MS } from '@/constants/api'
 
 type ConfigMap = Record<string, string>
 
 let _cache: ConfigMap = {}
 let _fetchedAt = 0
-const TTL = 5 * 60 * 1000
+const TTL = STALE_SERVER_CONFIG_MS
 
 export async function getServerConfig(): Promise<ConfigMap> {
   if (_fetchedAt && Date.now() - _fetchedAt < TTL) return _cache

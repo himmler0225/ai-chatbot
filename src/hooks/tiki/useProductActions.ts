@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { STALE_TIKI_SEARCH_MS, STALE_TIKI_FLASH_SALE_MS, STALE_TIKI_MAYBE_LIKE_MS, STALE_TIKI_DETAIL_MS, STALE_TIKI_REVIEWS_MS, COPY_NOTIFICATION_MS, TIKI_QR_SIZE_PX, TIKI_SEARCH_LIMIT, TIKI_REVIEWS_LIMIT, STALE_SERVER_CONFIG_MS } from '@/constants/api'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { utilitiesApi } from '@/lib/api/utilities'
@@ -27,7 +28,7 @@ export function useProductActions(
       setShortUrl(data.short)
       await navigator.clipboard.writeText(data.short)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      setTimeout(() => setCopied(false), COPY_NOTIFICATION_MS)
     },
     onError: async () => {
       await navigator.clipboard.writeText(productUrl)
@@ -37,7 +38,7 @@ export function useProductActions(
   })
 
   const qrMut = useMutation({
-    mutationFn: () => utilitiesApi.qr({ url: shortUrl ?? productUrl, size: 220 }),
+    mutationFn: () => utilitiesApi.qr({ url: shortUrl ?? productUrl, size: TIKI_QR_SIZE_PX }),
     onSuccess: (data) => setQrImg(data.image),
   })
 

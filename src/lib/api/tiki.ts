@@ -26,7 +26,7 @@ class TikiApi extends BaseApi {
     super('/api/tiki')
   }
 
-  async search(q: string, limit = 20, sort = 'top_seller', page = 1): Promise<TikiSearchResult> {
+  async search(q: string, limit = TIKI_SEARCH_LIMIT, sort = 'top_seller', page = 1): Promise<TikiSearchResult> {
     const data = await this.get<ApiResponse<TikiSearchResult>>(
       `?q=${encodeURIComponent(q)}&limit=${limit}&sort=${sort}&page=${page}`,
     )
@@ -58,7 +58,7 @@ class TikiApi extends BaseApi {
     return data.data
   }
 
-  async reviews(productId: number, spid?: number, page = 1, limit = 10): Promise<TikiReviewResult> {
+  async reviews(productId: number, spid?: number, page = 1, limit = TIKI_REVIEWS_LIMIT): Promise<TikiReviewResult> {
     const qs = new URLSearchParams({ page: String(page), limit: String(limit) })
     if (spid) qs.set('spid', String(spid))
     const data = await this.get<ApiResponse<TikiReviewResult>>(`/${productId}/reviews?${qs}`)

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { STALE_TIKI_SEARCH_MS, STALE_TIKI_FLASH_SALE_MS, STALE_TIKI_MAYBE_LIKE_MS, STALE_TIKI_DETAIL_MS, STALE_TIKI_REVIEWS_MS, COPY_NOTIFICATION_MS, TIKI_QR_SIZE_PX, TIKI_SEARCH_LIMIT, TIKI_REVIEWS_LIMIT, STALE_SERVER_CONFIG_MS } from '@/constants/api'
 import { tikiApi } from '@/lib/api/tiki'
 import type { TikiProduct } from '@/types/tiki'
 
@@ -12,7 +13,7 @@ function toList(data: unknown): TikiProduct[] {
 }
 
 export function useTikiFlashSale() {
-  const q = useQuery({ queryKey: ['tiki-flash-sale'],      queryFn: () => tikiApi.flashSale(40),  staleTime: 10 * 60_000 })
+  const q = useQuery({ queryKey: ['tiki-flash-sale'],      queryFn: () => tikiApi.flashSale(40),  staleTime: STALE_TIKI_FLASH_SALE_MS })
   return { ...q, products: toList(q.data) }
 }
 
@@ -22,6 +23,6 @@ export function useTikiTopChoice() {
 }
 
 export function useTikiMaybeYouLike() {
-  const q = useQuery({ queryKey: ['tiki-maybe-you-like'], queryFn: () => tikiApi.maybeYouLike(),  staleTime: 15 * 60_000 })
+  const q = useQuery({ queryKey: ['tiki-maybe-you-like'], queryFn: () => tikiApi.maybeYouLike(),  staleTime: STALE_TIKI_MAYBE_LIKE_MS })
   return { ...q, products: toList(q.data) }
 }

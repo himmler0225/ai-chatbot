@@ -19,14 +19,21 @@ export function useChatHistory() {
     userRef.current = user ?? null
   }, [user])
 
+  const initialLoadDone = useRef(false)
+
   useEffect(() => {
     if (authLoading) return
 
     if (!user) {
+      if (useChatStore.getState().isStreaming) return
+      initialLoadDone.current = false
       useChatStore.getState().reset()
       loadedRef.current.clear()
       return
     }
+
+    if (initialLoadDone.current) return
+    initialLoadDone.current = true
 
     historyApi
       .listSessions()

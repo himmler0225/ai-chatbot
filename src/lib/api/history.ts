@@ -2,14 +2,14 @@
 
 import axios, { type AxiosInstance } from 'axios'
 import { BaseApi } from '@/lib/api/client'
-// import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import type { ChatSession, Message } from '@/types/chat'
 import type { SessionRow, MessageRow } from '@/types/history'
 
 export type { SessionRow, MessageRow }
 
-const AI_LAYER_URL = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
-const AI_LAYER_KEY = process.env.AI_LAYER_KEY ?? ''
+const AI_LAYER_URL = process.env.NEXT_PUBLIC_AI_LAYER_URL ?? 'http://localhost:8001'
+const AI_LAYER_KEY = process.env.NEXT_PUBLIC_AI_LAYER_KEY ?? ''
 
 const aiLayerApiClient: AxiosInstance = axios.create({
   baseURL: AI_LAYER_URL,
@@ -18,12 +18,10 @@ const aiLayerApiClient: AxiosInstance = axios.create({
 })
 
 async function authHeaders(): Promise<Record<string, string> | null> {
-  // Supabase auth tạm thời bị vô hiệu hóa — history API cần bearer token
-  // const { data } = await supabase.auth.getSession()
-  // const token = data.session?.access_token
-  // if (!token) return null
-  // return { 'X-API-Key': AI_LAYER_KEY, Authorization: `Bearer ${token}` }
-  return null
+  const { data } = await supabase.auth.getSession()
+  const token = data.session?.access_token
+  if (!token) return null
+  return { 'X-API-Key': AI_LAYER_KEY, Authorization: `Bearer ${token}` }
 }
 
 class HistoryApi extends BaseApi {

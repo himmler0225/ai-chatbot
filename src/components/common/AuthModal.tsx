@@ -118,7 +118,8 @@ export default function AuthModal({ open, defaultMode, onClose }: Props) {
           afterLogin()
           return
         }
-        set({ registered: true })
+        // Email confirmation disabled — close modal directly
+        close()
       }
     } finally {
       set({ loading: false })

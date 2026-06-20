@@ -103,7 +103,11 @@ export function ChatHeader({ sidebarOpen, onToggleSidebar }: Props) {
               }}
             >
               <Avatar
-                src={(user.user_metadata as { avatar_url?: string } | undefined)?.avatar_url}
+                src={
+                  (user.user_metadata as { avatar_url?: string; picture?: string } | undefined)
+                    ?.avatar_url ??
+                  (user.user_metadata as { picture?: string } | undefined)?.picture
+                }
                 size={30}
                 icon={<UserOutlined />}
                 style={{ cursor: 'pointer', flexShrink: 0 }}

@@ -1,4 +1,5 @@
 'use client'
+import { GUEST_MESSAGE_LIMIT } from '@/constants/api'
 import { useCallback } from 'react'
 import type { MutableRefObject } from 'react'
 import type { AuthUser } from '@/hooks/common/useAuth'
@@ -19,18 +20,21 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
   }, [abort])
 
   const sendMessage = useCallback(async (overrideContent?: string) => {
-    const { input, isStreaming, activeId, messages, sessions } =
+    const { input, isStreaming, activeId, messages, sessions, guestMsgCount } =
       useChatStore.getState()
 
     const content = (overrideContent ?? input).trim()
     if (!content || isStreaming) return
 
-    if (!userRef.current) {
+    if (!userRef.current && guestMsgCount >= GUEST_MESSAGE_LIMIT) {
       openAuthModal('login')
       return
     }
 
     useChatStore.setState({ input: '', isStreaming: true, activeTool: null })
+    if (!userRef.current) {
+      useChatStore.setState(s => ({ guestMsgCount: s.guestMsgCount + 1 }))
+    }
 
     const now = new Date()
     const isFirstMsg = messages.length === 0
@@ -46,22 +50,17 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
         updatedAt: now,
       }
       useChatStore.setState(st => ({ sessions: [s, ...st.sessions], activeId: sessionId }))
-      if (userRef.current) historyApi.upsertSession(s).catch(console.error)
+
+      if (userRef.current) await historyApi.upsertSession(s).catch(console.error)
     } else {
       sessionId = activeId
       if (isFirstMsg && userRef.current) {
         const existing = sessions.find(s => s.id === activeId)
-        historyApi
+        await historyApi
           .upsertSession(
             existing
               ? { ...existing, title: toTitle(content), updatedAt: now }
-              : {
-                  id: sessionId,
-                  title: toTitle(content),
-                  messages: [],
-                  createdAt: now,
-                  updatedAt: now,
-                }
+              : { id: sessionId, title: toTitle(content), messages: [], createdAt: now, updatedAt: now }
           )
           .catch(console.error)
       }
@@ -99,6 +98,12 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
 
           onToolStart: tool => useChatStore.setState({ activeTool: tool }),
           onToolDone: () => useChatStore.setState({ activeTool: null }),
+          onDataPreview: videos =>
+            useChatStore.setState(s => ({
+              messages: s.messages.map(m =>
+                m.id === aiMsgId ? { ...m, videos } : m
+              ),
+            })),
 
           onDone: ({ reviewSummary, sources, usedTools, videos }) => {
             useChatStore.setState(s => {

@@ -9,9 +9,10 @@ import '@/i18n/config'
 import { useAuth } from '@/hooks/common/useAuth'
 import { useChatStore } from '@/stores/chatStore'
 import { useUIStore } from '@/stores/uiStore'
+import { GUEST_MESSAGE_LIMIT } from '@/constants/api'
 
 const { Text } = Typography
-const GUEST_LIMIT = 3
+const GUEST_LIMIT = GUEST_MESSAGE_LIMIT
 
 interface Props {
   sendMessage: () => Promise<void>

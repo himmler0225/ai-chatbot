@@ -84,26 +84,24 @@ export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, i
                   <StreamingStatus tool={activeTool} compact={!!msg.content} />
                 )}
 
-                {isStreaming && msg.content ? (
-                  <div className="streaming-text">
-                    {msg.content}
-                    <span className="streaming-cursor" />
-                  </div>
-                ) : !isStreaming ? (
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      table: ({ children }) => (
-                        <div className="md-table-wrap"><table>{children}</table></div>
-                      ),
-                    }}
-                  >
-                    {msg.content}
-                  </ReactMarkdown>
+                {msg.content ? (
+                  <>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        table: ({ children }) => (
+                          <div className="md-table-wrap"><table>{children}</table></div>
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                    {isStreaming && <span className="streaming-cursor" />}
+                  </>
                 ) : null}
               </div>
 
-              {!isStreaming && !!msg.videos?.length && <VideoChart videos={msg.videos} />}
+              {!!msg.videos?.length && <VideoChart videos={msg.videos} />}
               {!isStreaming && msg.reviewSummary && <ReviewSummary markdown={msg.reviewSummary} />}
               {!isStreaming && !!msg.sources?.length && <SourceChips sources={msg.sources} />}
               {!isStreaming && (
