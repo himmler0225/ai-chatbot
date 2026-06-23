@@ -14,6 +14,7 @@ export function useProductActions(
   productUrl: string,
   productName: string,
   productPrice?: number,
+  reviewPromptKey = 'utilities.product.aiReviewPrompt',
 ) {
   const { t } = useTranslation()
   const panelCtx = useProductPanelContext()
@@ -58,7 +59,7 @@ export function useProductActions(
   }
 
   const handleAIReview = () => {
-    const prompt = t('utilities.product.aiReviewPrompt', {
+    const prompt = t(reviewPromptKey, {
       name: productName,
       price: productPrice != null ? fmtPrice(productPrice) : '',
       url: productUrl,

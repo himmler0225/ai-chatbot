@@ -8,7 +8,7 @@ import EmptyState from '@/components/features/chat/EmptyState'
 interface Props {
   onSuggestion: (text: string) => void
   onRetry: (text: string) => void
-  onOpenProductPanel?: () => void
+  onOpenProductPanel?: (store?: 'tiki' | 'fpt') => void
   isMobile?: boolean
 }
 

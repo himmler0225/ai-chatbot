@@ -1,15 +1,26 @@
 'use client'
-import { Card, Skeleton, theme } from 'antd'
+
+import { Skeleton, theme } from 'antd'
 
 export function CardSkeleton() {
   const { token } = theme.useToken()
+
   return (
-    <Card size="small" styles={{ body: { padding: 10 } }}>
+    <div
+      style={{
+        borderRadius: 14,
+        border: `1px solid ${token.colorBorderSecondary}`,
+        background: token.colorBgContainer,
+        overflow: 'hidden',
+      }}
+    >
       <div
-        className="animate-pulse rounded-t-lg w-full mb-3"
-        style={{ aspectRatio: '4/3', background: token.colorBgLayout }}
+        className="animate-pulse"
+        style={{ aspectRatio: '1 / 1', background: token.colorFillQuaternary }}
       />
-      <Skeleton active paragraph={{ rows: 2 }} title={false} />
-    </Card>
+      <div style={{ padding: 12 }}>
+        <Skeleton active paragraph={{ rows: 2 }} title={false} />
+      </div>
+    </div>
   )
 }

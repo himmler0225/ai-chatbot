@@ -32,6 +32,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedLocale) { setLocale(savedLocale); i18n.changeLanguage(savedLocale) }
   }, [])
 
+  useEffect(() => {
+    const theme = isDark ? 'dark' : 'light'
+    document.documentElement.dataset.theme = theme
+    document.documentElement.style.background = isDark ? '#0d0d0d' : '#f5f5f5'
+  }, [isDark])
+
   const toggleTheme = () => {
     const next = !isDark
     setIsDark(next)

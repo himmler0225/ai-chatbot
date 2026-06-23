@@ -3,6 +3,7 @@
 import { Button, Flex, Grid, Menu, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, MessageOutlined } from '@ant-design/icons'
 import { TikiLogo } from '@/components/common/ui/TikiLogo'
+import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
 import { theme } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useChatStore } from '@/stores/chatStore'
@@ -17,7 +18,7 @@ interface Props {
   onNewChat: () => void
   onSelectSession: (id: string) => void
   onDeleteSession: (id: string) => void
-  onToggleProductPanel: () => void
+  onOpenProductStore: (store: 'tiki' | 'fpt') => void
   onClose?: () => void
 }
 
@@ -26,7 +27,7 @@ export function ChatSidebar({
   onNewChat,
   onSelectSession,
   onDeleteSession,
-  onToggleProductPanel,
+  onOpenProductStore,
   onClose,
 }: Props) {
   const { t } = useTranslation()
@@ -104,7 +105,26 @@ export function ChatSidebar({
         type="text"
         block
         icon={<TikiLogo size={40} />}
-        onClick={() => { onToggleProductPanel(); onClose?.() }}
+        onClick={() => { onOpenProductStore('tiki'); onClose?.() }}
+        style={{
+          justifyContent: 'flex-start',
+          textAlign: 'left',
+          height: 38,
+          borderRadius: 10,
+          paddingLeft: 12,
+          marginBottom: 8,
+          fontWeight: productPanelOpen ? 500 : 400,
+          background: productPanelOpen ? token.colorFillTertiary : 'transparent',
+        }}
+      >
+        {t('utilities.product.tabLabel')}
+      </Button>
+
+      <Button
+        type="text"
+        block
+        icon={<FptShopLogo size={40} />}
+        onClick={() => { onOpenProductStore('fpt'); onClose?.() }}
         style={{
           justifyContent: 'flex-start',
           textAlign: 'left',
@@ -116,7 +136,7 @@ export function ChatSidebar({
           background: productPanelOpen ? token.colorFillTertiary : 'transparent',
         }}
       >
-        {t('utilities.product.tabLabel')}
+        {t('utilities.fpt.tabLabel')}
       </Button>
 
       <Text

@@ -3,6 +3,7 @@
 import { Button, Flex, Input, Tooltip, Typography } from 'antd'
 import { SendOutlined, StopOutlined } from '@ant-design/icons'
 import { TikiLogo } from '@/components/common/ui/TikiLogo'
+import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
 import { theme } from 'antd'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
@@ -19,9 +20,10 @@ interface Props {
   stopMessage: () => void
   isMobile: boolean
   onSearchOnTiki?: (query: string) => void
+  onSearchOnFpt?: (query: string) => void
 }
 
-export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki }: Props) {
+export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, onSearchOnFpt }: Props) {
   const { t } = useTranslation()
   const { token } = theme.useToken()
   const { user, loading: authLoading } = useAuth()
@@ -107,17 +109,30 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki }
           )}
         </Flex>
 
-        {onSearchOnTiki && input.trim() && !isStreaming && (
-          <Flex justify="center" style={{ marginTop: 8 }}>
-            <Button
-              type="link"
-              size="small"
-              icon={<TikiLogo size={40} />}
-              onClick={() => onSearchOnTiki(input.trim())}
-              style={{ fontSize: 12, height: 'auto', padding: '2px 4px' }}
-            >
-              {t('chat.searchOnTiki')}
-            </Button>
+        {(onSearchOnTiki || onSearchOnFpt) && input.trim() && !isStreaming && (
+          <Flex justify="center" gap={12} wrap="wrap" style={{ marginTop: 8 }}>
+            {onSearchOnTiki && (
+              <Button
+                type="link"
+                size="small"
+                icon={<TikiLogo size={40} />}
+                onClick={() => onSearchOnTiki(input.trim())}
+                style={{ fontSize: 12, height: 'auto', padding: '2px 4px' }}
+              >
+                {t('chat.searchOnTiki')}
+              </Button>
+            )}
+            {onSearchOnFpt && (
+              <Button
+                type="link"
+                size="small"
+                icon={<FptShopLogo size={40} />}
+                onClick={() => onSearchOnFpt(input.trim())}
+                style={{ fontSize: 12, height: 'auto', padding: '2px 4px' }}
+              >
+                {t('chat.searchOnFpt')}
+              </Button>
+            )}
           </Flex>
         )}
 

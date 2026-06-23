@@ -1,6 +1,7 @@
 import { BaseApi } from '@/lib/api/client'
 import type { ApiResponse } from '@/types/chat'
 import type { TikiProduct, TikiProductDetail, TikiReview } from '@/types/tiki'
+import { TIKI_REVIEWS_LIMIT, TIKI_SEARCH_LIMIT } from '@/constants/api'
 
 export interface TikiSearchResult {
   query: string

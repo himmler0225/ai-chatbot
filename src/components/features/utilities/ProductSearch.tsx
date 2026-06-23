@@ -12,6 +12,10 @@ import { useTikiFlashSale, useTikiTopChoice, useTikiMaybeYouLike } from '@/hooks
 import { ProductGrid } from '@/components/features/utilities/tiki/ProductGrid'
 import { ProductDrawer } from '@/components/features/utilities/tiki/ProductDrawer'
 import { PRIM } from '@/constants/brand'
+import {
+  applyStoreSearch,
+  readStoreQuery,
+} from '@/components/features/utilities/shared/productSearchUrl'
 
 const { Text } = Typography
 
@@ -25,23 +29,21 @@ export function ProductSearch({ compact = false }: Props) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const initialQ = searchParams.get('q') ?? ''
+  const initialQ = readStoreQuery(searchParams, 'tiki')
   const [input, setInput] = useState(initialQ)
   const [submitted, setSubmit] = useState(initialQ)
   const [detail, setDetail] = useState<TikiProduct | null>(null)
 
   useEffect(() => {
-    const q = searchParams.get('q') ?? ''
+    if (searchParams.get('store') !== 'tiki') return
+    const q = readStoreQuery(searchParams, 'tiki')
     setInput(q)
     setSubmit(q)
   }, [searchParams])
 
   const handleSearch = (q: string) => {
     if (!q.trim()) return
-    const p = new URLSearchParams(window.location.search)
-    p.set('tab', 'util')
-    p.set('q', q.trim())
-    p.delete('util')
+    const p = applyStoreSearch(new URLSearchParams(window.location.search), 'tiki', q.trim())
     router.replace(`${pathname}?${p.toString()}`, { scroll: false })
     setSubmit(q.trim())
   }

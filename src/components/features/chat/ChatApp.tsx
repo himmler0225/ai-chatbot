@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useCallback } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { Grid, Layout, Drawer } from 'antd'
 import { theme } from 'antd'
 import '@/i18n/config'
@@ -14,8 +14,12 @@ import { ChatHeader } from '@/components/features/chat/ChatHeader'
 import { ChatSidebar } from '@/components/features/chat/ChatSidebar'
 import { ChatMessages } from '@/components/features/chat/ChatMessages'
 import { ChatInput } from '@/components/features/chat/ChatInput'
-import { ProductPanel } from '@/components/features/utilities/ProductPanel'
+import { ProductPanel, type ProductStore } from '@/components/features/utilities/ProductPanel'
 import AuthModal from '@/components/common/AuthModal'
+import {
+  clearProductPanelParams,
+  queryKeyForStore,
+} from '@/components/features/utilities/shared/productSearchUrl'
 
 const { useBreakpoint } = Grid
 const { Sider, Content } = Layout
@@ -39,34 +43,38 @@ export default function ChatApp() {
     authModalMode,
     closeAuthModal,
     closeProductPanel,
-    toggleProductPanel,
     openProductPanel,
   } = useUIStore()
 
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const sidebarOpen = isMobile ? drawerOpen : !collapsed
 
-  const syncProductUrl = useCallback((open: boolean, q?: string | null) => {
+  const productStore: ProductStore = searchParams.get('store') === 'fpt' ? 'fpt' : 'tiki'
+
+  const syncProductUrl = useCallback((open: boolean, q?: string | null, store: ProductStore = 'tiki') => {
     const params = new URLSearchParams(window.location.search)
 
     if (open) {
       params.set('tab', 'util')
+      params.set('store', store)
       params.delete('util')
-      if (q?.trim()) params.set('q', q.trim())
+      if (q?.trim()) {
+        params.set(queryKeyForStore(store), q.trim())
+        params.delete('q')
+      }
     } else {
-      params.delete('tab')
-      params.delete('util')
-      params.delete('q')
+      clearProductPanelParams(params)
     }
 
     const qs = params.toString()
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
   }, [pathname, router])
 
-  const handleOpenProductPanel = useCallback((q?: string) => {
+  const handleOpenProductPanel = useCallback((q?: string, store: ProductStore = 'tiki') => {
     openProductPanel()
-    syncProductUrl(true, q)
+    syncProductUrl(true, q, store)
     if (isMobile) setUI({ drawerOpen: false })
   }, [openProductPanel, syncProductUrl, isMobile, setUI])
 
@@ -82,8 +90,21 @@ export default function ChatApp() {
   }, [closeProductPanel, syncProductUrl, sendMessage])
 
   const handleSearchOnTiki = useCallback((q: string) => {
-    handleOpenProductPanel(q)
+    handleOpenProductPanel(q, 'tiki')
   }, [handleOpenProductPanel])
+
+  const handleSearchOnFpt = useCallback((q: string) => {
+    handleOpenProductPanel(q, 'fpt')
+  }, [handleOpenProductPanel])
+
+  const handleProductStoreChange = useCallback((store: ProductStore) => {
+    const params = new URLSearchParams(window.location.search)
+    params.set('tab', 'util')
+    params.set('store', store)
+    params.delete('util')
+    params.delete('q')
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+  }, [pathname, router])
 
   const sidebarProps = {
     productPanelOpen,
@@ -92,14 +113,13 @@ export default function ChatApp() {
       void selectSession(id)
     },
     onDeleteSession: deleteSession,
-    onToggleProductPanel: toggleProductPanel,
+    onOpenProductStore: (store: ProductStore) => {
+      const q = searchParams.get(queryKeyForStore(store)) ?? undefined
+      handleOpenProductPanel(q, store)
+    },
   }
 
   useEffect(() => {
-    document.documentElement.style.opacity = '1'
-    document.documentElement.style.transition = 'opacity 0.2s ease'
-
-
     useChatStore.setState({ isStreaming: false, activeTool: null })
 
     const params = new URLSearchParams(window.location.search)
@@ -122,7 +142,7 @@ export default function ChatApp() {
       <ChatMessages
         onSuggestion={text => void sendMessage(text)}
         onRetry={text => void sendMessage(text)}
-        onOpenProductPanel={() => handleOpenProductPanel()}
+        onOpenProductPanel={(store = 'tiki') => handleOpenProductPanel(undefined, store)}
         isMobile={isMobile}
       />
       <ChatInput
@@ -130,6 +150,7 @@ export default function ChatApp() {
         stopMessage={stopMessage}
         isMobile={isMobile}
         onSearchOnTiki={handleSearchOnTiki}
+        onSearchOnFpt={handleSearchOnFpt}
       />
     </div>
   )
@@ -184,7 +205,11 @@ export default function ChatApp() {
                 overflow: 'hidden',
               }}
             >
-              <ProductPanel onClose={handleCloseProductPanel} />
+              <ProductPanel
+                onClose={handleCloseProductPanel}
+                store={productStore}
+                onStoreChange={handleProductStoreChange}
+              />
             </div>
           )}
         </Content>
@@ -201,7 +226,12 @@ export default function ChatApp() {
               header: { display: 'none' },
             }}
           >
-            <ProductPanel onClose={handleCloseProductPanel} compact />
+            <ProductPanel
+              onClose={handleCloseProductPanel}
+              compact
+              store={productStore}
+              onStoreChange={handleProductStoreChange}
+            />
           </Drawer>
         )}
 

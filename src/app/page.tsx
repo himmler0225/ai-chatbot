@@ -20,6 +20,7 @@ const LandingFooter   = dynamic(() => import('@/components/features/landing').th
 export default function LandingPageView() {
   const [authOpen, setAuthOpen] = useState(false)
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
+  const [exiting, setExiting] = useState(false)
 
   const { isDark } = useTheme()
   const C = useColors(isDark)
@@ -27,6 +28,7 @@ export default function LandingPageView() {
 
   useEffect(() => {
     router.prefetch('/app')
+    void import('@/components/features/chat/ChatApp')
   }, [router])
 
   const openLogin = () => {
@@ -34,13 +36,18 @@ export default function LandingPageView() {
     setAuthOpen(true)
   }
   const ctaAction = () => {
-    document.documentElement.style.transition = 'opacity 0.2s ease'
-    document.documentElement.style.opacity = '0'
+    setExiting(true)
     setTimeout(() => router.push('/app'), 180)
   }
 
   return (
-    <LandingPage $C={C}>
+    <LandingPage
+      $C={C}
+      style={{
+        opacity: exiting ? 0 : 1,
+        transition: 'opacity 0.2s ease',
+      }}
+    >
       <AuthModal open={authOpen} defaultMode={authMode} onClose={() => setAuthOpen(false)} />
       <LandingNav C={C} onLogin={openLogin} onCta={ctaAction} />
       <HeroSection ctaAction={ctaAction} />

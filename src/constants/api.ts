@@ -14,6 +14,14 @@ export const STALE_TIKI_DETAIL_MS      = 30 * 60_000 // 30 min
 export const STALE_TIKI_REVIEWS_MS     = 15 * 60_000
 export const STALE_SERVER_CONFIG_MS    = 5  * 60_000
 
+export const STALE_FPT_SEARCH_MS       = 5  * 60_000
+export const STALE_FPT_DETAIL_MS       = 30 * 60_000
+export const STALE_FPT_REVIEWS_MS      = 15 * 60_000
+
+// FPT Shop API defaults
+export const FPT_SEARCH_LIMIT          = 24
+export const FPT_REVIEWS_LIMIT         = 10
+
 // Tiki API defaults
 export const TIKI_SEARCH_LIMIT         = 20
 export const TIKI_FLASH_SALE_LIMIT     = 40

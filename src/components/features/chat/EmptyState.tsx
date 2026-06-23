@@ -3,6 +3,7 @@
 import { Avatar, Button, Flex, Grid, Typography, theme } from 'antd'
 import { RobotOutlined } from '@ant-design/icons'
 import { TikiLogo } from '@/components/common/ui/TikiLogo'
+import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import { useChatStore } from '@/stores/chatStore'
@@ -18,7 +19,7 @@ const FALLBACK_SUGGESTIONS = [
 
 interface Props {
   onSuggestion: (text: string) => void
-  onOpenProductPanel?: () => void
+  onOpenProductPanel?: (store?: 'tiki' | 'fpt') => void
 }
 
 export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) {
@@ -108,15 +109,26 @@ export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) 
       </div>
 
       {onOpenProductPanel && (
-        <Button
-          type="link"
-          icon={<TikiLogo size={40} />}
-          onClick={onOpenProductPanel}
-          disabled={isStreaming}
-          style={{ marginTop: 20, fontSize: 13 }}
-        >
-          {t('chat.findOnTiki')}
-        </Button>
+        <Flex gap={8} wrap="wrap" justify="center" style={{ marginTop: 20 }}>
+          <Button
+            type="link"
+            icon={<TikiLogo size={40} />}
+            onClick={() => onOpenProductPanel('tiki')}
+            disabled={isStreaming}
+            style={{ fontSize: 13 }}
+          >
+            {t('chat.findOnTiki')}
+          </Button>
+          <Button
+            type="link"
+            icon={<FptShopLogo size={40} />}
+            onClick={() => onOpenProductPanel('fpt')}
+            disabled={isStreaming}
+            style={{ fontSize: 13 }}
+          >
+            {t('chat.findOnFpt')}
+          </Button>
+        </Flex>
       )}
     </Flex>
   )
