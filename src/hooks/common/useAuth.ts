@@ -11,17 +11,25 @@ export function useAuth() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        getSupabase().auth.getSession().then(({ data }) => {
-            setUser(data.session?.user ?? null)
-            setLoading(false)
-        })
+        let subscription: { unsubscribe: () => void } | undefined
 
-        const { data: { subscription } } = getSupabase().auth.onAuthStateChange((_, session) => {
-            setUser(session?.user ?? null)
-            setLoading(false)
-        })
+        try {
+            const client = getSupabase()
+            client.auth.getSession().then(({ data }) => {
+                setUser(data.session?.user ?? null)
+                setLoading(false)
+            })
 
-        return () => subscription.unsubscribe()
+            const { data } = client.auth.onAuthStateChange((_, session) => {
+                setUser(session?.user ?? null)
+                setLoading(false)
+            })
+            subscription = data.subscription
+        } catch {
+            setLoading(false)
+        }
+
+        return () => subscription?.unsubscribe()
     }, [])
 
     return { user, loading }

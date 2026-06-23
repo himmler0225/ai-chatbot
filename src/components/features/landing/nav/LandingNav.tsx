@@ -1,12 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Drawer } from 'antd'
-import { LoginOutlined, MenuOutlined, RocketOutlined } from '@ant-design/icons'
+import { Avatar, Button, Drawer, Dropdown, Flex } from 'antd'
+import {
+  LoginOutlined,
+  LogoutOutlined,
+  MenuOutlined,
+  RocketOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
 import { Logo } from '@/components/common/ui/Logo'
 import { LocaleDropdown } from '@/components/common/ui/LocaleDropdown'
+import { useAuth } from '@/hooks/common/useAuth'
+import { signOut } from '@/lib/supabase'
 import { APP_NAME } from '@/constants/brand'
 import type { LandingColors } from '../shared/useColors'
 import {
@@ -41,6 +49,7 @@ interface Props {
 export function LandingNav({ C, onLogin, onCta }: Props) {
   const { t } = useTranslation()
   const router = useRouter()
+  const { user, loading: authLoading } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const links = NAV_LINK_KEYS.map(key => ({
@@ -50,6 +59,41 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
   }))
 
   const closeMenu = () => setMenuOpen(false)
+
+  const userAvatar = user ? (
+    (user.user_metadata as { avatar_url?: string; picture?: string } | undefined)?.avatar_url
+    ?? (user.user_metadata as { picture?: string } | undefined)?.picture
+  ) : undefined
+
+  const accountMenu = user ? (
+    <Dropdown
+      trigger={['click']}
+      menu={{
+        items: [
+          {
+            key: 'app',
+            label: t('landing.nav.goToApp'),
+            icon: <RocketOutlined />,
+            onClick: onCta,
+          },
+          {
+            key: 'logout',
+            label: t('auth.logout'),
+            icon: <LogoutOutlined />,
+            danger: true,
+            onClick: () => void signOut(),
+          },
+        ],
+      }}
+    >
+      <Avatar
+        src={userAvatar}
+        size={30}
+        icon={<UserOutlined />}
+        style={{ cursor: 'pointer', flexShrink: 0 }}
+      />
+    </Dropdown>
+  ) : null
 
   const handleNavClick = (href: string) => {
     closeMenu()
@@ -84,15 +128,19 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
             <LocaleDropdown buttonStyle={{ color: C.muted }} />
             <NavDivider $C={C} />
 
-            <NavLoginButton
-              type="text"
-              size="small"
-              icon={<LoginOutlined />}
-              onClick={onLogin}
-              $C={C}
-            >
-              {t('landing.nav.login')}
-            </NavLoginButton>
+            {!authLoading && (
+              user ? accountMenu : (
+                <NavLoginButton
+                  type="text"
+                  size="small"
+                  icon={<LoginOutlined />}
+                  onClick={onLogin}
+                  $C={C}
+                >
+                  {t('landing.nav.login')}
+                </NavLoginButton>
+              )
+            )}
 
             <NavPrimaryButton
               type="primary"
@@ -100,8 +148,8 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
               icon={<RocketOutlined />}
               onClick={onCta}
             >
-              <CtaFull>{t('landing.nav.getStarted')}</CtaFull>
-              <CtaShort>{t('landing.nav.getStartedShort')}</CtaShort>
+              <CtaFull>{user ? t('landing.nav.goToApp') : t('landing.nav.getStarted')}</CtaFull>
+              <CtaShort>{user ? t('landing.nav.goToApp') : t('landing.nav.getStartedShort')}</CtaShort>
             </NavPrimaryButton>
 
             <NavMenuButton
@@ -144,16 +192,34 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
         <DrawerDivider $C={C} />
 
         <DrawerActions>
-          <Button block icon={<LoginOutlined />} onClick={() => { closeMenu(); onLogin() }}>
-            {t('landing.nav.login')}
-          </Button>
+          {!authLoading && (
+            user ? (
+              <Flex vertical gap={8} style={{ width: '100%' }}>
+                <Button block icon={<RocketOutlined />} onClick={() => { closeMenu(); onCta() }}>
+                  {t('landing.nav.goToApp')}
+                </Button>
+                <Button
+                  block
+                  danger
+                  icon={<LogoutOutlined />}
+                  onClick={() => { closeMenu(); void signOut() }}
+                >
+                  {t('auth.logout')}
+                </Button>
+              </Flex>
+            ) : (
+              <Button block icon={<LoginOutlined />} onClick={() => { closeMenu(); onLogin() }}>
+                {t('landing.nav.login')}
+              </Button>
+            )
+          )}
           <DrawerPrimaryButton
             block
             type="primary"
             icon={<RocketOutlined />}
             onClick={() => { closeMenu(); onCta() }}
           >
-            {t('landing.nav.getStarted')}
+            {user ? t('landing.nav.goToApp') : t('landing.nav.getStarted')}
           </DrawerPrimaryButton>
         </DrawerActions>
       </Drawer>
