@@ -44,7 +44,7 @@ export function ProductDrawer({ product, open, onClose }: Props) {
       <Drawer
         open={open}
         onClose={onClose}
-        size="large"
+        size={400}
         title={<Text strong style={{ fontSize: 14 }}>{product.short_name ?? product.name}</Text>}
       >
         <Skeleton loading={detailLoading} active>
@@ -54,7 +54,7 @@ export function ProductDrawer({ product, open, onClose }: Props) {
               alt={product.name}
               preview={false}
               fallback="/eng.svg"
-              style={{ borderRadius: 8, background: '#fff', width: '100%' }}
+              style={{ borderRadius: 8, background: '#fff', width: '100%', maxWidth: 280, margin: '0 auto', display: 'block' }}
             />
 
             <Flex align="center" gap={10}>
@@ -78,12 +78,12 @@ export function ProductDrawer({ product, open, onClose }: Props) {
               </Text>
             )}
 
-            <Flex gap={8} wrap="wrap">
+            <Flex gap={8} justify="flex-end" wrap="wrap" className="w-full">
               <Button
                 type="primary"
                 icon={<ThunderboltFilled />}
                 onClick={() => { handleAIReview(); onClose() }}
-                style={{ background: PRIM, borderColor: PRIM, flex: 1, minWidth: 180 }}
+                style={{ background: PRIM, borderColor: PRIM }}
               >
                 {t('utilities.fpt.aiReviewBtn')}
               </Button>

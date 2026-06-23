@@ -24,7 +24,7 @@ import {
   SocialRow,
 } from './footer.style'
 
-const PRODUCT_KEYS = ['chat', 'product'] as const
+const PRODUCT_KEYS = ['chat', 'stores'] as const
 const SUPPORT_KEYS = ['privacy', 'terms', 'contact'] as const
 
 export function LandingFooter() {

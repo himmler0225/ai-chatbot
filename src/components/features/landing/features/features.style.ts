@@ -47,7 +47,7 @@ export const SideFeatureItem = styled(StaggerItem)<{ $fullHeight?: boolean }>`
     flex-direction: column;
     min-height: 0;
     height: 100%;
-    ${p => p.$fullHeight ? 'grid-row: span 2;' : ''}
+    ${p => (p.$fullHeight ? 'grid-row: span 2;' : '')}
   }
 `
 
@@ -110,14 +110,175 @@ export const RadarSweep = styled.div`
   animation: radar-sweep 3s linear infinite;
 `
 
-export const TikiPlatformWrap = styled.div<LandingThemeProps>`
+export const FeatureVisualWrap = styled.div<LandingThemeProps>`
   position: relative;
   width: 100%;
   flex: 1;
-  min-height: 180px;
+  min-height: 160px;
   border-radius: 0.75rem;
   overflow: hidden;
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   background: ${p => p.$C.card};
   border: 1px solid ${p => p.$C.border};
+`
+
+/** @deprecated use FeatureVisualWrap */
+export const TikiPlatformWrap = FeatureVisualWrap
+
+export const StoreMock = styled.div<LandingThemeProps>`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 160px;
+  padding: 0.75rem;
+  gap: 0.625rem;
+  background: ${p => p.$C.bg};
+`
+
+export const SearchMockBar = styled.div<LandingThemeProps>`
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.5rem;
+  border: 1px solid ${p => p.$C.border};
+  background: ${p => p.$C.card};
+  font-size: 10px;
+  color: ${p => p.$C.muted};
+
+  .anticon {
+    font-size: 11px;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+`
+
+export const ProductGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  flex: 1;
+`
+
+export const ProductTile = styled.div<LandingThemeProps>`
+  padding: 0.45rem;
+  border-radius: 0.5rem;
+  background: ${p => p.$C.card};
+  border: 1px solid ${p => p.$C.border};
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+`
+
+export const SkeletonImg = styled.div<LandingThemeProps>`
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 0.35rem;
+  background: ${p => p.$C.border};
+  opacity: 0.55;
+`
+
+export const SkeletonLine = styled.div<LandingThemeProps & { $w?: string }>`
+  height: 6px;
+  width: ${p => p.$w ?? '70%'};
+  border-radius: 999px;
+  background: ${p => p.$C.border};
+  opacity: 0.7;
+`
+
+export const ChatMock = styled.div<LandingThemeProps>`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 240px;
+  padding: 0.875rem 0.75rem 0.65rem;
+  gap: 0.45rem;
+  background: ${p => p.$C.bg};
+`
+
+export const ChatMockGreeting = styled.p<LandingThemeProps>`
+  margin: 0 0 0.15rem;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: ${p => p.$C.fg};
+  line-height: 1.35;
+`
+
+export const ChatMockSuggestions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+`
+
+export const ChatMockSuggestion = styled.div<LandingThemeProps>`
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.5rem;
+  border: 1px solid ${p => p.$C.border};
+  background: ${p => p.$C.card};
+  color: ${p => p.$C.muted};
+  font-size: 10px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+export const ChatMockStores = styled.div`
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.1rem;
+`
+
+export const ChatMockStoreChip = styled.div<LandingThemeProps>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid ${p => p.$C.border};
+  background: ${p => p.$C.card};
+  color: ${p => p.$C.fg};
+  font-size: 9px;
+  font-weight: 500;
+
+  .anticon {
+    font-size: 10px;
+    opacity: 0.65;
+  }
+`
+
+export const ChatMockInputBar = styled.div<LandingThemeProps>`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid ${p => p.$C.border};
+  background: ${p => p.$C.card};
+`
+
+export const ChatMockInput = styled.span<LandingThemeProps>`
+  flex: 1;
+  font-size: 9px;
+  color: ${p => p.$C.muted};
+  opacity: 0.85;
+`
+
+export const ChatMockSend = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.35rem;
+  background: ${PRIM};
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
 `

@@ -1,7 +1,8 @@
 'use client'
 
 import axios, { type AxiosInstance } from 'axios'
-import { BaseApi } from '@/lib/api/client'
+import { BaseApi, installGuardInterceptor } from '@/lib/api/client'
+import { clientGuardHeaders } from '@/lib/guard/client-headers'
 import { supabase } from '@/lib/supabase'
 import type { ChatSession, Message } from '@/types/chat'
 import type { SessionRow, MessageRow } from '@/types/history'
@@ -12,9 +13,10 @@ const AI_LAYER_KEY = process.env.NEXT_PUBLIC_AI_LAYER_KEY ?? ''
 
 const historyClient: AxiosInstance = axios.create({
   baseURL: '/api/history',
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json', ...clientGuardHeaders() },
   timeout: 30_000,
 })
+installGuardInterceptor(historyClient)
 
 async function authHeaders(): Promise<Record<string, string> | null> {
   const { data } = await supabase.auth.getSession()

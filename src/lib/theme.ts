@@ -58,3 +58,55 @@ export function getAntdTheme(isDark: boolean): ThemeConfig {
     },
   }
 }
+
+/** Admin console is always dark — independent of chat light/dark toggle. */
+export function getAdminAntdTheme(): ThemeConfig {
+  const base = getAntdTheme(true)
+  return {
+    ...base,
+    token: {
+      ...base.token,
+      colorText: '#f0f4f8',
+      colorTextSecondary: '#b8c4d4',
+      colorTextTertiary: '#8b95a8',
+      colorTextQuaternary: '#6b7689',
+      colorBgContainer: '#111820',
+      colorBgElevated: '#161a24',
+      colorBorder: '#2a3344',
+      colorBorderSecondary: '#1e2330',
+    },
+    components: {
+      ...base.components,
+      Input: {
+        colorBgContainer: '#161a24',
+        colorText: '#f0f4f8',
+        colorTextPlaceholder: '#8b95a8',
+        colorBorder: '#2a3344',
+        hoverBorderColor: '#3d4a5c',
+        activeBorderColor: PRIM,
+      },
+      Tabs: {
+        colorText: '#b8c4d4',
+        itemSelectedColor: PRIM,
+        itemHoverColor: '#f0f4f8',
+        inkBarColor: PRIM,
+      },
+      Form: {
+        labelColor: '#b8c4d4',
+      },
+      Card: {
+        colorBgContainer: '#111820',
+        colorBorderSecondary: '#1e2330',
+        colorTextHeading: '#f0f4f8',
+      },
+      Alert: {
+        colorWarningBg: '#1a1508',
+        colorWarningBorder: '#594214',
+        colorText: '#f0f4f8',
+      },
+      Statistic: {
+        colorTextDescription: '#b8c4d4',
+      },
+    },
+  }
+}

@@ -1,9 +1,7 @@
 'use client'
 
 import { Button, Flex, Input, Tooltip, Typography } from 'antd'
-import { SendOutlined, StopOutlined } from '@ant-design/icons'
-import { TikiLogo } from '@/components/common/ui/TikiLogo'
-import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
+import { SendOutlined, ShopOutlined, StopOutlined } from '@ant-design/icons'
 import { theme } from 'antd'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
@@ -115,9 +113,9 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
               <Button
                 type="link"
                 size="small"
-                icon={<TikiLogo size={40} />}
+                icon={<ShopOutlined />}
                 onClick={() => onSearchOnTiki(input.trim())}
-                style={{ fontSize: 12, height: 'auto', padding: '2px 4px' }}
+                style={{ fontSize: 12, height: 'auto', padding: '2px 8px' }}
               >
                 {t('chat.searchOnTiki')}
               </Button>
@@ -126,9 +124,9 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
               <Button
                 type="link"
                 size="small"
-                icon={<FptShopLogo size={40} />}
+                icon={<ShopOutlined />}
                 onClick={() => onSearchOnFpt(input.trim())}
-                style={{ fontSize: 12, height: 'auto', padding: '2px 4px' }}
+                style={{ fontSize: 12, height: 'auto', padding: '2px 8px' }}
               >
                 {t('chat.searchOnFpt')}
               </Button>

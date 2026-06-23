@@ -11,6 +11,7 @@ import { useTikiSearch } from '@/hooks/tiki/useTikiSearch'
 import { useTikiFlashSale, useTikiTopChoice, useTikiMaybeYouLike } from '@/hooks/tiki/useTikiProducts'
 import { ProductGrid } from '@/components/features/utilities/tiki/ProductGrid'
 import { ProductDrawer } from '@/components/features/utilities/tiki/ProductDrawer'
+import { ProductSearchHint } from '@/components/features/utilities/shared/ProductSearchHint'
 import { PRIM } from '@/constants/brand'
 import {
   applyStoreSearch,
@@ -87,12 +88,7 @@ export function ProductSearch({ compact = false }: Props) {
               />
             </>
           ) : (
-            <Flex vertical align="center" justify="center" gap={10} style={{ minHeight: compact ? 140 : 200 }}>
-              <SearchOutlined style={{ fontSize: compact ? 32 : 42, opacity: 0.2 }} />
-              <Text type="secondary" style={{ textAlign: 'center', fontSize: compact ? 12 : 14, maxWidth: 280 }}>
-                {t('utilities.product.hint')}
-              </Text>
-            </Flex>
+            <ProductSearchHint message={t('utilities.product.hint')} compact={compact} />
           )}
         </Space>
       ),

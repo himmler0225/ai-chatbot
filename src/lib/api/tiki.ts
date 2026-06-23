@@ -53,8 +53,9 @@ class TikiApi extends BaseApi {
     return data.data?.products ?? (data.data as unknown as TikiProduct[]) ?? []
   }
 
-  async detail(productId: number): Promise<TikiProductDetail> {
-    const data = await this.get<ApiResponse<TikiProductDetail>>(`/${productId}`)
+  async detail(productId: number, spid?: number): Promise<TikiProductDetail> {
+    const qs = spid ? `?spid=${spid}` : ''
+    const data = await this.get<ApiResponse<TikiProductDetail>>(`/${productId}${qs}`)
     if (!data.success) throw new Error('Không thể tải chi tiết sản phẩm')
     return data.data
   }

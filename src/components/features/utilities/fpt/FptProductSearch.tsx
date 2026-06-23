@@ -11,7 +11,7 @@ import type { FptPriceRange, FptSortMethod } from '@/lib/api/fpt'
 import { useFptSearch } from '@/hooks/fpt/useFptSearch'
 import { ProductGrid } from '@/components/features/utilities/fpt/ProductGrid'
 import { ProductDrawer } from '@/components/features/utilities/fpt/ProductDrawer'
-import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
+import { ProductSearchHint } from '@/components/features/utilities/shared/ProductSearchHint'
 import {
   applyStoreSearch,
   readStoreQuery,
@@ -119,12 +119,7 @@ export function FptProductSearch({ compact = false }: Props) {
             />
           </>
         ) : (
-          <Flex vertical align="center" justify="center" gap={10} style={{ minHeight: compact ? 140 : 200 }}>
-            <FptShopLogo size={compact ? 40 : 52} style={{ opacity: 0.85 }} />
-            <Text type="secondary" style={{ textAlign: 'center', fontSize: compact ? 12 : 14, maxWidth: 280 }}>
-              {t('utilities.fpt.hint')}
-            </Text>
-          </Flex>
+          <ProductSearchHint message={t('utilities.fpt.hint')} compact={compact} />
         )}
       </Space>
 

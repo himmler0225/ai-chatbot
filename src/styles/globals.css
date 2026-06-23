@@ -105,6 +105,23 @@ html[data-theme='light'] {
   margin: 8px 0;
   opacity: 0.85;
 }
+
+.review-summary .review-quote,
+.review-summary .message-content blockquote {
+  border-left: 3px solid #10a37f;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 0 8px 8px 0;
+  background: rgba(16, 163, 127, 0.06);
+  opacity: 1;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.review-summary .message-content h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
 .md-table-wrap {
   overflow-x: auto;
   margin: 10px 0;
@@ -141,7 +158,111 @@ html[data-theme='light'] {
   text-decoration: underline;
 }
 
-/* Video card scroll */
+/* Admin dashboard — dark */
+html[data-theme='dark'] .admin-table .ant-table {
+  background: transparent !important;
+  color: #f0f4f8 !important;
+}
+html[data-theme='dark'] .admin-table .ant-table-thead > tr > th {
+  background: #111820 !important;
+  color: #d0dae8 !important;
+  font-weight: 600 !important;
+  border-bottom: 1px solid #1e2330 !important;
+}
+html[data-theme='dark'] .admin-table .ant-table-tbody > tr > td {
+  background: #0d1117 !important;
+  color: #f0f4f8 !important;
+  border-bottom: 1px solid #1e2330 !important;
+}
+html[data-theme='dark'] .admin-table .ant-table-tbody > tr > td .ant-typography {
+  color: #f0f4f8 !important;
+}
+html[data-theme='dark'] .admin-table .ant-table-tbody > tr > td .ant-typography.ant-typography-secondary {
+  color: #c5d0de !important;
+}
+html[data-theme='dark'] .admin-table .ant-table-tbody > tr:hover > td {
+  background: #161b22 !important;
+}
+html[data-theme='dark'] .admin-table .ant-pagination,
+html[data-theme='dark'] .admin-table .ant-pagination-item a,
+html[data-theme='dark'] .admin-table .ant-pagination-item-ellipsis {
+  color: #c5d0de !important;
+}
+html[data-theme='dark'] .admin-table .ant-pagination-item-active {
+  border-color: #00e599 !important;
+  background: rgba(0, 229, 153, 0.08) !important;
+}
+html[data-theme='dark'] .admin-table .ant-pagination-item-active a {
+  color: #00e599 !important;
+}
+html[data-theme='dark'] .admin-table .ant-select-selector {
+  background: #161a24 !important;
+  border-color: #2a3344 !important;
+  color: #f0f4f8 !important;
+}
+html[data-theme='dark'] .admin-table .ant-select-arrow {
+  color: #c5d0de !important;
+}
+html[data-theme='dark'] .admin-table .ant-empty-description {
+  color: #c5d0de !important;
+}
+
+/* Admin dashboard — light */
+html[data-theme='light'] .admin-table .ant-table {
+  background: transparent !important;
+  color: #0f172a !important;
+}
+html[data-theme='light'] .admin-table .ant-table-thead > tr > th {
+  background: #f8fafc !important;
+  color: #334155 !important;
+  font-weight: 600 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+html[data-theme='light'] .admin-table .ant-table-tbody > tr > td {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+html[data-theme='light'] .admin-table .ant-table-tbody > tr:hover > td {
+  background: #f8fafc !important;
+}
+html[data-theme='light'] .admin-table .ant-pagination-item-active {
+  border-color: #00e599 !important;
+}
+html[data-theme='light'] .admin-table .ant-pagination-item-active a {
+  color: #00c47f !important;
+}
+
+.admin-tabs .ant-tabs-nav {
+  margin-bottom: 16px;
+}
+@media (max-width: 767px) {
+  .admin-tabs .ant-tabs-nav-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .admin-tabs .ant-tabs-nav-list::-webkit-scrollbar {
+    display: none;
+  }
+  .admin-tabs .ant-tabs-tab {
+    flex-shrink: 0;
+  }
+}
+
+.admin-console .ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-title,
+.admin-console .ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-paragraph > li,
+.admin-console .ant-skeleton.ant-skeleton-active .ant-skeleton-avatar,
+.admin-console .ant-skeleton.ant-skeleton-active .ant-skeleton-button {
+  background: linear-gradient(
+    90deg,
+    rgba(150, 150, 150, 0.08) 25%,
+    rgba(150, 150, 150, 0.18) 37%,
+    rgba(150, 150, 150, 0.08) 63%
+  );
+  background-size: 400% 100%;
+}
+
 .video-scroll {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;

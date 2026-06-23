@@ -82,6 +82,7 @@
       "allShown": "Showing all {{count}} products",
       "reviewsTitle": "Customer Reviews",
       "noReviews": "No reviews yet",
+      "reviewsError": "Could not load reviews. Try again later.",
       "reviewCount": "{{rating}} · {{count}} reviews",
       "viewOnTiki": "View on Tiki ↗"
     },
@@ -208,7 +209,9 @@
     "features": {
       "label": "Features",
       "title": "Everything you need",
-      "subtitle": "AI Chat is the core — find Tiki products right beside your conversation.",
+      "subtitle": "AI Chat is the core — search products from partner stores right beside your conversation.",
+      "browseProducts": "Browse products",
+      "searchPlaceholder": "Search products...",
       "items": [
         {
           "badge": "Core",
@@ -217,8 +220,8 @@
         },
         {
           "badge": "Free",
-          "title": "Tiki Product Search",
-          "body": "Find Tiki prices, tap Ask AI review — shorten links and generate QR on each product without leaving chat."
+          "title": "Product Search",
+          "body": "Search prices next to chat — tap Ask AI review, shorten links and generate QR on each product without leaving the conversation."
         }
       ]
     },
@@ -286,14 +289,14 @@
       "supportTitle": "Support",
       "products": {
         "chat": "Chat AI Review",
-        "product": "Tiki Product Search"
+        "stores": "Product Search"
       },
       "support": {
         "privacy": "Privacy Policy",
         "terms": "Terms of Service",
         "contact": "Contact Support"
       },
-      "copyright": "© 2024 ReviewMine AI. Precision insights from YouTube & TikTok."
+      "copyright": "© 2026 ReviewMine AI. Precision insights from YouTube & TikTok."
     }
   },
   "notFound": {
@@ -337,6 +340,77 @@
       "alreadyRegistered": "This email is already registered. Please sign in.",
       "weakPassword": "Password must be at least 6 characters.",
       "generic": "Something went wrong. Please try again."
+    }
+  },
+  "admin": {
+    "console": "Admin Console",
+    "breadcrumb": "Dashboard",
+    "roleAdmin": "Administrator",
+    "backToChat": "Back to Chat",
+    "logout": "Sign out",
+    "langToggle": "Language",
+    "openMenu": "Open menu",
+    "nav": {
+      "overview": "Overview",
+      "config": "Config",
+      "users": "Users",
+      "system": "System"
+    },
+    "overview": {
+      "title": "System Overview",
+      "subtitle": "Overview",
+      "totalUsers": "Total Users",
+      "adminCount": "{{count}} admin",
+      "chatSessions": "Chat Sessions",
+      "totalSessions": "{{count}} total",
+      "noData": "No data yet",
+      "alerts24h": "24H Alerts",
+      "allClear": "All clear",
+      "serviceDegraded": "Service degraded",
+      "chartTitle": "Chat sessions per day",
+      "chartSummary": "{{total}} sessions over {{days}} days",
+      "chartSessions": "{{count}} sessions",
+      "chartDays": "{{days}}D"
+    },
+    "config": {
+      "title": "Remote Config",
+      "subtitle": "Config",
+      "restartWarning": "After saving, restart ai-layer and data-miner to apply changes.",
+      "save": "Save changes",
+      "saved": "Config saved",
+      "emptyPlaceholder": "Not configured",
+      "jsonHint": "Valid JSON required",
+      "tabs": {
+        "models": "Models",
+        "agent": "Agent & Limits",
+        "prompts": "Prompts",
+        "secrets": "Secrets",
+        "miner": "Data Miner"
+      }
+    },
+    "users": {
+      "title": "Users & Roles",
+      "subtitle": "Users",
+      "roleUpdated": "Role updated",
+      "columns": {
+        "email": "Email",
+        "name": "Name",
+        "role": "Role",
+        "badge": "Badge",
+        "joined": "Joined"
+      }
+    },
+    "system": {
+      "title": "System",
+      "subtitle": "System"
+    },
+    "health": {
+      "title": "Service Health",
+      "status": {
+        "ok": "OK",
+        "degraded": "DEGRADED",
+        "down": "DOWN"
+      }
     }
   }
 }

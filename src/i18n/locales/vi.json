@@ -82,6 +82,7 @@
       "allShown": "Đã hiển thị tất cả {{count}} sản phẩm",
       "reviewsTitle": "Đánh giá khách hàng",
       "noReviews": "Chưa có đánh giá",
+      "reviewsError": "Không tải được đánh giá. Thử lại sau.",
       "reviewCount": "{{rating}} · {{count}} đánh giá",
       "viewOnTiki": "Xem trên Tiki ↗"
     },
@@ -208,7 +209,9 @@
     "features": {
       "label": "Tính năng",
       "title": "Mọi thứ bạn cần",
-      "subtitle": "Chat AI là cốt lõi — tìm sản phẩm Tiki ngay cạnh cuộc trò chuyện.",
+      "subtitle": "Chat AI là cốt lõi — tìm sản phẩm từ các cửa hàng đối tác ngay cạnh cuộc trò chuyện.",
+      "browseProducts": "Duyệt sản phẩm",
+      "searchPlaceholder": "Tìm sản phẩm...",
       "items": [
         {
           "badge": "Chính",
@@ -217,8 +220,8 @@
         },
         {
           "badge": "Miễn phí",
-          "title": "Tìm sản phẩm Tiki",
-          "body": "Tìm giá Tiki, bấm Hỏi AI review — rút gọn link và tạo QR ngay trên từng sản phẩm, không cần rời khỏi chat."
+          "title": "Tìm sản phẩm",
+          "body": "Tìm giá cạnh chat — bấm Hỏi AI review, rút gọn link và tạo QR ngay trên từng sản phẩm mà không rời khỏi cuộc trò chuyện."
         }
       ]
     },
@@ -286,14 +289,14 @@
       "supportTitle": "Hỗ trợ",
       "products": {
         "chat": "Chat AI Review",
-        "product": "Tìm sản phẩm Tiki"
+        "stores": "Tìm sản phẩm"
       },
       "support": {
         "privacy": "Chính sách bảo mật",
         "terms": "Điều khoản dịch vụ",
         "contact": "Liên hệ hỗ trợ"
       },
-      "copyright": "© 2024 ReviewMine AI. Phân tích chính xác từ YouTube & TikTok."
+      "copyright": "© 2026 ReviewMine AI. Phân tích chính xác từ YouTube & TikTok."
     }
   },
   "notFound": {
@@ -337,6 +340,77 @@
       "alreadyRegistered": "Email này đã được đăng ký. Hãy đăng nhập.",
       "weakPassword": "Mật khẩu phải có ít nhất 6 ký tự.",
       "generic": "Đã có lỗi xảy ra. Vui lòng thử lại."
+    }
+  },
+  "admin": {
+    "console": "Admin Console",
+    "breadcrumb": "Dashboard",
+    "roleAdmin": "Administrator",
+    "backToChat": "Về Chat",
+    "logout": "Đăng xuất",
+    "langToggle": "Ngôn ngữ",
+    "openMenu": "Mở menu",
+    "nav": {
+      "overview": "Tổng quan",
+      "config": "Cấu hình",
+      "users": "Người dùng",
+      "system": "Hệ thống"
+    },
+    "overview": {
+      "title": "Tổng quan hệ thống",
+      "subtitle": "Overview",
+      "totalUsers": "Tổng người dùng",
+      "adminCount": "{{count}} admin",
+      "chatSessions": "Phiên chat",
+      "totalSessions": "{{count}} tổng",
+      "noData": "Chưa có dữ liệu",
+      "alerts24h": "Cảnh báo 24h",
+      "allClear": "Ổn định",
+      "serviceDegraded": "Service suy giảm",
+      "chartTitle": "Phiên chat theo ngày",
+      "chartSummary": "{{total}} phiên trong {{days}} ngày",
+      "chartSessions": "{{count}} phiên",
+      "chartDays": "{{days}}D"
+    },
+    "config": {
+      "title": "Remote Config",
+      "subtitle": "Config",
+      "restartWarning": "Sau khi lưu, restart ai-layer và data-miner để áp dụng.",
+      "save": "Lưu thay đổi",
+      "saved": "Đã lưu config",
+      "emptyPlaceholder": "Chưa cấu hình",
+      "jsonHint": "JSON hợp lệ bắt buộc",
+      "tabs": {
+        "models": "Models",
+        "agent": "Agent & Limits",
+        "prompts": "Prompts",
+        "secrets": "Secrets",
+        "miner": "Data Miner"
+      }
+    },
+    "users": {
+      "title": "Users & Roles",
+      "subtitle": "Users",
+      "roleUpdated": "Đã cập nhật role",
+      "columns": {
+        "email": "Email",
+        "name": "Tên",
+        "role": "Role",
+        "badge": "Badge",
+        "joined": "Tham gia"
+      }
+    },
+    "system": {
+      "title": "Hệ thống",
+      "subtitle": "System"
+    },
+    "health": {
+      "title": "Service Health",
+      "status": {
+        "ok": "OK",
+        "degraded": "DEGRADED",
+        "down": "DOWN"
+      }
     }
   }
 }

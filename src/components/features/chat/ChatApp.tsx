@@ -108,6 +108,7 @@ export default function ChatApp() {
 
   const sidebarProps = {
     productPanelOpen,
+    activeStore: productPanelOpen ? productStore : null,
     onNewChat: newChat,
     onSelectSession: (id: string) => {
       void selectSession(id)

@@ -17,7 +17,7 @@ export default function ReviewSummary({ markdown }: Props) {
 
   return (
     <div
-      className="mt-3 px-3.5 py-2.5 rounded-lg"
+      className="mt-3 px-3.5 py-2.5 rounded-lg review-summary"
       style={{
         background: token.colorBgElevated,
         border: `1px solid ${token.colorBorderSecondary}`,
@@ -27,7 +27,15 @@ export default function ReviewSummary({ markdown }: Props) {
         {t('chat.reviewSummary')}
       </Text>
       <div className="message-content text-sm">
-        <ReactMarkdown>{markdown}</ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            blockquote: ({ children }) => (
+              <blockquote className="review-quote">{children}</blockquote>
+            ),
+          }}
+        >
+          {markdown}
+        </ReactMarkdown>
       </div>
     </div>
   )

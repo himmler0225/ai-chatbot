@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { withGuard } from '@/lib/guard/server'
 import { aiLayerClient } from '@/lib/api/server'
 
 type Ctx = { params: Promise<{ path: string[] }> }
 
-async function proxy(req: NextRequest, ctx: Ctx): Promise<NextResponse> {
+async function proxy(
+  req: NextRequest,
+  ctx: Ctx,
+  bodyText: string,
+): Promise<NextResponse> {
   const { path } = await ctx.params
   const target = `/ai/history/${path.join('/')}`
   const auth = req.headers.get('authorization') ?? ''
@@ -11,8 +16,8 @@ async function proxy(req: NextRequest, ctx: Ctx): Promise<NextResponse> {
 
   try {
     let body: unknown = undefined
-    if (req.method !== 'GET' && req.method !== 'DELETE') {
-      body = await req.json().catch(() => undefined)
+    if (req.method !== 'GET' && req.method !== 'DELETE' && bodyText) {
+      body = JSON.parse(bodyText)
     }
 
     const { data, status } = await aiLayerClient.request({
@@ -33,7 +38,12 @@ async function proxy(req: NextRequest, ctx: Ctx): Promise<NextResponse> {
   }
 }
 
-export const GET    = proxy
-export const POST   = proxy
-export const PATCH  = proxy
-export const DELETE = proxy
+function guarded(method: 'GET' | 'POST' | 'PATCH' | 'DELETE') {
+  return (req: NextRequest, ctx: Ctx) =>
+    withGuard(req, async (request, bodyText) => proxy(request, ctx, bodyText))
+}
+
+export const GET = guarded('GET')
+export const POST = guarded('POST')
+export const PATCH = guarded('PATCH')
+export const DELETE = guarded('DELETE')

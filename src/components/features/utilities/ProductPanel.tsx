@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Button, Flex, Typography, theme } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
-import { TikiLogo } from '@/components/common/ui/TikiLogo'
-import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
+import { CloseOutlined, ShopOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import { ProductSearch } from '@/components/features/utilities/ProductSearch'
@@ -73,14 +71,24 @@ export function ProductPanel({
       >
         <Flex vertical gap={12} style={{ minWidth: 0, flex: 1 }}>
           <Flex align="flex-start" gap={10} style={{ minWidth: 0 }}>
-            {activeStore === 'fpt'
-              ? <FptShopLogo size={28} style={{ marginTop: 1 }} />
-              : <TikiLogo size={28} style={{ marginTop: 1, flexShrink: 0 }} />}
+            <Flex
+              align="center"
+              justify="center"
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                background: token.colorPrimaryBg,
+                flexShrink: 0,
+              }}
+            >
+              <ShopOutlined style={{ fontSize: 18, color: token.colorPrimary }} />
+            </Flex>
             <Flex vertical gap={3} style={{ minWidth: 0 }}>
               <Text strong style={{ fontSize: 14, lineHeight: 1.3 }}>
                 {panelTitle}
               </Text>
-              <Text type="secondary" style={{ fontSize: 12, lineHeight: 1.4 }}>
+              <Text type="secondary" style={{ fontSize: 12, lineHeight: 1.45 }}>
                 {panelHint}
               </Text>
             </Flex>
@@ -108,7 +116,6 @@ export function ProductPanel({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: 8,
                     padding: compact ? '8px 10px' : '10px 12px',
                     border: 'none',
                     borderRadius: 9,
@@ -121,10 +128,7 @@ export function ProductPanel({
                     transition: 'background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease',
                   }}
                 >
-                  {tab.key === 'tiki'
-                    ? <TikiLogo size={compact ? 18 : 20} />
-                    : <FptShopLogo size={compact ? 18 : 20} />}
-                  <span>{tab.label}</span>
+                  {tab.label}
                 </button>
               )
             })}

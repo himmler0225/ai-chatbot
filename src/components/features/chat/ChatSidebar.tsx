@@ -1,9 +1,7 @@
 'use client'
 
 import { Button, Flex, Grid, Menu, Typography } from 'antd'
-import { DeleteOutlined, EditOutlined, MessageOutlined } from '@ant-design/icons'
-import { TikiLogo } from '@/components/common/ui/TikiLogo'
-import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
+import { DeleteOutlined, EditOutlined, MessageOutlined, ShopOutlined } from '@ant-design/icons'
 import { theme } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useChatStore } from '@/stores/chatStore'
@@ -15,6 +13,7 @@ const { useBreakpoint } = Grid
 
 interface Props {
   productPanelOpen: boolean
+  activeStore?: 'tiki' | 'fpt' | null
   onNewChat: () => void
   onSelectSession: (id: string) => void
   onDeleteSession: (id: string) => void
@@ -24,6 +23,7 @@ interface Props {
 
 export function ChatSidebar({
   productPanelOpen,
+  activeStore = null,
   onNewChat,
   onSelectSession,
   onDeleteSession,
@@ -55,6 +55,22 @@ export function ChatSidebar({
       </Flex>
     ),
   }))
+
+  const storeBtnStyle = (store: 'tiki' | 'fpt') => {
+    const active = productPanelOpen && activeStore === store
+    return {
+      justifyContent: 'flex-start' as const,
+      textAlign: 'left' as const,
+      height: 36,
+      borderRadius: 10,
+      paddingLeft: 14,
+      fontSize: 13,
+      fontWeight: active ? 600 : 500,
+      border: `1px solid ${active ? token.colorPrimaryBorder : token.colorBorderSecondary}`,
+      background: active ? token.colorPrimaryBg : token.colorBgContainer,
+      color: active ? token.colorPrimary : token.colorText,
+    }
+  }
 
   return (
     <Flex
@@ -102,41 +118,27 @@ export function ChatSidebar({
       </Text>
 
       <Button
-        type="text"
+        type="default"
         block
-        icon={<TikiLogo size={40} />}
         onClick={() => { onOpenProductStore('tiki'); onClose?.() }}
-        style={{
-          justifyContent: 'flex-start',
-          textAlign: 'left',
-          height: 38,
-          borderRadius: 10,
-          paddingLeft: 12,
-          marginBottom: 8,
-          fontWeight: productPanelOpen ? 500 : 400,
-          background: productPanelOpen ? token.colorFillTertiary : 'transparent',
-        }}
+        style={{ ...storeBtnStyle('tiki'), marginBottom: 8 }}
       >
-        {t('utilities.product.tabLabel')}
+        <Flex align="center" gap={8}>
+          <ShopOutlined style={{ fontSize: 14, opacity: 0.7 }} />
+          <span>{t('utilities.product.tabLabel')}</span>
+        </Flex>
       </Button>
 
       <Button
-        type="text"
+        type="default"
         block
-        icon={<FptShopLogo size={40} />}
         onClick={() => { onOpenProductStore('fpt'); onClose?.() }}
-        style={{
-          justifyContent: 'flex-start',
-          textAlign: 'left',
-          height: 38,
-          borderRadius: 10,
-          paddingLeft: 12,
-          marginBottom: 16,
-          fontWeight: productPanelOpen ? 500 : 400,
-          background: productPanelOpen ? token.colorFillTertiary : 'transparent',
-        }}
+        style={{ ...storeBtnStyle('fpt'), marginBottom: 16 }}
       >
-        {t('utilities.fpt.tabLabel')}
+        <Flex align="center" gap={8}>
+          <ShopOutlined style={{ fontSize: 14, opacity: 0.7 }} />
+          <span>{t('utilities.fpt.tabLabel')}</span>
+        </Flex>
       </Button>
 
       <Text

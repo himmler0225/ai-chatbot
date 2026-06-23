@@ -1,12 +1,11 @@
 'use client'
 
-import { Avatar, Button, Flex, Grid, Typography, theme } from 'antd'
-import { RobotOutlined } from '@ant-design/icons'
-import { TikiLogo } from '@/components/common/ui/TikiLogo'
-import { FptShopLogo } from '@/components/common/ui/FptShopLogo'
+import { Avatar, Flex, Grid, Typography, theme } from 'antd'
+import { RobotOutlined, ShopOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import { useChatStore } from '@/stores/chatStore'
+import { PRIM } from '@/constants/brand'
 
 const { Title } = Typography
 const { useBreakpoint } = Grid
@@ -31,6 +30,23 @@ export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) 
 
   const raw = t('chat.suggestions', { returnObjects: true })
   const suggestions = Array.isArray(raw) ? raw : FALLBACK_SUGGESTIONS
+
+  const storeChipStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 8,
+    padding: '9px 16px',
+    borderRadius: 999,
+    border: `1px solid ${token.colorBorderSecondary}`,
+    background: token.colorBgContainer,
+    color: token.colorText,
+    fontSize: 13,
+    fontWeight: 500,
+    lineHeight: 1.4,
+    cursor: isStreaming ? 'not-allowed' : 'pointer',
+    opacity: isStreaming ? 0.55 : 1,
+    transition: 'background 0.15s, border-color 0.15s, color 0.15s',
+  }
 
   return (
     <Flex
@@ -109,25 +125,49 @@ export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) 
       </div>
 
       {onOpenProductPanel && (
-        <Flex gap={8} wrap="wrap" justify="center" style={{ marginTop: 20 }}>
-          <Button
-            type="link"
-            icon={<TikiLogo size={40} />}
+        <Flex gap={10} wrap="wrap" justify="center" style={{ marginTop: 20, maxWidth: 640, padding: '0 16px' }}>
+          <button
+            type="button"
+            disabled={isStreaming}
             onClick={() => onOpenProductPanel('tiki')}
-            disabled={isStreaming}
-            style={{ fontSize: 13 }}
+            onMouseEnter={e => {
+              if (!isStreaming) {
+                e.currentTarget.style.background = token.colorPrimaryBg
+                e.currentTarget.style.borderColor = token.colorPrimaryBorder
+                e.currentTarget.style.color = PRIM
+              }
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = token.colorBgContainer
+              e.currentTarget.style.borderColor = token.colorBorderSecondary
+              e.currentTarget.style.color = token.colorText
+            }}
+            style={storeChipStyle}
           >
+            <ShopOutlined style={{ fontSize: 14, opacity: 0.75 }} />
             {t('chat.findOnTiki')}
-          </Button>
-          <Button
-            type="link"
-            icon={<FptShopLogo size={40} />}
-            onClick={() => onOpenProductPanel('fpt')}
+          </button>
+          <button
+            type="button"
             disabled={isStreaming}
-            style={{ fontSize: 13 }}
+            onClick={() => onOpenProductPanel('fpt')}
+            onMouseEnter={e => {
+              if (!isStreaming) {
+                e.currentTarget.style.background = token.colorPrimaryBg
+                e.currentTarget.style.borderColor = token.colorPrimaryBorder
+                e.currentTarget.style.color = PRIM
+              }
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = token.colorBgContainer
+              e.currentTarget.style.borderColor = token.colorBorderSecondary
+              e.currentTarget.style.color = token.colorText
+            }}
+            style={storeChipStyle}
           >
+            <ShopOutlined style={{ fontSize: 14, opacity: 0.75 }} />
             {t('chat.findOnFpt')}
-          </Button>
+          </button>
         </Flex>
       )}
     </Flex>
