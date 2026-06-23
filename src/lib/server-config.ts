@@ -7,10 +7,12 @@ let _cache: ConfigMap = {}
 let _fetchedAt = 0
 const TTL = STALE_SERVER_CONFIG_MS
 
+import { getSupabasePublicConfig } from '@/lib/env'
+
 export async function getServerConfig(): Promise<ConfigMap> {
   if (_fetchedAt && Date.now() - _fetchedAt < TTL) return _cache
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+  const { url } = getSupabasePublicConfig()
   const key = process.env.SUPABASE_SERVICE_KEY ?? ''
 
   if (!url || !key) return _cache

@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server'
+import { getSiteUrl } from '@/lib/env'
 
 function normalizeOrigin(value: string): string {
   try {
@@ -23,10 +24,8 @@ export function getFeOrigins(req: NextRequest): string[] {
     }
   }
 
-  for (const key of ['NEXT_PUBLIC_SITE_URL', 'SITE_URL'] as const) {
-    const raw = process.env[key]
-    if (raw) origins.add(normalizeOrigin(raw))
-  }
+  const siteUrl = getSiteUrl()
+  if (siteUrl) origins.add(normalizeOrigin(siteUrl))
 
   return [...origins]
 }

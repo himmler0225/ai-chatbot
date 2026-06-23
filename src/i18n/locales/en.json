@@ -4,6 +4,12 @@
     "tagline": "Crawl & summarize product reviews from YouTube and TikTok",
     "disclaimer": "ReviewMine AI can make mistakes. Please verify important information."
   },
+  "meta": {
+    "title": "ReviewMine AI",
+    "description": "Crawl & summarize product reviews from YouTube and TikTok — know good products before you buy.",
+    "titleTemplate": "%s | ReviewMine AI",
+    "adminTitle": "Admin"
+  },
   "chat": {
     "newChat": "New conversation",
     "noChats": "No conversations yet",

@@ -12,7 +12,6 @@ async function proxy(
   const { path } = await ctx.params
   const target = `/ai/history/${path.join('/')}`
   const auth = req.headers.get('authorization') ?? ''
-  const apiKey = req.headers.get('x-api-key') ?? ''
 
   try {
     let body: unknown = undefined
@@ -24,7 +23,7 @@ async function proxy(
       method: req.method,
       url: target,
       data: body,
-      headers: { Authorization: auth, 'X-API-Key': apiKey || undefined },
+      headers: { Authorization: auth, 'X-API-Key': process.env.AI_LAYER_KEY ?? '' },
       params: Object.fromEntries(new URL(req.url).searchParams),
     })
 

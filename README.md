@@ -120,18 +120,30 @@ AI_LAYER_KEY=your_ai_layer_key
 
 DATA_MINER_URL=http://localhost:8000
 DATA_MINER_KEY=your_data_miner_key
+DATA_MINER_BFF_TOKEN=your_shared_bff_token
 
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_KEY=your_service_key
+
+SITE_URL=http://localhost:3000
+
+API_GUARD_SECRET=change_me_to_a_long_random_string
+API_GUARD_ENABLED=true
+API_ORIGIN_GUARD_ENABLED=false
 ```
 
 | Variable | Description |
 |----------|-------------|
 | `AI_LAYER_URL` | ai-layer base URL (default port `8001`) |
-| `AI_LAYER_KEY` | `X-API-Key` for ai-layer |
+| `AI_LAYER_KEY` | `X-API-Key` for ai-layer (server-only, BFF injects) |
 | `DATA_MINER_URL` | data-miner base URL (default port `8000`) |
 | `DATA_MINER_KEY` | `X-API-Key` for data-miner |
-| `NEXT_PUBLIC_SUPABASE_*` | Client-side Supabase auth |
+| `DATA_MINER_BFF_TOKEN` | Header `X-Rm-Bff` — trùng `BFF_CLIENT_TOKEN` data-miner |
+| `SUPABASE_URL` / `SUPABASE_ANON_KEY` | Supabase auth (runtime inject, không cần `NEXT_PUBLIC_`) |
+| `SUPABASE_SERVICE_KEY` | Admin + remote config |
+| `SITE_URL` | FE domain (origin guard) |
+| `API_GUARD_*` | RmSign + chặn `/api` ngoài app |
 
 ---
 

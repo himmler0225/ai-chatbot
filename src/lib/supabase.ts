@@ -1,39 +1,50 @@
-import { createClient } from '@supabase/supabase-js'
+'use client'
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+let _client: SupabaseClient | null = null
+
+export function initSupabase(url: string, anonKey: string): void {
+  if (_client || !url || !anonKey) return
+  _client = createClient(url, anonKey)
+}
+
+export function getSupabase(): SupabaseClient {
+  if (!_client) {
+    throw new Error('Supabase not initialized — missing SUPABASE_URL / SUPABASE_ANON_KEY')
+  }
+  return _client
+}
 
 export async function signInWithGoogle(redirectPath = '/app') {
-    return supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: `${window.location.origin}/auth/callback?next=${redirectPath}` },
-    })
+  return getSupabase().auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: `${window.location.origin}/auth/callback?next=${redirectPath}` },
+  })
 }
 
 export async function signInWithEmail(email: string, password: string) {
-    return supabase.auth.signInWithPassword({ email, password })
+  return getSupabase().auth.signInWithPassword({ email, password })
 }
 
 export async function signUpWithEmail(email: string, password: string, name?: string) {
-    return supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: name ?? '' } },
-    })
+  return getSupabase().auth.signUp({
+    email,
+    password,
+    options: { data: { full_name: name ?? '' } },
+  })
 }
 
 export async function signOut() {
-    return supabase.auth.signOut()
+  return getSupabase().auth.signOut()
 }
 
 export async function getSession() {
-    const { data } = await supabase.auth.getSession()
-    return data.session
+  const { data } = await getSupabase().auth.getSession()
+  return data.session
 }
 
 export async function getUser() {
-    const { data } = await supabase.auth.getUser()
-    return data.user
+  const { data } = await getSupabase().auth.getUser()
+  return data.user
 }

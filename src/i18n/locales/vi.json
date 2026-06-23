@@ -4,6 +4,12 @@
     "tagline": "Thu thập thông tin và tóm gọn đánh giá sản phẩm từ YouTube và TikTok",
     "disclaimer": "ReviewMine AI có thể mắc lỗi. Hãy xác minh thông tin quan trọng."
   },
+  "meta": {
+    "title": "ReviewMine AI",
+    "description": "Thu thập và tóm tắt đánh giá sản phẩm từ YouTube và TikTok — biết sản phẩm tốt trước khi mua.",
+    "titleTemplate": "%s | ReviewMine AI",
+    "adminTitle": "Quản trị"
+  },
   "chat": {
     "newChat": "Cuộc trò chuyện mới",
     "noChats": "Chưa có cuộc trò chuyện nào",
