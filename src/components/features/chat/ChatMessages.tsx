@@ -16,12 +16,16 @@ export function ChatMessages({ onSuggestion, onRetry, onOpenProductPanel, isMobi
   const messages    = useChatStore(s => s.messages)
   const isStreaming = useChatStore(s => s.isStreaming)
   const activeTool  = useChatStore(s => s.activeTool)
+  const activeToolDetail = useChatStore(s => s.activeToolDetail)
   const { speak, speakingId, supported: canSpeak } = useSpeech()
   const bottomRef = useRef<HTMLDivElement>(null)
 
+  const lastContent = messages.at(-1)?.content ?? ''
+  const scrollKey = `${messages.length}:${lastContent.length}:${isStreaming}:${activeTool ?? ''}:${activeToolDetail ?? ''}`
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isStreaming, activeTool])
+  }, [scrollKey])
 
   return (
     <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -48,6 +52,7 @@ export function ChatMessages({ onSuggestion, onRetry, onOpenProductPanel, isMobi
                   msg={m}
                   isStreaming={isLastAssistant}
                   activeTool={isLastAssistant ? activeTool : null}
+                  activeToolDetail={isLastAssistant ? activeToolDetail : null}
                   canSpeak={canSpeak}
                   isSpeaking={speakingId === m.id}
                   onSpeak={(id, text) => speak(id, text)}

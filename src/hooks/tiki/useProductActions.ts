@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { utilitiesApi } from '@/lib/api/utilities'
 import { useProductPanelContext } from '@/contexts/productPanel'
+import type { ProductContext } from '@/types/chat'
 
 function fmtPrice(n: number) {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(n)
@@ -15,6 +16,7 @@ export function useProductActions(
   productName: string,
   productPrice?: number,
   reviewPromptKey = 'utilities.product.aiReviewPrompt',
+  store: ProductContext['store'] = 'tiki',
 ) {
   const { t } = useTranslation()
   const panelCtx = useProductPanelContext()
@@ -64,7 +66,13 @@ export function useProductActions(
       price: productPrice != null ? fmtPrice(productPrice) : '',
       url: productUrl,
     })
-    panelCtx?.onAIReview(prompt)
+    const product: ProductContext = {
+      name: productName,
+      price: productPrice != null ? fmtPrice(productPrice) : undefined,
+      url: productUrl,
+      store,
+    }
+    panelCtx?.onAIReview(prompt, product)
   }
 
   return {

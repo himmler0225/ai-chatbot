@@ -8,7 +8,7 @@ import { useChatStore } from '@/stores/chatStore'
 import { useUIStore } from '@/stores/uiStore'
 import { genId, toTitle } from '@/utils/common'
 import { historyApi, messageToRow } from '@/lib/api/history'
-import type { ChatSession, HistoryMessage, Message } from '@/types/chat'
+import type { ChatSession, HistoryMessage, Message, ProductContext } from '@/types/chat'
 
 export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
   const { stream: agentStream, abort } = useAgentStream()
@@ -22,11 +22,11 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
           ? { ...m, cancelled: true }
           : m
       )
-      return { isStreaming: false, activeTool: null, messages }
+      return { isStreaming: false, activeTool: null, activeToolDetail: null, messages }
     })
   }, [abort])
 
-  const sendMessage = useCallback(async (overrideContent?: string) => {
+  const sendMessage = useCallback(async (overrideContent?: string, product?: ProductContext) => {
     const { input, isStreaming, activeId, messages, sessions, guestMsgCount } =
       useChatStore.getState()
 
@@ -38,7 +38,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
       return
     }
 
-    useChatStore.setState({ input: '', isStreaming: true, activeTool: null })
+    useChatStore.setState({ input: '', isStreaming: true, activeTool: null, activeToolDetail: null })
     if (!userRef.current) {
       useChatStore.setState(s => ({ guestMsgCount: s.guestMsgCount + 1 }))
     }
@@ -94,7 +94,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
 
     try {
       await agentStream(
-        { message: content, history },
+        { message: content, history, product },
         {
           onTextDelta: delta =>
             useChatStore.setState(s => ({
@@ -103,8 +103,10 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
               ),
             })),
 
-          onToolStart: tool => useChatStore.setState({ activeTool: tool }),
-          onToolDone: () => useChatStore.setState({ activeTool: null }),
+          onToolStart: (tool, detail) =>
+            useChatStore.setState({ activeTool: tool, activeToolDetail: detail || null }),
+          onStatus: detail => useChatStore.setState({ activeTool: null, activeToolDetail: detail }),
+          onToolDone: () => useChatStore.setState({ activeTool: null, activeToolDetail: null }),
           onDataPreview: videos =>
             useChatStore.setState(s => ({
               messages: s.messages.map(m =>
@@ -112,10 +114,17 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
               ),
             })),
 
-          onDone: ({ reviewSummary, sources, usedTools, videos }) => {
+          onDone: ({ sources, usedTools, videos }) => {
             useChatStore.setState(s => {
               const finalMsgs = s.messages.map(m =>
-                m.id === aiMsgId ? { ...m, reviewSummary, sources, usedTools, videos } : m
+                m.id === aiMsgId
+                  ? {
+                      ...m,
+                      sources,
+                      usedTools,
+                      videos: videos?.length ? videos : m.videos,
+                    }
+                  : m
               )
               const finalSessions = s.sessions.map(sess =>
                 sess.id !== sessionId
@@ -150,7 +159,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
         }
       )
     } finally {
-      useChatStore.setState({ isStreaming: false, activeTool: null })
+      useChatStore.setState({ isStreaming: false, activeTool: null, activeToolDetail: null })
 
       if (userRef.current) {
         const ai = useChatStore.getState().messages.find(m => m.id === aiMsgId)

@@ -4,10 +4,30 @@ export const APP_TAGLINE_EN = 'Summarize product reviews from YouTube and TikTok
 
 export const TOOL_LABELS: Record<string, { vi: string; en: string; icon: string }> = {
   youtube_search: { vi: 'Đang tìm kiếm trên YouTube...', en: 'Searching YouTube...', icon: '🔍' },
+  youtube_get_comments_batch: {
+    vi: 'Đang lấy bình luận nhiều video YouTube...',
+    en: 'Fetching YouTube comments (batch)...',
+    icon: '💬',
+  },
   youtube_get_comments: {
     vi: 'Đang lấy bình luận YouTube...',
     en: 'Fetching YouTube comments...',
     icon: '💬',
+  },
+  youtube_get_transcript: {
+    vi: 'Đang lấy transcript YouTube...',
+    en: 'Fetching YouTube transcript...',
+    icon: '📝',
+  },
+  youtube_get_transcript_batch: {
+    vi: 'Đang lấy transcript nhiều video...',
+    en: 'Fetching YouTube transcripts...',
+    icon: '📝',
+  },
+  tiktok_transcript: {
+    vi: 'Đang lấy transcript TikTok...',
+    en: 'Fetching TikTok transcript...',
+    icon: '📝',
   },
   youtube_get_detail: {
     vi: 'Đang xem chi tiết video...',
@@ -59,4 +79,7 @@ export const TOOL_LABELS: Record<string, { vi: string; en: string; icon: string 
   },
   tiktok_profile: { vi: 'Đang xem profile TikTok...', en: 'Loading TikTok profile...', icon: '👤' },
   extract_id_from_url: { vi: 'Đang xử lý URL...', en: 'Processing URL...', icon: '🔗' },
+  search_product_summary: { vi: 'Đang tìm tổng quan review...', en: 'Searching review summary...', icon: '📋' },
+  search_aspect_evidence: { vi: 'Đang tìm chi tiết review...', en: 'Searching review details...', icon: '🔎' },
+  get_raw_reviews: { vi: 'Đang lấy review gốc...', en: 'Fetching raw reviews...', icon: '📝' },
 }

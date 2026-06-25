@@ -35,6 +35,7 @@ export function ProductDrawer({ product, open, onClose }: Props) {
     product?.short_name ?? product?.name ?? '',
     product?.price,
     'utilities.fpt.aiReviewPrompt',
+    'fpt',
   )
 
   if (!product) return null

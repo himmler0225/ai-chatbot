@@ -4,17 +4,19 @@ import { chatApi } from '@/lib/api/chat'
 
 export interface StreamCallbacks {
   onTextDelta: (delta: string) => void
-  onToolStart: (tool: string) => void
+  onToolStart: (tool: string, detail: string) => void
   onToolDone: (tool: string) => void
+  onStatus: (detail: string) => void
   onDataPreview: (videos: VideoData[]) => void
-  onDone: (meta: { reviewSummary: string | null; sources: Source[]; usedTools: Tool[]; videos: VideoData[] }) => void
+  onDone: (meta: { sources: Source[]; usedTools: Tool[]; videos: VideoData[] }) => void
   onError: (message: string) => void
 }
 
 type SseEvent =
   | { type: 'text_delta'; delta: string }
-  | { type: 'tool_start'; tool: string }
+  | { type: 'tool_start'; tool: string; detail_vi?: string; detail_en?: string }
   | { type: 'tool_done'; tool: string }
+  | { type: 'status'; detail_vi?: string; detail_en?: string }
   | { type: 'data_preview'; videos: VideoData[] }
   | {
       type: 'done'
@@ -23,13 +25,22 @@ type SseEvent =
     }
   | { type: 'error'; message: string }
 
+function pickDetail(event: { detail_vi?: string; detail_en?: string }, locale: string): string {
+  return (locale === 'en' ? event.detail_en : event.detail_vi) ?? event.detail_vi ?? event.detail_en ?? ''
+}
+
 export function useAgentStream() {
   const abortRef = useRef<AbortController | null>(null)
+  const localeRef = useRef('vi')
 
   const stream = useCallback(async (payload: ChatPayload, cb: StreamCallbacks) => {
     abortRef.current?.abort()
     const controller = new AbortController()
     abortRef.current = controller
+
+    if (typeof document !== 'undefined') {
+      localeRef.current = document.documentElement.lang?.startsWith('en') ? 'en' : 'vi'
+    }
 
     let resp: Response
     try {
@@ -61,13 +72,21 @@ export function useAgentStream() {
         if (!line.startsWith('data: ')) continue
         try {
           const event = JSON.parse(line.slice(6)) as SseEvent
+          const locale = localeRef.current
           switch (event.type) {
             case 'text_delta':
               cb.onTextDelta(event.delta)
               break
-            case 'tool_start':
-              cb.onToolStart(event.tool)
+            case 'tool_start': {
+              const detail = pickDetail(event, locale)
+              cb.onToolStart(event.tool, detail)
               break
+            }
+            case 'status': {
+              const detail = pickDetail(event, locale)
+              if (detail) cb.onStatus(detail)
+              break
+            }
             case 'tool_done':
               cb.onToolDone(event.tool)
               break
@@ -76,7 +95,6 @@ export function useAgentStream() {
               break
             case 'done':
               cb.onDone({
-                reviewSummary: event.data?.review_summary ?? null,
                 sources: event.data?.sources ?? [],
                 videos: event.data?.videos ?? [],
                 usedTools: (event.tool_calls ?? []).map(t => ({

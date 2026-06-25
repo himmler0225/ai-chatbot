@@ -52,7 +52,7 @@ export function LocaleDropdown({ buttonStyle }: Props) {
           alt={locale}
           width={22}
           height={16}
-          style={{ objectFit: 'cover', borderRadius: 3, display: 'block' }}
+          style={{ width: 22, height: 'auto', objectFit: 'cover', borderRadius: 3, display: 'block' }}
         />
       </Button>
     </Dropdown>

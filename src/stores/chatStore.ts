@@ -7,6 +7,7 @@ interface ChatState {
   messages: Message[]
   isStreaming: boolean
   activeTool: string | null
+  activeToolDetail: string | null
   input: string
   guestMsgCount: number
 }
@@ -27,6 +28,7 @@ const INIT: ChatState = {
   messages: [],
   isStreaming: false,
   activeTool: null,
+  activeToolDetail: null,
   input: '',
   guestMsgCount: 0,
 }

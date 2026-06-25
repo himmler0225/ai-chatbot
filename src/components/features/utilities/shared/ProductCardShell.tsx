@@ -46,7 +46,13 @@ export function ProductCardShell({
     copied, qrImg, qrOpen, setQrOpen,
     handleShorten, handleQR, handleAIReview,
     isShortLoading,
-  } = useProductActions(productUrl, name, price, reviewPromptKey)
+  } = useProductActions(
+    productUrl,
+    name,
+    price,
+    reviewPromptKey,
+    i18nNs === 'utilities.fpt' ? 'fpt' : 'tiki',
+  )
 
   const pad = compact ? 10 : 12
 

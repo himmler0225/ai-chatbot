@@ -7,17 +7,18 @@ import '@/i18n/config'
 
 interface Props {
   tool?: string | null
+  detail?: string | null
   compact?: boolean
 }
 
-export default function StreamingStatus({ tool, compact = false }: Props) {
+export default function StreamingStatus({ tool, detail, compact = false }: Props) {
   const { token } = theme.useToken()
   const { t, i18n } = useTranslation()
   const locale = i18n.language === 'en' ? 'en' : 'vi'
 
   const info = tool ? TOOL_LABELS[tool] : null
   const icon = info?.icon ?? '✨'
-  const label = info?.[locale] ?? t('chat.thinking')
+  const label = detail ?? info?.[locale] ?? t('chat.thinking')
 
   return (
     <Flex

@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import type { Message } from '@/types/chat'
 import SourceChips from './SourceChips'
-import ReviewSummary from './ReviewSummary'
 import { VideoChart } from './VideoChart'
 import StreamingStatus from './StreamingStatus'
 
@@ -19,6 +18,7 @@ interface Props {
   msg: Message
   isStreaming?: boolean
   activeTool?: string | null
+  activeToolDetail?: string | null
   onSpeak?: (id: string, text: string) => void
   isSpeaking?: boolean
   canSpeak?: boolean
@@ -34,7 +34,7 @@ function Timestamp({ ts, light }: { ts: Date; light?: boolean }) {
   )
 }
 
-export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, isSpeaking, canSpeak, onRetry }: Props) {
+export default function MessageBubble({ msg, isStreaming, activeTool, activeToolDetail, onSpeak, isSpeaking, canSpeak, onRetry }: Props) {
   const { t } = useTranslation()
   const { token } = theme.useToken()
   const screens = useBreakpoint()
@@ -43,7 +43,7 @@ export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, i
 
   if (!isUser && !msg.content && !isStreaming && !msg.cancelled) return null
 
-  const showStreamingStatus = isStreaming && (!msg.content || activeTool)
+  const showStreamingStatus = isStreaming && (!msg.content || activeTool || activeToolDetail)
 
   return (
     <motion.div
@@ -85,7 +85,7 @@ export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, i
             >
               <div className="message-content">
                 {showStreamingStatus && (
-                  <StreamingStatus tool={activeTool} compact={!!msg.content} />
+                  <StreamingStatus tool={activeTool} detail={activeToolDetail} compact={!!msg.content} />
                 )}
 
                 {msg.content ? (
@@ -106,7 +106,6 @@ export default function MessageBubble({ msg, isStreaming, activeTool, onSpeak, i
               </div>
 
               {!!msg.videos?.length && <VideoChart videos={msg.videos} />}
-              {!isStreaming && msg.reviewSummary && <ReviewSummary markdown={msg.reviewSummary} />}
               {!isStreaming && !!msg.sources?.length && <SourceChips sources={msg.sources} />}
               {msg.cancelled && (
                 <Flex align="center" gap={8} style={{ marginTop: msg.content ? 8 : 0, opacity: 0.6 }}>

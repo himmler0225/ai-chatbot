@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { STALE_SERVER_CONFIG_MS } from '@/constants/api'
+import { getSupabasePublicConfig, isLocalDev } from '@/lib/env'
 
 type ConfigMap = Record<string, string>
 
@@ -7,9 +8,9 @@ let _cache: ConfigMap = {}
 let _fetchedAt = 0
 const TTL = STALE_SERVER_CONFIG_MS
 
-import { getSupabasePublicConfig } from '@/lib/env'
-
 export async function getServerConfig(): Promise<ConfigMap> {
+  if (isLocalDev()) return {}
+
   if (_fetchedAt && Date.now() - _fetchedAt < TTL) return _cache
 
   const { url } = getSupabasePublicConfig()
@@ -29,5 +30,6 @@ export async function getServerConfig(): Promise<ConfigMap> {
 }
 
 export function get(config: ConfigMap, key: string, fallback = ''): string {
+  if (isLocalDev()) return process.env[key] || fallback
   return config[key] || process.env[key] || fallback
 }

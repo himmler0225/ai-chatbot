@@ -53,9 +53,17 @@ export interface HistoryMessage {
   content: string
 }
 
+export interface ProductContext {
+  name: string
+  price?: string
+  url?: string
+  store?: 'tiki' | 'fpt'
+}
+
 export interface ChatPayload {
   message: string
   history: HistoryMessage[]
+  product?: ProductContext
 }
 
 export interface ChatResponse {

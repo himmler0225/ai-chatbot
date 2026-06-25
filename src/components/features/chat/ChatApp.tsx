@@ -10,6 +10,7 @@ import { useChatStore } from '@/stores/chatStore'
 import { useSendMessage } from '@/hooks/chat/useSendMessage'
 import { useUIStore } from '@/stores/uiStore'
 import { ProductPanelContext } from '@/contexts/productPanel'
+import type { ProductContext } from '@/types/chat'
 import { ChatHeader } from '@/components/features/chat/ChatHeader'
 import { ChatSidebar } from '@/components/features/chat/ChatSidebar'
 import { ChatMessages } from '@/components/features/chat/ChatMessages'
@@ -83,10 +84,10 @@ export default function ChatApp() {
     syncProductUrl(false)
   }, [closeProductPanel, syncProductUrl])
 
-  const handleAIReview = useCallback((prompt: string) => {
+  const handleAIReview = useCallback((prompt: string, product?: ProductContext) => {
     closeProductPanel()
     syncProductUrl(false)
-    void sendMessage(prompt)
+    void sendMessage(prompt, product)
   }, [closeProductPanel, syncProductUrl, sendMessage])
 
   const handleSearchOnTiki = useCallback((q: string) => {
