@@ -4,10 +4,10 @@ import { PRIM } from '@/constants/brand'
 import { Reveal } from './Motion'
 import { BadgePill, LabelPill, LabelWrap } from './widgets.style'
 
-export function SectionLabel({ text }: { text: string }) {
+export function SectionLabel({ text, compact }: { text: string; compact?: boolean }) {
   return (
     <Reveal>
-      <LabelWrap>
+      <LabelWrap $compact={compact}>
         <LabelPill>{text}</LabelPill>
       </LabelWrap>
     </Reveal>

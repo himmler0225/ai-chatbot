@@ -21,6 +21,8 @@ import {
   clearProductPanelParams,
   queryKeyForStore,
 } from '@/components/features/utilities/shared/productSearchUrl'
+import { CHAT_DARK } from '@/lib/theme'
+import { useTheme } from '@/contexts/theme'
 
 const { useBreakpoint } = Grid
 const { Sider, Content } = Layout
@@ -29,6 +31,7 @@ const PRODUCT_PANEL_WIDTH = 400
 
 export default function ChatApp() {
   const { token } = theme.useToken()
+  const { isDark } = useTheme()
   const screens = useBreakpoint()
   const isMobile = !screens.md
 
@@ -107,9 +110,19 @@ export default function ChatApp() {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }, [pathname, router])
 
+  const toggleSidebar = useCallback(() => {
+    if (isMobile) {
+      setUI({ drawerOpen: !drawerOpen })
+    } else {
+      setUI({ collapsed: !collapsed })
+    }
+  }, [isMobile, drawerOpen, collapsed, setUI])
+
   const sidebarProps = {
     productPanelOpen,
     activeStore: productPanelOpen ? productStore : null,
+    sidebarOpen,
+    onToggleSidebar: toggleSidebar,
     onNewChat: newChat,
     onSelectSession: (id: string) => {
       void selectSession(id)
@@ -130,16 +143,15 @@ export default function ChatApp() {
     }
   }, [setUI])
 
-  const toggleSidebar = () => {
-    if (isMobile) {
-      setUI({ drawerOpen: !drawerOpen })
-    } else {
-      setUI({ collapsed: !collapsed })
-    }
-  }
-
   const chatColumn = (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, height: '100%' }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      flex: 1,
+      minWidth: 0,
+      height: '100%',
+      background: token.colorBgLayout,
+    }}>
       <ChatHeader sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
       <ChatMessages
         onSuggestion={text => void sendMessage(text)}
@@ -172,6 +184,7 @@ export default function ChatApp() {
               height: '100vh',
               overflow: 'hidden',
               borderRight: `1px solid ${token.colorBorderSecondary}`,
+              background: isDark ? CHAT_DARK.sidebar : '#ffffff',
             }}
           >
             <ChatSidebar {...sidebarProps} />
@@ -242,6 +255,28 @@ export default function ChatApp() {
         <style>{`
           .ant-menu-item:hover .delete-icon { opacity: 1 !important; }
           textarea:focus { outline: none; box-shadow: none !important; }
+          .chat-input-textarea.ant-input-affix-wrapper,
+          .chat-input-textarea textarea {
+            padding: 0 !important;
+            margin: 0 !important;
+            line-height: 22px !important;
+          }
+          @media (max-width: 767px) {
+            .chat-input-textarea textarea {
+              font-size: 16px !important;
+              line-height: 24px !important;
+            }
+            .chat-input-textarea textarea::placeholder {
+              font-size: 16px;
+              line-height: 24px;
+            }
+          }
+          .chat-input-textarea textarea::placeholder {
+            line-height: 22px;
+          }
+          .chat-input-shell .ant-input {
+            min-height: 22px !important;
+          }
         `}</style>
       </Layout>
     </ProductPanelContext.Provider>

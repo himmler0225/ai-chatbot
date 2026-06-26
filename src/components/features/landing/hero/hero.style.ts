@@ -3,7 +3,7 @@
 import styled from 'styled-components'
 import { Button } from 'antd'
 import { motion } from 'framer-motion'
-import { PRIM } from '@/constants/brand'
+import { PRIM, LANDING_ACCENT, LANDING_FOREST } from '@/constants/brand'
 import type { LandingThemeProps, LandingThemeWithModeProps } from '../shared/types'
 
 export const HeroSectionRoot = styled.section`
@@ -170,21 +170,20 @@ export const HeroContent = styled.div`
   z-index: 1;
 `
 
-export const HeroGlow = styled.div`
+export const HeroGlow = styled.div<{ $isDark: boolean }>`
   position: absolute;
-  top: 25%;
+  top: 18%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 700px;
-  height: 300px;
+  width: min(720px, 95vw);
+  height: min(420px, 55vw);
   border-radius: 9999px;
   pointer-events: none;
-  background: radial-gradient(ellipse, ${PRIM}12 0%, transparent 70%);
-
-  @media (min-width: 640px) {
-    height: 400px;
-  }
+  background: radial-gradient(
+    ellipse,
+    ${p => (p.$isDark ? `${PRIM}16` : `${LANDING_ACCENT}22`)} 0%,
+    transparent 68%
+  );
 `
 
 export const HeroBadge = styled.span`
@@ -221,7 +220,39 @@ export const HeroTitle = styled(motion.h1)<LandingThemeProps>`
 `
 
 export const HeroHighlight = styled.span`
-  color: ${PRIM};
+  color: ${LANDING_ACCENT};
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 600;
+`
+
+export const DemoWrap = styled.div`
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+`
+
+export const RealReviewsBadge = styled.span`
+  position: absolute;
+  top: -0.75rem;
+  right: 0.5rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: #ffffff;
+  border: 1px solid ${LANDING_ACCENT}55;
+  color: ${LANDING_FOREST};
+  box-shadow: 0 8px 24px rgba(0, 77, 64, 0.1);
+
+  @media (min-width: 640px) {
+    right: -0.5rem;
+    top: -1rem;
+  }
 `
 
 export const HeroDesc = styled(motion.p)<LandingThemeProps>`
@@ -268,9 +299,17 @@ export const HeroPrimaryButton = styled(Button)`
     padding: 0 2rem;
     font-size: 15px;
     font-weight: 600;
-    background: ${PRIM};
-    border-color: ${PRIM};
-    color: #0a0c14;
+    background: ${LANDING_ACCENT};
+    border-color: ${LANDING_ACCENT};
+    color: ${LANDING_FOREST};
+    border-radius: 9999px;
+    box-shadow: 0 4px 14px rgba(0, 230, 118, 0.35);
+
+    &:hover {
+      background: #00d96a !important;
+      border-color: #00d96a !important;
+      color: ${LANDING_FOREST} !important;
+    }
   }
 
   @media (min-width: 640px) {
@@ -287,8 +326,9 @@ export const HeroSecondaryButton = styled(Button)`
     width: 100%;
     padding: 0 1.75rem;
     font-size: 15px;
-    border-color: ${PRIM}50;
-    color: ${PRIM};
+    border-radius: 9999px;
+    border-color: ${LANDING_FOREST}30;
+    color: ${LANDING_FOREST};
     background: transparent;
   }
 

@@ -3,7 +3,7 @@
 import styled from 'styled-components'
 import { Button } from 'antd'
 import { motion } from 'framer-motion'
-import { PRIM } from '@/constants/brand'
+import { LANDING_ACCENT, LANDING_FOREST } from '@/constants/brand'
 import type { LandingThemeProps } from '../shared/types'
 
 export const NavBar = styled(motion.nav)<LandingThemeProps>`
@@ -72,15 +72,31 @@ export const DesktopLinks = styled.div`
   }
 `
 
-export const NavLink = styled.a<LandingThemeProps>`
+export const NavLink = styled.a<LandingThemeProps & { $active?: boolean }>`
+  position: relative;
+  padding: 0.25rem 0 0.35rem;
   font-size: 14px;
-  font-weight: 500;
-  color: ${p => p.$C.muted};
+  font-weight: ${p => (p.$active ? 600 : 500)};
+  color: ${p => (p.$active ? p.$C.fg : p.$C.muted)};
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: color 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 9999px;
+    background: ${LANDING_ACCENT};
+    transform: scaleX(${p => (p.$active ? 1 : 0)});
+    transform-origin: center;
+    transition: transform 0.22s ease;
+  }
 
   &:hover {
-    opacity: 0.8;
+    color: ${p => p.$C.fg};
   }
 `
 
@@ -107,8 +123,10 @@ export const NavDivider = styled.div<LandingThemeProps>`
 `
 
 export const CtaShort = styled.span`
-  @media (min-width: 1024px) {
-    display: none;
+  display: none;
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    display: inline;
   }
 `
 
@@ -120,13 +138,15 @@ export const CtaFull = styled.span`
   }
 `
 
-export const DrawerLink = styled.a<LandingThemeProps>`
+export const DrawerLink = styled.a<LandingThemeProps & { $active?: boolean }>`
   display: block;
   padding: 0.75rem 1.25rem;
   font-size: 15px;
-  font-weight: 500;
-  color: ${p => p.$C.fg};
+  font-weight: ${p => (p.$active ? 600 : 500)};
+  color: ${p => (p.$active ? LANDING_FOREST : p.$C.fg)};
   text-decoration: none;
+  border-left: 3px solid ${p => (p.$active ? LANDING_ACCENT : 'transparent')};
+  background: ${p => (p.$active ? `${LANDING_ACCENT}10` : 'transparent')};
 `
 
 export const DrawerDivider = styled.div<LandingThemeProps>`
@@ -159,16 +179,43 @@ export const NavLoginButton = styled(Button)<LandingThemeProps>`
 export const NavPrimaryButton = styled(Button)`
   &.ant-btn-primary {
     display: none;
-    background: ${PRIM};
-    border-color: ${PRIM};
-    color: #0a0c14;
-    border-radius: 8px;
+    align-items: center;
+    height: 36px;
+    padding-inline: 1rem !important;
+    font-size: 13px;
     font-weight: 600;
+    letter-spacing: -0.01em;
+    background: ${LANDING_ACCENT};
+    border-color: ${LANDING_ACCENT};
+    color: ${LANDING_FOREST};
+    border-radius: 9999px;
+    box-shadow: 0 2px 12px rgba(0, 230, 118, 0.32);
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s,
+      transform 0.15s;
+
+    &:hover {
+      background: #00d96a !important;
+      border-color: #00d96a !important;
+      color: ${LANDING_FOREST} !important;
+      box-shadow: 0 4px 16px rgba(0, 230, 118, 0.4) !important;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 230, 118, 0.28) !important;
+    }
   }
 
   @media (min-width: 1024px) {
     &.ant-btn-primary {
       display: inline-flex;
+      height: 38px;
+      padding-inline: 1.35rem !important;
+      font-size: 14px;
     }
   }
 `
@@ -188,10 +235,18 @@ export const NavMenuButton = styled(Button)<LandingThemeProps>`
 
 export const DrawerPrimaryButton = styled(Button)`
   &.ant-btn-primary {
-    background: ${PRIM};
-    border-color: ${PRIM};
-    color: #0a0c14;
-    border-radius: 8px;
+    height: 44px;
     font-weight: 600;
+    background: ${LANDING_ACCENT};
+    border-color: ${LANDING_ACCENT};
+    color: ${LANDING_FOREST};
+    border-radius: 9999px;
+    box-shadow: 0 2px 12px rgba(0, 230, 118, 0.32);
+
+    &:hover {
+      background: #00d96a !important;
+      border-color: #00d96a !important;
+      color: ${LANDING_FOREST} !important;
+    }
   }
 `

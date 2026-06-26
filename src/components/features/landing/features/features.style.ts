@@ -1,284 +1,198 @@
 'use client'
 
 import styled from 'styled-components'
-import { PRIM } from '@/constants/brand'
+import { motion } from 'framer-motion'
+import { LANDING_ACCENT, LANDING_FOREST, EASE } from '@/constants/brand'
 import { Stagger, StaggerItem } from '../shared/Motion'
+import { SectionContainer } from '../shared/section.style'
 import type { LandingThemeProps } from '../shared/types'
 
-export const FeaturesStagger = styled(Stagger)`
+export const CoreSection = styled(SectionContainer)`
+  padding-top: 3rem;
+  padding-bottom: 3.5rem;
+
+  @media (min-width: 768px) {
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+  }
+`
+
+export const CoreGrid = styled.div`
   display: grid;
-  gap: 1.25rem;
-  align-items: stretch;
-
-  & > [data-anime-stagger] {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  /* iPad: 1 cột */
-  @media (min-width: 768px) and (max-width: 1023px) {
-    grid-template-columns: 1fr;
-    max-width: 560px;
-    margin-inline: auto;
-    gap: 1rem;
-  }
+  gap: 2.5rem;
+  align-items: center;
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr 1fr;
-    align-items: stretch;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
   }
 `
 
-export const MainFeatureItem = styled(StaggerItem)`
-  @media (min-width: 1024px) {
-    grid-row: span 2;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: 100%;
-  }
+export const CoreCopy = styled.div`
+  max-width: 32rem;
 `
 
-export const SideFeatureItem = styled(StaggerItem)<{ $fullHeight?: boolean }>`
-  @media (min-width: 1024px) {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: 100%;
-    ${p => (p.$fullHeight ? 'grid-row: span 2;' : '')}
-  }
+export const CoreLabel = styled.span`
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: ${LANDING_ACCENT};
 `
 
-export const FeaturesCard = styled.div<LandingThemeProps>`
-  flex: 1;
-  min-height: 0;
-  padding: 1.25rem;
-  border-radius: 1rem;
-  background: ${p => p.$C.card};
-  border: 1px solid ${p => p.$C.border};
+export const CoreTitle = styled.h2<LandingThemeProps>`
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: ${p => p.$C.fg};
+`
+
+export const CoreBody = styled.p<LandingThemeProps>`
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: ${p => p.$C.muted};
+`
+
+export const QuestionList = styled(Stagger)`
   display: flex;
   flex-direction: column;
-
-  @media (min-width: 640px) {
-    padding: 1.75rem;
-  }
+  gap: 0.75rem;
 `
 
-export const RadarWrap = styled.div`
-  position: relative;
-  width: 100%;
-  flex: 1;
-  min-height: 180px;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  margin-top: 1.5rem;
-  background: linear-gradient(180deg, rgba(0, 229, 153, 0.04) 0%, rgba(0, 229, 153, 0.01) 100%);
-  border: 1px solid ${PRIM}20;
-`
-
-export const RadarGrid = styled.div`
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at center, ${PRIM}18 0%, transparent 55%),
-    repeating-radial-gradient(circle at center, transparent 0, transparent 28px, ${PRIM}08 28px, ${PRIM}08 29px);
-`
-
-export const RadarRing = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 5rem;
-  height: 5rem;
-  border-radius: 9999px;
-  border: 2px solid ${PRIM}50;
-  box-shadow: 0 0 30px ${PRIM}30, inset 0 0 20px ${PRIM}15;
-`
-
-export const RadarSweep = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1px;
-  height: 90px;
-  transform-origin: bottom center;
-  transform: translate(-50%, -100%) rotate(30deg);
-  background: linear-gradient(to top, ${PRIM}80, transparent);
-  animation: radar-sweep 3s linear infinite;
-`
-
-export const FeatureVisualWrap = styled.div<LandingThemeProps>`
-  position: relative;
-  width: 100%;
-  flex: 1;
-  min-height: 160px;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  margin-top: 1.25rem;
-  background: ${p => p.$C.card};
-  border: 1px solid ${p => p.$C.border};
-`
-
-/** @deprecated use FeatureVisualWrap */
-export const TikiPlatformWrap = FeatureVisualWrap
-
-export const StoreMock = styled.div<LandingThemeProps>`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 160px;
-  padding: 0.75rem;
-  gap: 0.625rem;
-  background: ${p => p.$C.bg};
-`
-
-export const SearchMockBar = styled.div<LandingThemeProps>`
+export const QuestionItem = styled(StaggerItem)<LandingThemeProps>`
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.55rem;
-  border-radius: 0.5rem;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
   border: 1px solid ${p => p.$C.border};
   background: ${p => p.$C.card};
-  font-size: 10px;
-  color: ${p => p.$C.muted};
+  cursor: default;
+  transition: border-color 0.2s, box-shadow 0.2s;
 
-  .anticon {
-    font-size: 11px;
-    opacity: 0.5;
-    flex-shrink: 0;
+  &:hover {
+    border-color: ${LANDING_ACCENT}55;
+    box-shadow: 0 4px 16px rgba(0, 77, 64, 0.06);
   }
 `
 
-export const ProductGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  flex: 1;
-`
-
-export const ProductTile = styled.div<LandingThemeProps>`
-  padding: 0.45rem;
+export const QuestionIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: 0.5rem;
-  background: ${p => p.$C.card};
-  border: 1px solid ${p => p.$C.border};
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  flex-shrink: 0;
+  background: ${LANDING_ACCENT}14;
+  color: ${LANDING_FOREST};
+  font-size: 14px;
 `
 
-export const SkeletonImg = styled.div<LandingThemeProps>`
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 0.35rem;
-  background: ${p => p.$C.border};
-  opacity: 0.55;
-`
-
-export const SkeletonLine = styled.div<LandingThemeProps & { $w?: string }>`
-  height: 6px;
-  width: ${p => p.$w ?? '70%'};
-  border-radius: 999px;
-  background: ${p => p.$C.border};
-  opacity: 0.7;
-`
-
-export const ChatMock = styled.div<LandingThemeProps>`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 240px;
-  padding: 0.875rem 0.75rem 0.65rem;
-  gap: 0.45rem;
-  background: ${p => p.$C.bg};
-`
-
-export const ChatMockGreeting = styled.p<LandingThemeProps>`
-  margin: 0 0 0.15rem;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: ${p => p.$C.fg};
-  line-height: 1.35;
-`
-
-export const ChatMockSuggestions = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-`
-
-export const ChatMockSuggestion = styled.div<LandingThemeProps>`
-  padding: 0.45rem 0.55rem;
-  border-radius: 0.5rem;
-  border: 1px solid ${p => p.$C.border};
-  background: ${p => p.$C.card};
-  color: ${p => p.$C.muted};
-  font-size: 10px;
+export const QuestionText = styled.span<LandingThemeProps>`
+  font-size: 0.9rem;
   line-height: 1.45;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`
-
-export const ChatMockStores = styled.div`
-  display: flex;
-  gap: 0.35rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 0.1rem;
-`
-
-export const ChatMockStoreChip = styled.div<LandingThemeProps>`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  border: 1px solid ${p => p.$C.border};
-  background: ${p => p.$C.card};
   color: ${p => p.$C.fg};
-  font-size: 9px;
-  font-weight: 500;
-
-  .anticon {
-    font-size: 10px;
-    opacity: 0.65;
-  }
 `
 
-export const ChatMockInputBar = styled.div<LandingThemeProps>`
+export const PhoneStage = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.4rem;
-  margin-top: auto;
-  padding: 0.4rem 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid ${p => p.$C.border};
-  background: ${p => p.$C.card};
 `
 
-export const ChatMockInput = styled.span<LandingThemeProps>`
-  flex: 1;
-  font-size: 9px;
-  color: ${p => p.$C.muted};
-  opacity: 0.85;
-`
-
-export const ChatMockSend = styled.span`
+export const PhoneBackdrop = styled.div`
+  position: relative;
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, ${LANDING_FOREST} 0%, #00695c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 24px 48px rgba(0, 77, 64, 0.25);
+`
+
+export const PhoneFrame = styled(motion.div)<LandingThemeProps>`
+  width: 100%;
+  max-width: 220px;
+  border-radius: 1.75rem;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  background: ${p => p.$C.card};
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+`
+
+export const PhoneNotch = styled.div<LandingThemeProps>`
   height: 1.25rem;
-  border-radius: 0.35rem;
-  background: ${PRIM};
+  background: ${p => p.$C.bg};
+`
+
+export const PhoneScreen = styled.div<LandingThemeProps>`
+  padding: 0.75rem;
+  min-height: 280px;
+  background: ${p => p.$C.bg};
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+export const PhoneBubbleUser = styled.div`
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.75rem 0.75rem 0.2rem 0.75rem;
+  background: ${LANDING_FOREST};
   color: #fff;
   font-size: 10px;
-  font-weight: 700;
-  flex-shrink: 0;
+  line-height: 1.4;
 `
+
+export const PhoneBubbleAi = styled.div<LandingThemeProps>`
+  align-self: flex-start;
+  max-width: 90%;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.75rem 0.75rem 0.75rem 0.2rem;
+  background: ${p => p.$C.card};
+  border: 1px solid ${p => p.$C.border};
+  font-size: 10px;
+  line-height: 1.45;
+  color: ${p => p.$C.muted};
+`
+
+export const PhoneAnalyzing = styled(motion.div)`
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: ${LANDING_FOREST};
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+`
+
+export const PhonePulse = styled.span`
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: ${LANDING_ACCENT};
+  animation: phone-pulse 1.2s ease-in-out infinite;
+`
+
+export const phoneEnter = {
+  initial: { opacity: 0, y: 24, scale: 0.96 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  transition: { duration: 0.65, ease: EASE },
+}

@@ -9,6 +9,8 @@ import { useAuth } from '@/hooks/common/useAuth'
 import { useChatStore } from '@/stores/chatStore'
 import { useUIStore } from '@/stores/uiStore'
 import { GUEST_MESSAGE_LIMIT } from '@/constants/api'
+import { useTheme } from '@/contexts/theme'
+import { CHAT_DARK } from '@/lib/theme'
 
 const { Text } = Typography
 const GUEST_LIMIT = GUEST_MESSAGE_LIMIT
@@ -24,6 +26,7 @@ interface Props {
 export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, onSearchOnFpt }: Props) {
   const { t } = useTranslation()
   const { token } = theme.useToken()
+  const { isDark } = useTheme()
   const { user, loading: authLoading } = useAuth()
   const input = useChatStore(s => s.input)
   const isStreaming = useChatStore(s => s.isStreaming)
@@ -44,25 +47,28 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
     ? t('chat.inputPlaceholderShort', { defaultValue: 'Nhập câu hỏi...' })
     : t('chat.inputPlaceholder')
 
+  const shellBg = isDark ? CHAT_DARK.input : token.colorBgElevated
+  const pageBg = isDark ? CHAT_DARK.bg : token.colorBgLayout
+
   return (
     <div
       style={{
         flexShrink: 0,
-        borderTop: `1px solid ${token.colorBorderSecondary}`,
-        background: token.colorBgContainer,
-        padding: isMobile ? '12px 16px max(16px, env(safe-area-inset-bottom))' : '16px 24px 20px',
+        background: pageBg,
+        padding: isMobile ? '8px 16px max(16px, env(safe-area-inset-bottom))' : '12px 24px 20px',
       }}
     >
-      <div style={{ maxWidth: 760, margin: '0 auto', width: '100%' }}>
+      <div style={{ maxWidth: 768, margin: '0 auto', width: '100%' }}>
         <Flex
-          align="flex-end"
+          align="center"
           gap={8}
+          className="chat-input-shell"
           style={{
-            borderRadius: 24,
-            padding: '8px 8px 8px 16px',
-            border: `1px solid ${token.colorBorderSecondary}`,
-            background: token.colorBgElevated,
-            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+            borderRadius: 26,
+            padding: '6px 8px 6px 16px',
+            minHeight: 48,
+            border: `1px solid ${isDark ? CHAT_DARK.borderSubtle : token.colorBorderSecondary}`,
+            background: shellBg,
           }}
         >
           <Input.TextArea
@@ -74,13 +80,16 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
             variant="borderless"
             disabled={isStreaming || atLimit}
             onClick={atLimit ? () => openAuthModal('login') : undefined}
+            className="chat-input-textarea"
             style={{
               flex: 1,
-              fontSize: 15,
-              lineHeight: 1.6,
-              padding: '6px 0',
+              fontSize: isMobile ? 16 : 15,
+              lineHeight: isMobile ? '24px' : '22px',
+              padding: 0,
+              margin: 0,
               resize: 'none',
               boxShadow: 'none',
+              background: 'transparent',
             }}
           />
           {isStreaming ? (
@@ -115,7 +124,7 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
                 size="small"
                 icon={<ShopOutlined />}
                 onClick={() => onSearchOnTiki(input.trim())}
-                style={{ fontSize: 12, height: 'auto', padding: '2px 8px' }}
+                style={{ fontSize: 12, height: 'auto', padding: '2px 8px', color: token.colorTextSecondary }}
               >
                 {t('chat.searchOnTiki')}
               </Button>
@@ -126,7 +135,7 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
                 size="small"
                 icon={<ShopOutlined />}
                 onClick={() => onSearchOnFpt(input.trim())}
-                style={{ fontSize: 12, height: 'auto', padding: '2px 8px' }}
+                style={{ fontSize: 12, height: 'auto', padding: '2px 8px', color: token.colorTextSecondary }}
               >
                 {t('chat.searchOnFpt')}
               </Button>
@@ -144,6 +153,7 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
             marginTop: 10,
             padding: '0 8px',
             wordBreak: 'break-word',
+            color: token.colorTextTertiary,
           }}
         >
           {t('app.disclaimer')}

@@ -114,7 +114,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
               ),
             })),
 
-          onDone: ({ sources, usedTools, videos }) => {
+          onDone: ({ sources, usedTools, videos, reviewSummary }) => {
             useChatStore.setState(s => {
               const finalMsgs = s.messages.map(m =>
                 m.id === aiMsgId
@@ -122,6 +122,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
                       ...m,
                       sources,
                       usedTools,
+                      reviewSummary,
                       videos: videos?.length ? videos : m.videos,
                     }
                   : m

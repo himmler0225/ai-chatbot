@@ -1,18 +1,21 @@
 'use client'
 
-import { useState } from 'react'
-import { Avatar, Button, Drawer, Dropdown, Flex } from 'antd'
+import { useEffect, useState } from 'react'
+import { Avatar, Button, Drawer, Dropdown, Flex, Grid } from 'antd'
 import {
   LoginOutlined,
   LogoutOutlined,
   MenuOutlined,
+  MoonOutlined,
   RocketOutlined,
+  SunOutlined,
   UserOutlined,
 } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
 import { Logo } from '@/components/common/ui/Logo'
 import { LocaleDropdown } from '@/components/common/ui/LocaleDropdown'
+import { useTheme } from '@/contexts/theme'
 import { useAuth } from '@/hooks/common/useAuth'
 import { signOut } from '@/lib/supabase'
 import { APP_NAME } from '@/constants/brand'
@@ -36,6 +39,9 @@ import {
   NavPrimaryButton,
   DrawerPrimaryButton,
 } from './landingNav.style'
+import { useActiveSection } from './useActiveSection'
+
+const { useBreakpoint } = Grid
 
 // Giai đoạn đầu miễn phí — bật lại khi có bảng giá
 const NAV_LINK_KEYS = ['how', 'features', 'examples' /* , 'pricing' */] as const
@@ -50,13 +56,24 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
   const { t } = useTranslation()
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
+  const screens = useBreakpoint()
   const [menuOpen, setMenuOpen] = useState(false)
+  const drawerWidth = screens.lg ? 320 : '100%'
 
   const links = NAV_LINK_KEYS.map(key => ({
     key,
     label: t(`landing.nav.links.${key}.label`),
     href: t(`landing.nav.links.${key}.href`),
   }))
+
+  const sectionIds = links.map(l => l.href)
+  const scrollActive = useActiveSection(sectionIds)
+  const [activeHref, setActiveHref] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (scrollActive) setActiveHref(scrollActive)
+  }, [scrollActive])
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -96,6 +113,7 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
   ) : null
 
   const handleNavClick = (href: string) => {
+    setActiveHref(href)
     closeMenu()
     if (href.startsWith('#')) {
       document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
@@ -112,13 +130,22 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
       >
         <NavInner>
           <Brand onClick={() => router.push('/')}>
-            <Logo size={50} />
+            <Logo size={screens.sm ? 50 : 40} />
             <BrandName $C={C}>{APP_NAME}</BrandName>
           </Brand>
 
           <DesktopLinks>
             {links.map(({ key, label, href }) => (
-              <NavLink key={key} href={href} $C={C}>
+              <NavLink
+                key={key}
+                href={href}
+                $C={C}
+                $active={activeHref === href}
+                onClick={e => {
+                  e.preventDefault()
+                  handleNavClick(href)
+                }}
+              >
                 {label}
               </NavLink>
             ))}
@@ -126,6 +153,15 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
 
           <NavActions>
             <LocaleDropdown buttonStyle={{ color: C.muted }} />
+            <Button
+              type="text"
+              size="small"
+              icon={isDark ? <SunOutlined /> : <MoonOutlined />}
+              onClick={toggleTheme}
+              title={isDark ? t('theme.light') : t('theme.dark')}
+              aria-label={isDark ? t('theme.light') : t('theme.dark')}
+              style={{ color: C.muted }}
+            />
             <NavDivider $C={C} />
 
             {!authLoading && (
@@ -142,14 +178,9 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
               )
             )}
 
-            <NavPrimaryButton
-              type="primary"
-              size="small"
-              icon={<RocketOutlined />}
-              onClick={onCta}
-            >
-              <CtaFull>{user ? t('landing.nav.goToApp') : t('landing.nav.getStarted')}</CtaFull>
+            <NavPrimaryButton type="primary" size="small" onClick={onCta}>
               <CtaShort>{user ? t('landing.nav.goToApp') : t('landing.nav.getStartedShort')}</CtaShort>
+              <CtaFull>{user ? t('landing.nav.goToApp') : t('landing.nav.getStarted')}</CtaFull>
             </NavPrimaryButton>
 
             <NavMenuButton
@@ -169,7 +200,7 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
         placement="right"
         open={menuOpen}
         onClose={closeMenu}
-        size={280}
+        size={drawerWidth}
         styles={{
           header: { background: C.card, borderBottom: `1px solid ${C.border}` },
           body: { background: C.card, padding: '16px 0' },
@@ -180,6 +211,7 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
             key={key}
             href={href}
             $C={C}
+            $active={activeHref === href}
             onClick={e => {
               e.preventDefault()
               handleNavClick(href)
@@ -192,6 +224,14 @@ export function LandingNav({ C, onLogin, onCta }: Props) {
         <DrawerDivider $C={C} />
 
         <DrawerActions>
+          <Button
+            block
+            icon={isDark ? <SunOutlined /> : <MoonOutlined />}
+            onClick={toggleTheme}
+            style={{ marginBottom: 8 }}
+          >
+            {isDark ? t('theme.light') : t('theme.dark')}
+          </Button>
           {!authLoading && (
             user ? (
               <Flex vertical gap={8} style={{ width: '100%' }}>

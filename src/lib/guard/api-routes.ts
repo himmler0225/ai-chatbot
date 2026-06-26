@@ -10,7 +10,7 @@ export const ALLOWED_API_PREFIXES = [
 ] as const
 
 /** Public page paths on the FE domain. Everything else → 404 UI. */
-export const ALLOWED_PAGE_PATHS = new Set(['/', '/app'])
+export const ALLOWED_PAGE_PATHS = new Set(['/', '/app', '/privacy', '/terms'])
 
 export const ALLOWED_PAGE_PREFIXES = ['/admin', '/auth'] as const
 

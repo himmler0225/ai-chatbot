@@ -12,7 +12,6 @@ import {
   IconBoxLg,
   SectionContainer,
   SectionTitleSpaced,
-  StepNumber,
 } from '../shared/section.style'
 import { useColors } from '../shared/useColors'
 import { PlatformInline } from '@/components/common/ui/PlatformTrans'
@@ -30,23 +29,22 @@ export function HowSection() {
 
   return (
     <SectionContainer id="how-it-works" as="section">
-      <SectionLabel text={t('landing.how.label')} />
+      <SectionLabel text={t('landing.how.label')} compact />
       <Reveal delay={0.1}>
         <SectionTitleSpaced $C={C}>{t('landing.how.title')}</SectionTitleSpaced>
       </Reveal>
       <HowStagger>
-          {steps.map(({ n, title, body }, i) => (
-            <HowStepItem key={n}>
-              <FeatureCard $C={C}>
-                <StepNumber>
-                  {t('landing.how.stepPrefix')} {n}
-                </StepNumber>
-                <IconBoxLg>{STEP_ICONS[i]}</IconBoxLg>
-                <CardTitle $C={C}>{title}</CardTitle>
-                <CardBody $C={C}><PlatformInline text={body} size={16} /></CardBody>
-              </FeatureCard>
-            </HowStepItem>
-          ))}
+        {steps.map(({ title, body }, i) => (
+          <HowStepItem key={title}>
+            <FeatureCard $C={C}>
+              <IconBoxLg>{STEP_ICONS[i]}</IconBoxLg>
+              <CardTitle $C={C}>{title}</CardTitle>
+              <CardBody $C={C}>
+                <PlatformInline text={body} size={16} />
+              </CardBody>
+            </FeatureCard>
+          </HowStepItem>
+        ))}
       </HowStagger>
     </SectionContainer>
   )

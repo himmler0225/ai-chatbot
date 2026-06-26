@@ -2,6 +2,8 @@ export const ADMIN_CONFIG_GROUPS: Record<string, string[]> = {
   models: [
     'OPENAI_MODEL',
     'OPENAI_TOOL_MODEL',
+    'DEEP_SEEK_MODEL',
+    'DEEP_SEEK_TOOL_MODEL',
     'OPENAI_MAX_TOKENS',
     'OPENAI_TOOL_MAX_TOKENS',
   ],
@@ -16,7 +18,7 @@ export const ADMIN_CONFIG_GROUPS: Record<string, string[]> = {
     'QR_RATE_LIMIT',
     'YOUTUBE_RATE_LIMIT',
   ],
-  prompts: ['AGENT_SYSTEM', 'REVIEW_SUMMARY_SYSTEM', 'REVIEW_SUMMARY_PROMPT'],
+  prompts: ['AGENT_SYSTEM', 'AGENT_SYNTH_SYSTEM', 'REVIEW_SUMMARY_SYSTEM', 'REVIEW_SUMMARY_PROMPT'],
   secrets: ['OPENAI_API_KEY', 'DATA_MINER_KEY'],
   miner: [
     'PROXY_VN',
@@ -48,6 +50,7 @@ export const JSON_CONFIG_KEYS = new Set([
 
 export const LONG_TEXT_KEYS = new Set([
   'AGENT_SYSTEM',
+  'AGENT_SYNTH_SYSTEM',
   'REVIEW_SUMMARY_SYSTEM',
   'REVIEW_SUMMARY_PROMPT',
 ])

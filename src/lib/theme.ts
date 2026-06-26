@@ -2,6 +2,18 @@ import type { ThemeConfig } from 'antd'
 import { theme } from 'antd'
 import { PRIM } from '@/constants/brand'
 
+/** ChatGPT-like dark palette */
+export const CHAT_DARK = {
+  bg: '#0d0d0d',
+  sidebar: '#171717',
+  elevated: '#212121',
+  input: '#2f2f2f',
+  border: '#2f2f2f',
+  borderSubtle: '#424242',
+  text: '#ececec',
+  textMuted: '#b4b4b4',
+} as const
+
 const TOKEN: ThemeConfig['token'] = {
   colorPrimary: PRIM,
   colorLink: PRIM,
@@ -9,7 +21,7 @@ const TOKEN: ThemeConfig['token'] = {
   colorWarning: '#faad14',
   colorError: '#ff4d4f',
 
-  fontFamily: 'var(--font-sans), -apple-system, sans-serif',
+  fontFamily: 'var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif',
   fontFamilyCode: 'var(--font-mono), "JetBrains Mono", monospace',
   fontSize: 14,
 
@@ -23,13 +35,18 @@ const TOKEN: ThemeConfig['token'] = {
 
 const DARK_TOKEN: ThemeConfig['token'] = {
   ...TOKEN,
-  colorBgBase: '#0a0a0a',
-  colorBgContainer: '#141414',
-  colorBgElevated: '#1a1a1a',
-  colorBgSpotlight: '#242424',
-  colorBgLayout: '#0d0d0d',
-  colorBorder: '#303030',
-  colorBorderSecondary: '#242424',
+  colorBgBase: CHAT_DARK.bg,
+  colorBgContainer: CHAT_DARK.elevated,
+  colorBgElevated: CHAT_DARK.input,
+  colorBgSpotlight: '#424242',
+  colorBgLayout: CHAT_DARK.bg,
+  colorBorder: CHAT_DARK.borderSubtle,
+  colorBorderSecondary: CHAT_DARK.border,
+  colorText: CHAT_DARK.text,
+  colorTextSecondary: CHAT_DARK.textMuted,
+  colorTextTertiary: '#8e8e8e',
+  colorFillSecondary: '#2f2f2f',
+  colorFillTertiary: '#424242',
 }
 
 const COMPONENTS: ThemeConfig['components'] = {
@@ -48,14 +65,38 @@ export function getAntdTheme(isDark: boolean): ThemeConfig {
   return {
     algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
     token: isDark ? DARK_TOKEN : TOKEN,
-    components: {
-      ...COMPONENTS,
-      Layout: {
-        siderBg:  isDark ? '#141414' : '#ffffff',
-        bodyBg:   isDark ? '#0d0d0d' : '#f5f5f5',
-        headerBg: isDark ? '#141414' : '#ffffff',
-      },
-    },
+    components: isDark
+      ? {
+          ...COMPONENTS,
+          Layout: {
+            siderBg: CHAT_DARK.sidebar,
+            bodyBg: CHAT_DARK.bg,
+            headerBg: CHAT_DARK.bg,
+          },
+          Menu: {
+            darkItemBg: 'transparent',
+            darkItemSelectedBg: CHAT_DARK.input,
+            darkItemHoverBg: CHAT_DARK.input,
+            itemBg: 'transparent',
+            itemSelectedBg: CHAT_DARK.input,
+            itemHoverBg: CHAT_DARK.input,
+            itemBorderRadius: 8,
+          },
+          Button: {
+            ...COMPONENTS.Button,
+            defaultBg: CHAT_DARK.elevated,
+            defaultBorderColor: CHAT_DARK.border,
+            defaultColor: CHAT_DARK.text,
+          },
+        }
+      : {
+          ...COMPONENTS,
+          Layout: {
+            siderBg: '#ffffff',
+            bodyBg: '#f5f5f5',
+            headerBg: '#ffffff',
+          },
+        },
   }
 }
 

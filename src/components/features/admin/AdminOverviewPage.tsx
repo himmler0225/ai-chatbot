@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { UserOutlined, MessageOutlined, WarningOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import { useTranslation } from 'react-i18next'
-import '@/i18n/config'
+import { useAppLocale } from '@/i18n/locale'
 import { adminFetch } from '@/lib/admin/client'
 import { AdminHeader } from '@/components/features/admin/AdminHeader'
 import { AdminPageBody } from '@/components/features/admin/AdminPageBody'
@@ -37,8 +37,8 @@ type OverviewRes = {
 }
 
 export function AdminOverviewPage() {
-  const { t, i18n } = useTranslation()
-  const locale = i18n.language?.startsWith('vi') ? 'vi-VN' : 'en-US'
+  const { t } = useTranslation()
+  const { intlLocale: locale } = useAppLocale()
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'overview'],

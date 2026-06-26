@@ -3,7 +3,7 @@
 import { Flex, theme } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { TOOL_LABELS } from '@/constants/chat'
-import '@/i18n/config'
+import { useAppLocale } from '@/i18n/locale'
 
 interface Props {
   tool?: string | null
@@ -13,8 +13,8 @@ interface Props {
 
 export default function StreamingStatus({ tool, detail, compact = false }: Props) {
   const { token } = theme.useToken()
-  const { t, i18n } = useTranslation()
-  const locale = i18n.language === 'en' ? 'en' : 'vi'
+  const { t } = useTranslation()
+  const { locale } = useAppLocale()
 
   const info = tool ? TOOL_LABELS[tool] : null
   const icon = info?.icon ?? '✨'

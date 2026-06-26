@@ -1,59 +1,49 @@
 'use client'
-import Image from 'next/image'
+
 import { Button, Dropdown } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useLocale } from '@/contexts/theme'
-
-const FLAG = {
-  vi: { src: '/vietnam.webp', label: 'Tiếng Việt' },
-  en: { src: '/eng.svg', label: 'English' },
-} as const
+import { LOCALES, normalizeLocale, type AppLocale } from '@/i18n/locale'
 
 interface Props {
   buttonStyle?: React.CSSProperties
 }
 
 export function LocaleDropdown({ buttonStyle }: Props) {
-  const { t } = useTranslation()
-  const { locale, toggleLocale } = useLocale()
-  const current = FLAG[locale as keyof typeof FLAG] ?? FLAG.vi
+  const { t, i18n } = useTranslation()
+  const { setLocale } = useLocale()
+  const locale = normalizeLocale(i18n.language)
+
+  const labelFor = (key: AppLocale) =>
+    key === 'vi' ? t('lang.vi') : t('lang.en')
 
   return (
     <Dropdown
+      key={locale}
       trigger={['click']}
       menu={{
         selectedKeys: [locale],
-        items: Object.entries(FLAG).map(([key, { src, label }]) => ({
+        items: LOCALES.map(key => ({
           key,
-          label,
-          icon: (
-            <Image
-              src={src}
-              alt={key}
-              width={16}
-              height={12}
-              style={{ objectFit: 'cover', borderRadius: 2 }}
-            />
-          ),
+          label: labelFor(key),
         })),
-        onClick: ({ key }) => {
-          if (key !== locale) toggleLocale()
-        },
+        onClick: ({ key }) => setLocale(key as AppLocale),
       }}
     >
       <Button
         type="text"
         size="small"
         title={t('lang.toggle')}
-        style={{ padding: '4px 6px', height: 30, ...buttonStyle }}
+        style={{
+          padding: '4px 8px',
+          height: 30,
+          fontSize: 13,
+          fontWeight: 500,
+          minWidth: 32,
+          ...buttonStyle,
+        }}
       >
-        <Image
-          src={current.src}
-          alt={locale}
-          width={22}
-          height={16}
-          style={{ width: 22, height: 'auto', objectFit: 'cover', borderRadius: 3, display: 'block' }}
-        />
+        {locale === 'vi' ? 'VI' : 'EN'}
       </Button>
     </Dropdown>
   )

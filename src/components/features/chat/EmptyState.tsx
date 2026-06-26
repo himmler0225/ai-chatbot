@@ -1,52 +1,34 @@
 'use client'
 
-import { Avatar, Flex, Grid, Typography, theme } from 'antd'
-import { RobotOutlined, ShopOutlined } from '@ant-design/icons'
+import { Flex, Grid, theme } from 'antd'
 import { useTranslation } from 'react-i18next'
-import '@/i18n/config'
 import { useChatStore } from '@/stores/chatStore'
-import { PRIM } from '@/constants/brand'
+import { useTheme } from '@/contexts/theme'
+import { CHAT_DARK } from '@/lib/theme'
 
-const { Title } = Typography
 const { useBreakpoint } = Grid
 
-const FALLBACK_SUGGESTIONS = [
-  'Người dùng nói gì về iPhone 16 Pro Max?',
-  'Review Samsung Galaxy S24 trên YouTube có đáng mua không?',
-  'So sánh MacBook Air M3 vs Dell XPS trên TikTok',
-]
-
 interface Props {
-  onSuggestion: (text: string) => void
+  onSuggestion?: (text: string) => void
   onOpenProductPanel?: (store?: 'tiki' | 'fpt') => void
 }
 
-export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) {
+export default function EmptyState({ onSuggestion }: Props) {
   const { token } = theme.useToken()
+  const { isDark } = useTheme()
   const { t } = useTranslation()
   const isStreaming = useChatStore(s => s.isStreaming)
   const screens = useBreakpoint()
   const isMobile = !screens.md
 
   const raw = t('chat.suggestions', { returnObjects: true })
-  const suggestions = Array.isArray(raw) ? raw : FALLBACK_SUGGESTIONS
+  const suggestions = Array.isArray(raw) ? (raw as string[]) : []
 
-  const storeChipStyle: React.CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 8,
-    padding: '9px 16px',
-    borderRadius: 999,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    background: token.colorBgContainer,
-    color: token.colorText,
-    fontSize: 13,
-    fontWeight: 500,
-    lineHeight: 1.4,
-    cursor: isStreaming ? 'not-allowed' : 'pointer',
-    opacity: isStreaming ? 0.55 : 1,
-    transition: 'background 0.15s, border-color 0.15s, color 0.15s',
-  }
+  const chipBorder = isDark ? CHAT_DARK.borderSubtle : token.colorBorderSecondary
+  const chipBg = isDark ? CHAT_DARK.elevated : token.colorBgContainer
+  const chipHover = isDark ? CHAT_DARK.input : token.colorFillSecondary
+
+  if (suggestions.length === 0) return null
 
   return (
     <Flex
@@ -56,66 +38,43 @@ export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) 
       style={{
         flex: 1,
         width: '100%',
-        padding: isMobile ? '24px 0' : '32px 24px',
-        paddingBottom: isMobile ? 48 : '12vh',
+        minHeight: isMobile ? '36vh' : '44vh',
+        padding: isMobile ? '24px 20px' : '32px 24px',
       }}
     >
-      {!isMobile && (
-        <Avatar
-          size={52}
-          icon={<RobotOutlined />}
-          style={{ background: token.colorPrimary, marginBottom: 20 }}
-        />
-      )}
-
-      <Title
-        level={3}
-        style={{
-          margin: 0,
-          fontWeight: 600,
-          textAlign: 'center',
-          fontSize: isMobile ? 'clamp(20px, 5.5vw, 26px)' : 28,
-        }}
-      >
-        {t('chat.greeting')}
-      </Title>
-
       <div
         style={{
-          marginTop: 20,
-          paddingLeft: 16,
-          paddingRight: 16,
           width: '100%',
-          maxWidth: 640,
+          maxWidth: 520,
           display: 'flex',
           flexDirection: 'column',
-          gap: 10,
+          gap: 8,
         }}
       >
         {suggestions.map(text => (
           <button
             key={text}
             type="button"
-            disabled={isStreaming}
-            onClick={() => onSuggestion(text)}
+            disabled={isStreaming || !onSuggestion}
+            onClick={() => onSuggestion?.(text)}
             onMouseEnter={e => {
-              if (!isStreaming) e.currentTarget.style.background = token.colorFillSecondary
+              if (!isStreaming) e.currentTarget.style.background = chipHover
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = token.colorBgContainer
+              e.currentTarget.style.background = chipBg
             }}
             style={{
               width: '100%',
-              padding: '12px 16px',
-              borderRadius: 16,
-              border: `1px solid ${token.colorBorderSecondary}`,
-              background: token.colorBgContainer,
-              color: token.colorText,
-              fontSize: 14,
+              padding: '11px 16px',
+              borderRadius: 12,
+              border: `1px solid ${chipBorder}`,
+              background: chipBg,
+              color: token.colorTextSecondary,
+              fontSize: isMobile ? 16 : 14,
               lineHeight: 1.5,
               textAlign: 'left',
               cursor: isStreaming ? 'not-allowed' : 'pointer',
-              opacity: isStreaming ? 0.6 : 1,
+              opacity: isStreaming ? 0.55 : 1,
               transition: 'background 0.15s',
             }}
           >
@@ -123,53 +82,6 @@ export default function EmptyState({ onSuggestion, onOpenProductPanel }: Props) 
           </button>
         ))}
       </div>
-
-      {onOpenProductPanel && (
-        <Flex gap={10} wrap="wrap" justify="center" style={{ marginTop: 20, maxWidth: 640, padding: '0 16px' }}>
-          <button
-            type="button"
-            disabled={isStreaming}
-            onClick={() => onOpenProductPanel('tiki')}
-            onMouseEnter={e => {
-              if (!isStreaming) {
-                e.currentTarget.style.background = token.colorPrimaryBg
-                e.currentTarget.style.borderColor = token.colorPrimaryBorder
-                e.currentTarget.style.color = PRIM
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = token.colorBgContainer
-              e.currentTarget.style.borderColor = token.colorBorderSecondary
-              e.currentTarget.style.color = token.colorText
-            }}
-            style={storeChipStyle}
-          >
-            <ShopOutlined style={{ fontSize: 14, opacity: 0.75 }} />
-            {t('chat.findOnTiki')}
-          </button>
-          <button
-            type="button"
-            disabled={isStreaming}
-            onClick={() => onOpenProductPanel('fpt')}
-            onMouseEnter={e => {
-              if (!isStreaming) {
-                e.currentTarget.style.background = token.colorPrimaryBg
-                e.currentTarget.style.borderColor = token.colorPrimaryBorder
-                e.currentTarget.style.color = PRIM
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = token.colorBgContainer
-              e.currentTarget.style.borderColor = token.colorBorderSecondary
-              e.currentTarget.style.color = token.colorText
-            }}
-            style={storeChipStyle}
-          >
-            <ShopOutlined style={{ fontSize: 14, opacity: 0.75 }} />
-            {t('chat.findOnFpt')}
-          </button>
-        </Flex>
-      )}
     </Flex>
   )
 }

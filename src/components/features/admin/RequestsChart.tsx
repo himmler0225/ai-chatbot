@@ -2,7 +2,7 @@
 
 import { Card, Flex, Skeleton, Tag, Tooltip, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
-import '@/i18n/config'
+import { useAppLocale } from '@/i18n/locale'
 import { adminCardStyle, useAdminColors } from '@/constants/admin-theme'
 import { PRIM } from '@/constants/brand'
 
@@ -19,9 +19,9 @@ type Props = {
 }
 
 export function RequestsChart({ points, loading }: Props) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const c = useAdminColors()
-  const locale = i18n.language?.startsWith('vi') ? 'vi-VN' : 'en-US'
+  const { intlLocale: locale } = useAppLocale()
 
   if (loading) {
     return (

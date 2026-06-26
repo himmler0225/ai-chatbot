@@ -1,25 +1,19 @@
 'use client'
 
-import { Avatar, Button, Dropdown, Flex, Grid, Tooltip, Typography } from 'antd'
+import { Button, Flex, Grid, Tooltip, Typography } from 'antd'
 import {
-  LoginOutlined,
-  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MoonOutlined,
   SunOutlined,
-  UserOutlined,
 } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { theme } from 'antd'
 import '@/i18n/config'
 import { useTheme } from '@/contexts/theme'
-import { useAuth } from '@/hooks/common/useAuth'
-import { signOut } from '@/lib/supabase'
-import { useUIStore } from '@/stores/uiStore'
 import { LocaleDropdown } from '@/components/common/ui/LocaleDropdown'
-import { Logo } from '@/components/common/ui/Logo'
 import { APP_NAME } from '@/constants/brand'
+import { CHAT_DARK } from '@/lib/theme'
 
 const { Text } = Typography
 const { useBreakpoint } = Grid
@@ -33,18 +27,19 @@ export function ChatHeader({ sidebarOpen, onToggleSidebar }: Props) {
   const { isDark, toggleTheme } = useTheme()
   const { t } = useTranslation()
   const { token } = theme.useToken()
-  const { user, loading: authLoading } = useAuth()
-  const openAuthModal = useUIStore(s => s.openAuthModal)
   const screens = useBreakpoint()
   const isMobile = !screens.md
 
-  const sidebarBtn = (
+  const showHeaderToggle = isMobile || !sidebarOpen
+
+  const toggleBtn = (
     <Button
       type="text"
       size="small"
       icon={sidebarOpen ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
       onClick={onToggleSidebar}
       aria-label={sidebarOpen ? t('chat.hideSidebar') : t('chat.showSidebar')}
+      style={{ color: token.colorTextSecondary, flexShrink: 0 }}
     />
   )
 
@@ -53,78 +48,48 @@ export function ChatHeader({ sidebarOpen, onToggleSidebar }: Props) {
       align="center"
       justify="space-between"
       style={{
-        height: 52,
         flexShrink: 0,
-        padding: '0 16px',
-        borderBottom: `1px solid ${token.colorBorderSecondary}`,
-        background: token.colorBgContainer,
+        paddingTop: 20,
+        paddingBottom: 12,
+        paddingLeft: 12,
+        paddingRight: 12,
+        background: isDark ? CHAT_DARK.bg : token.colorBgLayout,
       }}
     >
       <Flex align="center" gap={8} style={{ minWidth: 0, flex: 1 }}>
-        {isMobile ? sidebarBtn : (
-          <Tooltip destroyOnHidden title={sidebarOpen ? t('chat.hideSidebar') : t('chat.showSidebar')}>
-            {sidebarBtn}
-          </Tooltip>
+        {showHeaderToggle && (
+          isMobile ? toggleBtn : (
+            <Tooltip destroyOnHidden title={t('chat.showSidebar')}>
+              {toggleBtn}
+            </Tooltip>
+          )
         )}
-        {!isMobile && (
-          <>
-            <Logo size={50} />
-            <Text strong style={{ fontSize: 15, letterSpacing: '-0.01em' }} className="truncate">
-              {APP_NAME}
-            </Text>
-          </>
-        )}
+        <Text
+          strong
+          style={{
+            fontSize: 15,
+            letterSpacing: '-0.01em',
+            color: token.colorText,
+            lineHeight: 1,
+            margin: 0,
+          }}
+          className="truncate"
+        >
+          {APP_NAME}
+        </Text>
       </Flex>
 
-      <Flex gap={8} align="center" justify="flex-end" style={{ flexShrink: 0 }}>
-        <LocaleDropdown />
-
+      <Flex gap={4} align="center" style={{ flexShrink: 0 }}>
+        <LocaleDropdown buttonStyle={{ color: token.colorTextSecondary }} />
         <Tooltip title={isDark ? t('theme.light') : t('theme.dark')}>
           <Button
             type="text"
             size="small"
             icon={isDark ? <SunOutlined /> : <MoonOutlined />}
             onClick={toggleTheme}
+            style={{ color: token.colorTextSecondary }}
           />
         </Tooltip>
-
-        {!authLoading && (
-          user ? (
-            <Dropdown
-              trigger={['click']}
-              menu={{
-                items: [{
-                  key: 'logout',
-                  label: t('auth.logout'),
-                  icon: <LogoutOutlined />,
-                  danger: true,
-                  onClick: () => void signOut(),
-                }],
-              }}
-            >
-              <Avatar
-                src={
-                  (user.user_metadata as { avatar_url?: string; picture?: string } | undefined)
-                    ?.avatar_url ??
-                  (user.user_metadata as { picture?: string } | undefined)?.picture
-                }
-                size={30}
-                icon={<UserOutlined />}
-                style={{ cursor: 'pointer', flexShrink: 0 }}
-              />
-            </Dropdown>
-          ) : (
-            <Button
-              type="primary"
-              size="small"
-              icon={<LoginOutlined />}
-              onClick={() => openAuthModal('login')}
-              style={{ borderRadius: 8, fontSize: 13 }}
-            >
-              {t('landing.nav.login')}
-            </Button>
-          )
-        )}
       </Flex>
     </Flex>
   )

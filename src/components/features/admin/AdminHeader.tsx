@@ -1,10 +1,10 @@
 'use client'
 
-import { GlobalOutlined, MenuOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
+import { MenuOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { Avatar, Button, Flex, Layout, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
-import '@/i18n/config'
-import { useLocale, useTheme } from '@/contexts/theme'
+import { useTheme } from '@/contexts/theme'
+import { LocaleDropdown } from '@/components/common/ui/LocaleDropdown'
 import { useAdminNav } from '@/contexts/admin-nav'
 import { useAdmin } from '@/hooks/admin/useAdmin'
 import { useAdminColors } from '@/constants/admin-theme'
@@ -21,7 +21,7 @@ type Props = {
 export function AdminHeader({ titleKey, subtitleKey }: Props) {
   const { t } = useTranslation()
   const { profile } = useAdmin()
-  const { isDark, toggleTheme, toggleLocale, locale } = useTheme()
+  const { isDark, toggleTheme } = useTheme()
   const { isMobile, openDrawer } = useAdminNav()
   const c = useAdminColors()
 
@@ -76,19 +76,11 @@ export function AdminHeader({ titleKey, subtitleKey }: Props) {
         className="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 pointer-events-auto"
       >
         {!isMobile && (
-          <Button
-            type="text"
-            icon={<GlobalOutlined />}
-            onClick={toggleLocale}
-            title={t('admin.langToggle')}
-            style={{ color: c.textMuted }}
-          >
-            {locale.toUpperCase()}
-          </Button>
+          <LocaleDropdown buttonStyle={{ color: c.textMuted }} />
         )}
         <Button
           type="text"
-          icon={isDark ? <MoonOutlined /> : <SunOutlined />}
+          icon={isDark ? <SunOutlined /> : <MoonOutlined />}
           onClick={toggleTheme}
           title={isDark ? t('theme.light') : t('theme.dark')}
           style={{ color: c.textMuted }}

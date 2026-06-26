@@ -1,11 +1,11 @@
 'use client'
 
 import styled from 'styled-components'
-import { PRIM } from '@/constants/brand'
+import { LANDING_ACCENT } from '@/constants/brand'
 
-export const LabelWrap = styled.div`
+export const LabelWrap = styled.div<{ $compact?: boolean }>`
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: ${p => (p.$compact ? '0.5rem' : '1rem')};
 `
 
 export const LabelPill = styled.span`
@@ -16,9 +16,9 @@ export const LabelPill = styled.span`
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  background: ${PRIM}10;
-  border: 1px solid ${PRIM}30;
-  color: ${PRIM};
+  background: ${LANDING_ACCENT}12;
+  border: 1px solid ${LANDING_ACCENT}40;
+  color: ${LANDING_ACCENT};
 `
 
 export const BadgePill = styled.span`
@@ -26,7 +26,7 @@ export const BadgePill = styled.span`
   font-weight: 600;
   padding: 0.125rem 0.625rem;
   border-radius: 9999px;
-  background: ${PRIM}12;
-  color: ${PRIM};
-  border: 1px solid ${PRIM}30;
+  background: ${LANDING_ACCENT}12;
+  color: ${LANDING_ACCENT};
+  border: 1px solid ${LANDING_ACCENT}30;
 `

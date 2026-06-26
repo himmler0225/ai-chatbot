@@ -2,6 +2,10 @@ import type { ModalColors } from '@/types/landing'
 
 export const PRIM = '#00e599'
 export const PRIM_DARK = '#00c47f'
+/** Landing page palette (mockup) */
+export const LANDING_ACCENT = '#00E676'
+export const LANDING_FOREST = '#004D40'
+export const LANDING_FG = '#0a2e28'
 export const APP_NAME = 'ReviewMine AI'
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 

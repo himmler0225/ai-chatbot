@@ -15,6 +15,7 @@ import {
 
 const HowSection      = dynamic(() => import('@/components/features/landing').then(m => ({ default: m.HowSection })),      { ssr: false })
 const FeaturesSection = dynamic(() => import('@/components/features/landing').then(m => ({ default: m.FeaturesSection })), { ssr: false })
+const CtaBannerSection = dynamic(() => import('@/components/features/landing').then(m => ({ default: m.CtaBannerSection })), { ssr: false })
 const LandingFooter   = dynamic(() => import('@/components/features/landing').then(m => ({ default: m.LandingFooter })),   { ssr: false })
 
 export default function LandingPageView() {
@@ -53,6 +54,7 @@ export default function LandingPageView() {
       <HeroSection ctaAction={ctaAction} />
       <HowSection />
       <FeaturesSection />
+      <CtaBannerSection onPrimary={ctaAction} />
       <LandingFooter />
     </LandingPage>
   )

@@ -1,6 +1,8 @@
 import { useCallback, useRef } from 'react'
 import type { ChatPayload, Source, Tool, VideoData } from '@/types/chat'
 import { chatApi } from '@/lib/api/chat'
+import i18n from '@/i18n/config'
+import { normalizeLocale } from '@/i18n/locale'
 
 export interface StreamCallbacks {
   onTextDelta: (delta: string) => void
@@ -8,7 +10,12 @@ export interface StreamCallbacks {
   onToolDone: (tool: string) => void
   onStatus: (detail: string) => void
   onDataPreview: (videos: VideoData[]) => void
-  onDone: (meta: { sources: Source[]; usedTools: Tool[]; videos: VideoData[] }) => void
+  onDone: (meta: {
+    sources: Source[]
+    usedTools: Tool[]
+    videos: VideoData[]
+    reviewSummary: string | null
+  }) => void
   onError: (message: string) => void
 }
 
@@ -31,16 +38,11 @@ function pickDetail(event: { detail_vi?: string; detail_en?: string }, locale: s
 
 export function useAgentStream() {
   const abortRef = useRef<AbortController | null>(null)
-  const localeRef = useRef('vi')
 
   const stream = useCallback(async (payload: ChatPayload, cb: StreamCallbacks) => {
     abortRef.current?.abort()
     const controller = new AbortController()
     abortRef.current = controller
-
-    if (typeof document !== 'undefined') {
-      localeRef.current = document.documentElement.lang?.startsWith('en') ? 'en' : 'vi'
-    }
 
     let resp: Response
     try {
@@ -72,7 +74,7 @@ export function useAgentStream() {
         if (!line.startsWith('data: ')) continue
         try {
           const event = JSON.parse(line.slice(6)) as SseEvent
-          const locale = localeRef.current
+          const locale = normalizeLocale(i18n.language)
           switch (event.type) {
             case 'text_delta':
               cb.onTextDelta(event.delta)
@@ -97,6 +99,7 @@ export function useAgentStream() {
               cb.onDone({
                 sources: event.data?.sources ?? [],
                 videos: event.data?.videos ?? [],
+                reviewSummary: event.data?.review_summary ?? null,
                 usedTools: (event.tool_calls ?? []).map(t => ({
                   name: t.tool,
                   label: t.tool,

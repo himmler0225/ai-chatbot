@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import type { Message } from '@/types/chat'
 import SourceChips from './SourceChips'
+import ReviewSummary from './ReviewSummary'
 import { VideoChart } from './VideoChart'
 import StreamingStatus from './StreamingStatus'
 
@@ -41,7 +42,7 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
   const isMobile = !screens.md
   const isUser = msg.role === 'user'
 
-  if (!isUser && !msg.content && !isStreaming && !msg.cancelled) return null
+  if (!isUser && !msg.content && !msg.reviewSummary && !msg.videos?.length && !isStreaming && !msg.cancelled) return null
 
   const showStreamingStatus = isStreaming && (!msg.content || activeTool || activeToolDetail)
 
@@ -105,6 +106,10 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
                 ) : null}
               </div>
 
+              {!isStreaming && !!msg.reviewSummary && (
+                <ReviewSummary markdown={msg.reviewSummary} />
+              )}
+
               {!!msg.videos?.length && <VideoChart videos={msg.videos} />}
               {!isStreaming && !!msg.sources?.length && <SourceChips sources={msg.sources} />}
               {msg.cancelled && (
@@ -129,7 +134,7 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
                     <Tooltip title={isSpeaking ? 'Dừng đọc' : 'Đọc nội dung'}>
                       <Button type="text" size="small"
                         icon={isSpeaking ? <PauseOutlined /> : <SoundOutlined />}
-                        onClick={() => onSpeak?.(msg.id, msg.content)}
+                        onClick={() => onSpeak?.(msg.id, [msg.content, msg.reviewSummary].filter(Boolean).join('\n\n'))}
                         style={{ color: token.colorTextSecondary, width: 24, height: 24, minWidth: 24 }}
                       />
                     </Tooltip>

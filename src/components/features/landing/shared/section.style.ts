@@ -1,7 +1,7 @@
 'use client'
 
 import styled from 'styled-components'
-import { PRIM } from '@/constants/brand'
+import { LANDING_ACCENT } from '@/constants/brand'
 import type { LandingThemeProps } from './types'
 
 export const LandingPage = styled.div<LandingThemeProps>`
@@ -32,19 +32,15 @@ export const HeroContainer = styled.section`
   z-index: 1;
   max-width: 900px;
   margin: 0 auto;
-  padding: 5.5rem 1rem 3rem;
+  padding: 5rem 1rem 3rem;
   text-align: center;
 
   @media (min-width: 640px) {
-    padding: 6.5rem 1.5rem 4rem;
-  }
-
-  @media (min-width: 768px) and (max-width: 1023px) {
-    padding: 7rem 2rem 4rem;
+    padding: 6rem 1.5rem 4rem;
   }
 
   @media (min-width: 1024px) {
-    padding: 8rem 1.5rem 5rem;
+    padding: 7rem 1.5rem 4.5rem;
   }
 `
 
@@ -57,7 +53,7 @@ export const SectionTitle = styled.h2<LandingThemeProps>`
 `
 
 export const SectionTitleSpaced = styled(SectionTitle)`
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.5rem;
 `
 
 export const SectionSubtitle = styled.p<LandingThemeProps>`
@@ -94,13 +90,14 @@ export const IconBox = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: ${PRIM}10;
-  border: 1px solid ${PRIM}30;
+  background: ${LANDING_ACCENT}10;
+  border: 1px solid ${LANDING_ACCENT}30;
 `
 
 export const IconBoxLg = styled(IconBox)`
   width: 3rem;
   height: 3rem;
+  margin-bottom: 1rem;
 `
 
 export const CardTitle = styled.h3<LandingThemeProps & { $large?: boolean }>`
@@ -121,7 +118,7 @@ export const StepNumber = styled.div`
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: ${PRIM};
+  color: ${LANDING_ACCENT};
   margin-bottom: 1.25rem;
 `
 
@@ -134,7 +131,7 @@ export const CardHeader = styled.div`
 
 export const StyledGlyph = styled.span<{ $size: number }>`
   font-size: ${p => p.$size}px;
-  color: ${PRIM};
+  color: ${LANDING_ACCENT};
   display: inline-flex;
 `
 

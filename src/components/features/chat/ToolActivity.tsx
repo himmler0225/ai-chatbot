@@ -4,7 +4,7 @@ import { Avatar, Flex, Typography, theme } from 'antd'
 import { RobotOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { TOOL_LABELS } from '@/constants/chat'
-import '@/i18n/config'
+import { useAppLocale } from '@/i18n/locale'
 
 const { Text } = Typography
 
@@ -15,14 +15,14 @@ interface Props {
 
 export default function ToolActivity({ tool, isStreaming }: Props) {
   const { token } = theme.useToken()
-  const { i18n } = useTranslation()
-  const locale = i18n.language === 'en' ? 'en' : 'vi'
+  const { t } = useTranslation()
+  const { locale } = useAppLocale()
 
   if (!isStreaming) return null
 
   const info = tool ? TOOL_LABELS[tool] : null
   const icon = info?.icon ?? '🤔'
-  const label = info?.[locale] ?? (locale === 'en' ? 'Thinking...' : 'Đang xử lý...')
+  const label = info?.[locale] ?? t('chat.thinking')
 
   return (
     <Flex gap={12} align="flex-start" style={{ padding: '4px 0' }}>

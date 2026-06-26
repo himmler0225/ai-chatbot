@@ -50,7 +50,7 @@
   "lang": {
     "toggle": "Ngôn ngữ",
     "vi": "Tiếng Việt",
-    "en": "English"
+    "en": "Tiếng Anh"
   },
   "utilities": {
     "product": {
@@ -153,12 +153,13 @@
   "landing": {
     "badge": "Phân tích review sản phẩm tự động",
     "hero": {
-      "title1": "Biết ngay",
-      "titleHighlight": "sản phẩm tốt",
-      "title2": "trước khi mua",
-      "desc": "Hỏi ReviewMine AI về bất kỳ sản phẩm nào. AI tự tổng hợp nhận xét thực tế từ <yt></yt> và <tt></tt> — không quảng cáo, không thiên vị.",
+      "title1": "Biết",
+      "titleHighlight": "chất lượng",
+      "title2": "sản phẩm trước khi mua",
+      "desc": "Hỏi ReviewMine AI về bất kỳ sản phẩm nào. AI tự động tổng hợp đánh giá thực từ YouTube và TikTok — không quảng cáo, không định kiến.",
       "cta": "Trải nghiệm ngay",
-      "howto": "Xem cách dùng",
+      "howto": "Xem cách hoạt động",
+      "realReviewsBadge": "100% Review thực",
       "demo": {
         "question": "Review iPhone 15 Pro Max có đáng mua không?",
         "analyzed1": "Đã phân tích",
@@ -191,26 +192,37 @@
       }
     ],
     "how": {
-      "label": "Cách dùng",
+      "label": "QUY TRÌNH",
       "stepPrefix": "BƯỚC",
-      "title": "Đơn giản như nhắn tin",
+      "title": "Đơn giản như chat với bạn bè",
       "steps": [
         {
           "n": "01",
           "title": "Hỏi về sản phẩm",
-          "body": "Nhập tên bất kỳ sản phẩm nào bạn quan tâm — điện thoại, laptop, mỹ phẩm, đồ gia dụng..."
+          "body": "Nhập tên bất kỳ sản phẩm nào bạn tò mò — điện thoại, laptop, mỹ phẩm, hay đồ gia dụng..."
         },
         {
           "n": "02",
-          "title": "AI tìm kiếm tự động",
-          "body": "ReviewMine AI tự tìm và phân tích video + bình luận từ YouTube và TikTok — bạn không cần làm gì thêm."
+          "title": "AI tự động tìm kiếm",
+          "body": "ReviewMine AI tự động quét hàng ngàn video và bình luận từ YouTube và TikTok chỉ trong tích tắc."
         },
         {
           "n": "03",
           "title": "Nhận bản tóm tắt",
-          "body": "Nhận ngay báo cáo theo chủ đề: chất lượng, giá, giao hàng, bảo hành — có trích dẫn nguyên văn."
+          "body": "Nhận báo cáo tức thì theo chủ đề: chất lượng, giá cả, bảo hành — kèm trích dẫn thực tế."
         }
       ]
+    },
+    "core": {
+      "label": "CÔNG NGHỆ CỐT LÕI",
+      "title": "AI Review Chat",
+      "body": "AI thay bạn xem hàng giờ video review — chỉ cần hỏi, mọi insight từ cộng đồng sẽ được tổng hợp trong vài giây.",
+      "questions": [
+        "Người dùng nói gì về iPhone 15 Pro Max?",
+        "So sánh MacBook Air M3 và Dell XPS trên TikTok",
+        "Lỗi phổ biến nhất của máy hút bụi Dyson V15?"
+      ],
+      "analyzing": "Đang phân tích 2,400+ bình luận..."
     },
     "features": {
       "label": "Tính năng",
@@ -271,6 +283,12 @@
         }
       ]
     },
+    "ctaBanner": {
+      "title": "Sẵn sàng để mua sắm thông minh hơn?",
+      "desc": "Tham gia cùng hàng nghìn người tiết kiệm thời gian và tiền bạc nhờ quyết định dựa trên review thực.",
+      "primary": "Bắt đầu ngay miễn phí",
+      "secondary": "Liên hệ chúng tôi"
+    },
     "cta": {
       "title": "Bắt đầu ngay hôm nay",
       "desc": "Không cần thẻ tín dụng.",
@@ -283,26 +301,30 @@
       "getStartedShort": "Bắt đầu",
       "goToApp": "Vào app",
       "links": {
-        "how": { "label": "Cách dùng", "href": "#how-it-works" },
+        "how": { "label": "Quy trình", "href": "#how-it-works" },
         "features": { "label": "Tính năng", "href": "#features" },
         "examples": { "label": "Ví dụ", "href": "#demo" },
         "pricing": { "label": "Bảng giá", "href": "#features" }
       }
     },
     "footer": {
-      "desc": "Đưa ra quyết định mua sắm thông minh hơn với sức mạnh của trí tuệ nhân tạo — tổng hợp review thực tế từ YouTube & TikTok.",
-      "productTitle": "Sản phẩm",
-      "supportTitle": "Hỗ trợ",
-      "products": {
-        "chat": "Chat AI Review",
-        "stores": "Tìm sản phẩm"
-      },
+      "copyright": "© 2026 ReviewMine AI. All rights reserved.",
       "support": {
         "privacy": "Chính sách bảo mật",
         "terms": "Điều khoản dịch vụ",
-        "contact": "Liên hệ hỗ trợ"
-      },
-      "copyright": "© 2026 ReviewMine AI. Phân tích chính xác từ YouTube & TikTok."
+        "contact": "Liên hệ",
+        "docs": "Tài liệu"
+      }
+    }
+  },
+  "legal": {
+    "lastUpdated": "Cập nhật",
+    "backHome": "Về trang chủ",
+    "openApp": "Mở ứng dụng",
+    "contact": "Liên hệ hỗ trợ",
+    "link": {
+      "privacy": "Chính sách bảo mật",
+      "terms": "Điều khoản dịch vụ"
     }
   },
   "notFound": {

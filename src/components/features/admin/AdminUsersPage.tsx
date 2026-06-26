@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Select, Table, Tag, Typography, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
-import '@/i18n/config'
+import { useAppLocale } from '@/i18n/locale'
 import { adminFetch } from '@/lib/admin/client'
 import { USER_ROLES, type UserRole } from '@/lib/admin/config-keys'
 import { AdminHeader } from '@/components/features/admin/AdminHeader'
@@ -33,8 +33,8 @@ const ROLE_COLOR: Record<UserRole, string> = {
 }
 
 export function AdminUsersPage() {
-  const { t, i18n } = useTranslation()
-  const locale = i18n.language?.startsWith('vi') ? 'vi-VN' : 'en-US'
+  const { t } = useTranslation()
+  const { intlLocale: locale } = useAppLocale()
   const { profile: me } = useAdmin()
   const qc = useQueryClient()
   const c = useAdminColors()
