@@ -72,9 +72,9 @@ export function AdminConfigPage() {
             }
             extra={jsonKeys.has(key) ? t('admin.config.jsonHint') : undefined}
           >
-            {longText.has(key) ? (
+            {longText.has(key) || jsonKeys.has(key) ? (
               <TextArea
-                rows={12}
+                rows={jsonKeys.has(key) ? 16 : 12}
                 value={config[key] ?? ''}
                 placeholder={t('admin.config.emptyPlaceholder')}
                 onChange={e => setKey(key, e.target.value)}

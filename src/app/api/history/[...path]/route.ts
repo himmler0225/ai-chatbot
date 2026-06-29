@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withGuard } from '@/lib/guard/server'
-import { aiLayerClient } from '@/lib/api/server'
+import { getAiLayerClient } from '@/lib/api/server'
 
 type Ctx = { params: Promise<{ path: string[] }> }
 
@@ -19,11 +19,12 @@ async function proxy(
       body = JSON.parse(bodyText)
     }
 
-    const { data, status } = await aiLayerClient.request({
+    const client = await getAiLayerClient()
+    const { data, status } = await client.request({
       method: req.method,
       url: target,
       data: body,
-      headers: { Authorization: auth, 'X-API-Key': process.env.AI_LAYER_KEY ?? '' },
+      headers: { Authorization: auth },
       params: Object.fromEntries(new URL(req.url).searchParams),
     })
 

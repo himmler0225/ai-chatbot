@@ -3,9 +3,8 @@ import axios from 'axios'
 import { requireAdmin, adminErrorResponse } from '@/lib/admin/auth'
 import { getSupabaseAdmin } from '@/lib/admin/supabase-admin'
 import { withBffAccess } from '@/lib/guard/bff-access'
-import { aiLayerClient } from '@/lib/api/server'
-
-const DATA_MINER_URL = process.env.DATA_MINER_URL ?? 'http://localhost:8000'
+import { getAiLayerClient } from '@/lib/api/server'
+import { resolveAiLayer, resolveDataMiner } from '@/lib/server-config'
 
 type ChatStats = {
   sessionsToday: number
@@ -50,13 +49,18 @@ export const GET = withBffAccess(async (req: NextRequest) => {
       .select('*', { count: 'exact', head: true })
       .eq('role', 'admin')
 
-    const aiLayerUrl = process.env.AI_LAYER_URL ?? 'http://localhost:8001'
+    const [{ url: aiLayerUrl }, { url: dataMinerUrl }] = await Promise.all([
+      resolveAiLayer(),
+      resolveDataMiner(),
+    ])
 
     const [aiLayer, dataMiner, chatStats] = await Promise.all([
       pingHealth('ai-layer', aiLayerUrl),
-      pingHealth('data-miner', DATA_MINER_URL),
-      aiLayerClient
-        .get<{ data?: ChatStats }>('/ai/history/admin/stats', { params: { days: 7 } })
+      pingHealth('data-miner', dataMinerUrl),
+      getAiLayerClient()
+        .then(client =>
+          client.get<{ data?: ChatStats }>('/ai/history/admin/stats', { params: { days: 7 } }),
+        )
         .then(res => res.data?.data ?? null)
         .catch(() => null),
     ])

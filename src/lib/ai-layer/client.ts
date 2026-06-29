@@ -2,18 +2,19 @@ import type { ChatPayload, ChatResponse, Tool, ApiResponse } from '@/types/chat'
 import type { AgentResult } from './types'
 import { AiLayerTimeoutError, AiLayerUpstreamError } from './errors'
 import { buildTask, mapAxiosError } from './utils'
-import { aiLayerClient } from '@/lib/api/server'
-
-const AGENT_MAX_ITER = 10
+import { getAiLayerClient } from '@/lib/api/server'
+import { resolveAiLayer } from '@/lib/server-config'
 
 export class AiLayerClient {
   async runAgent(payload: ChatPayload): Promise<ChatResponse> {
     let raw: ApiResponse<AgentResult>
     try {
-      const { data } = await aiLayerClient.post<ApiResponse<AgentResult>>('/ai/agent/run', {
+      const { maxIter } = await resolveAiLayer()
+      const client = await getAiLayerClient()
+      const { data } = await client.post<ApiResponse<AgentResult>>('/ai/agent/run', {
         task: buildTask(payload),
         tools: 'all',
-        max_iter: AGENT_MAX_ITER,
+        max_iter: maxIter,
       })
       raw = data
     } catch (err) {
@@ -34,7 +35,8 @@ export class AiLayerClient {
 
   async callUtility<T>(endpoint: string, body: unknown): Promise<ApiResponse<T>> {
     try {
-      const { data } = await aiLayerClient.post<ApiResponse<T>>(`/ai/utilities/${endpoint}`, body)
+      const client = await getAiLayerClient()
+      const { data } = await client.post<ApiResponse<T>>(`/ai/utilities/${endpoint}`, body)
       return data
     } catch (err) {
       throw mapAxiosError(err, 'utility')

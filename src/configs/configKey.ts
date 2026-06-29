@@ -1,7 +1,8 @@
 export const configKeys = {
-    aiLayerUrl: 'AI_LAYER_URL',
-    aiLayerKey: 'AI_LAYER_KEY',
-    agentMaxIter: 'AGENT_MAX_ITER',
-    dataMinerUrl: 'DATA_MINER_URL',
-    dataMinerKey: 'DATA_MINER_KEY',
+  aiAgent: 'AI_AGENT',
+  aiModels: 'AI_MODELS',
+  prompts: 'PROMPTS',
+  proxyPools: 'PROXY_POOLS',
+  rateLimit: 'RATE_LIMIT',
+  services: 'SERVICES',
 } as const

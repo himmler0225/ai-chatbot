@@ -2,8 +2,8 @@ import type { NextRequest } from 'next/server'
 import { withGuard } from '@/lib/guard/server'
 import type { ChatPayload } from '@/types/chat'
 import { buildTask } from '@/lib/ai-layer/utils'
-import { aiLayerClient } from '@/lib/api/server'
-import { getServerConfig, get } from '@/lib/server-config'
+import { getAiLayerClient } from '@/lib/api/server'
+import { resolveAiLayer } from '@/lib/server-config'
 
 export const maxDuration = 120
 
@@ -25,20 +25,15 @@ export async function POST(request: NextRequest): Promise<Response> {
       return errorSse('Invalid JSON body')
     }
 
-    const config = await getServerConfig()
-    const layerUrl = get(config, 'AI_LAYER_URL', process.env.AI_LAYER_URL ?? 'http://localhost:8001')
-    const layerKey = get(config, 'AI_LAYER_KEY', process.env.AI_LAYER_KEY ?? '')
-    const maxIter = Number(get(config, 'AGENT_MAX_ITER', '10'))
+    const { url: layerUrl } = await resolveAiLayer()
 
     try {
-      const response = await aiLayerClient.post(
+      const client = await getAiLayerClient()
+      const response = await client.post(
         '/ai/agent/run/stream',
-        { task: buildTask(payload), tools: 'all', max_iter: maxIter },
-        {
-          responseType: 'stream',
-          headers: { 'X-API-Key': layerKey },
-          baseURL: layerUrl,
-        },
+        // max_iter: để ai-layer đọc AGENT_MAX_ITER từ Supabase (tránh dev fallback 10 ghi đè)
+        { task: buildTask(payload), tools: 'all' },
+        { responseType: 'stream' },
       )
 
       return new Response(response.data as ReadableStream, {

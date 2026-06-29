@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "admin": {
+    "groups": {
+      "models": ["AI_MODELS"],
+      "agent": ["AI_AGENT"],
+      "limits": ["RATE_LIMIT"],
+      "prompts": ["PROMPTS"],
+      "services": ["SERVICES"],
+      "miner": ["PROXY_POOLS"]
+    },
+    "json_keys": [
+      "AI_AGENT",
+      "AI_MODELS",
+      "PROMPTS",
+      "PROXY_POOLS",
+      "RATE_LIMIT",
+      "SERVICES"
+    ],
+    "secret_keys": ["AI_MODELS", "PROXY_POOLS", "SERVICES"],
+    "long_text_keys": ["PROMPTS"],
+    "json_secret_paths": {
+      "AI_MODELS": [["openai", "api_key"], ["deepseek", "api_key"], ["xah", "api_key"]],
+      "SERVICES": [["ai_layer", "key"], ["data_miner", "key"]],
+      "PROXY_POOLS": [["value"]]
+    }
+  }
+}

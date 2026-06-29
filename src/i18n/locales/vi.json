@@ -410,9 +410,10 @@
       "jsonHint": "JSON hợp lệ bắt buộc",
       "tabs": {
         "models": "Models",
-        "agent": "Agent & Limits",
+        "agent": "Agent",
+        "limits": "Rate limits",
+        "services": "Services",
         "prompts": "Prompts",
-        "secrets": "Secrets",
         "miner": "Data Miner"
       }
     },
