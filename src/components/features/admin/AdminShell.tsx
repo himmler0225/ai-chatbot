@@ -1,6 +1,6 @@
 'use client'
 
-import { Grid, Layout } from 'antd'
+import { Grid } from 'antd'
 import { AdminMobileDrawer, AdminSidebar } from './AdminSidebar'
 import { AdminShellSkeleton } from './AdminSkeletons'
 import { useAdmin } from '@/hooks/admin/useAdmin'
@@ -8,7 +8,6 @@ import { useAdminColors } from '@/constants/admin-theme'
 import { AdminNavContext } from '@/contexts/admin-nav'
 import { useMemo, useState } from 'react'
 
-const { Content } = Layout
 const { useBreakpoint } = Grid
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
@@ -33,13 +32,18 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminNavContext.Provider value={nav}>
-      <Layout className="admin-console" style={{ minHeight: '100vh', background: c.bg }}>
-        <AdminSidebar />
+      <div className="admin-console flex h-screen min-h-0 w-full overflow-hidden">
+        {!isMobile && <AdminSidebar />}
+
         <AdminMobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        <Layout style={{ background: c.bg }}>
-          <Content className="flex flex-col min-w-0 overflow-hidden">{children}</Content>
-        </Layout>
-      </Layout>
+
+        <div
+          className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden"
+          style={{ background: c.topBarBg }}
+        >
+          {children}
+        </div>
+      </div>
     </AdminNavContext.Provider>
   )
 }

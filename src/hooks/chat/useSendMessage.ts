@@ -7,8 +7,9 @@ import { useAgentStream } from '@/hooks/chat/useChat'
 import { useChatStore } from '@/stores/chatStore'
 import { useUIStore } from '@/stores/uiStore'
 import { genId, toTitle } from '@/utils/common'
+import { createDeltaBatcher } from '@/lib/stream/flushDeltas'
 import { historyApi, messageToRow } from '@/lib/api/history'
-import type { ChatSession, HistoryMessage, Message, ProductContext } from '@/types/chat'
+import type { ChatSession, HistoryMessage, Message } from '@/types/chat'
 
 export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
   const { stream: agentStream, abort } = useAgentStream()
@@ -26,7 +27,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
     })
   }, [abort])
 
-  const sendMessage = useCallback(async (overrideContent?: string, product?: ProductContext) => {
+  const sendMessage = useCallback(async (overrideContent?: string) => {
     const { input, isStreaming, activeId, messages, sessions, guestMsgCount } =
       useChatStore.getState()
 
@@ -92,16 +93,15 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
       .slice(0, -1)
       .map(m => ({ role: m.role, content: m.content }))
 
+    const deltaBatch = createDeltaBatcher(chunk =>
+      useChatStore.getState().appendToMessage(aiMsgId, chunk),
+    )
+
     try {
       await agentStream(
-        { message: content, history, product },
+        { message: content, history },
         {
-          onTextDelta: delta =>
-            useChatStore.setState(s => ({
-              messages: s.messages.map(m =>
-                m.id === aiMsgId ? { ...m, content: m.content + delta } : m
-              ),
-            })),
+          onTextDelta: delta => deltaBatch.push(delta),
 
           onToolStart: (tool, detail) =>
             useChatStore.setState({ activeTool: tool, activeToolDetail: detail || null }),
@@ -160,6 +160,7 @@ export function useSendMessage(userRef: MutableRefObject<AuthUser | null>) {
         }
       )
     } finally {
+      deltaBatch.flush()
       useChatStore.setState({ isStreaming: false, activeTool: null, activeToolDetail: null })
 
       if (userRef.current) {

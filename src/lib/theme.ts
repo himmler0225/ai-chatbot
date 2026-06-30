@@ -1,6 +1,8 @@
 import type { ThemeConfig } from 'antd'
 import { theme } from 'antd'
-import { PRIM } from '@/constants/brand'
+import { CHAT_SHELL } from '@/constants/chat-shell-theme'
+
+const ACCENT = CHAT_SHELL.accent
 
 /** ChatGPT-like dark palette */
 export const CHAT_DARK = {
@@ -15,8 +17,8 @@ export const CHAT_DARK = {
 } as const
 
 const TOKEN: ThemeConfig['token'] = {
-  colorPrimary: PRIM,
-  colorLink: PRIM,
+  colorPrimary: ACCENT,
+  colorLink: ACCENT,
   colorSuccess: '#52c41a',
   colorWarning: '#faad14',
   colorError: '#ff4d4f',
@@ -25,7 +27,7 @@ const TOKEN: ThemeConfig['token'] = {
   fontFamilyCode: 'var(--font-mono), "JetBrains Mono", monospace',
   fontSize: 14,
 
-  borderRadius: 8,
+  borderRadius: 12,
   borderRadiusLG: 12,
   borderRadiusSM: 6,
   borderRadiusXS: 4,
@@ -59,6 +61,11 @@ const COMPONENTS: ThemeConfig['components'] = {
   Menu: { borderRadius: 8 },
   Table: { borderRadius: 8 },
   Tag: { borderRadius: 6 },
+  Tabs: {
+    inkBarColor: ACCENT,
+    itemSelectedColor: ACCENT,
+    itemActiveColor: ACCENT,
+  },
 }
 
 export function getAntdTheme(isDark: boolean): ThemeConfig {
@@ -124,13 +131,14 @@ export function getAdminAntdTheme(): ThemeConfig {
         colorTextPlaceholder: '#8b95a8',
         colorBorder: '#2a3344',
         hoverBorderColor: '#3d4a5c',
-        activeBorderColor: PRIM,
+        activeBorderColor: ACCENT,
       },
       Tabs: {
         colorText: '#b8c4d4',
-        itemSelectedColor: PRIM,
+        itemSelectedColor: ACCENT,
         itemHoverColor: '#f0f4f8',
-        inkBarColor: PRIM,
+        itemActiveColor: ACCENT,
+        inkBarColor: ACCENT,
       },
       Form: {
         labelColor: '#b8c4d4',

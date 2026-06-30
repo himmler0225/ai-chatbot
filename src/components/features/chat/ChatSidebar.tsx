@@ -1,78 +1,44 @@
 'use client'
 
-import { Avatar, Button, Dropdown, Flex, Grid, Menu, Skeleton, Tooltip, Typography } from 'antd'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   DeleteOutlined,
-  EditOutlined,
   LoginOutlined,
   LogoutOutlined,
-  MenuFoldOutlined,
   MessageOutlined,
-  MobileOutlined,
-  ShoppingOutlined,
+  PlusOutlined,
+  SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { theme } from 'antd'
+import { Avatar, Button, Drawer, Dropdown, Flex, Skeleton, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useChatStore } from '@/stores/chatStore'
 import { Logo } from '@/components/common/ui/Logo'
 import { useAuth } from '@/hooks/common/useAuth'
+import { useAdminAccess } from '@/hooks/admin/useAdminAccess'
 import { signOut } from '@/lib/supabase'
 import { useUIStore } from '@/stores/uiStore'
-import { useTheme } from '@/contexts/theme'
-import { CHAT_DARK } from '@/lib/theme'
+import { APP_NAME } from '@/constants/brand'
+import { CHAT_SHELL, useChatShell } from '@/constants/chat-shell-theme'
 
 const { Text } = Typography
-const { useBreakpoint } = Grid
 
-interface Props {
-  productPanelOpen: boolean
-  activeStore?: 'tiki' | 'fpt' | null
-  sidebarOpen?: boolean
-  onToggleSidebar?: () => void
+type Props = {
   onNewChat: () => void
   onSelectSession: (id: string) => void
   onDeleteSession: (id: string) => void
-  onOpenProductStore: (store: 'tiki' | 'fpt') => void
   onClose?: () => void
 }
 
-function navItemStyle(
-  active: boolean,
-  isDark: boolean,
-  token: ReturnType<typeof theme.useToken>['token'],
-): React.CSSProperties {
-  return {
-    justifyContent: 'flex-start',
-    textAlign: 'left',
-    height: 36,
-    borderRadius: 8,
-    paddingLeft: 10,
-    paddingRight: 10,
-    fontSize: 13,
-    fontWeight: active ? 500 : 400,
-    border: 'none',
-    background: active ? (isDark ? CHAT_DARK.input : token.colorFillSecondary) : 'transparent',
-    color: active ? token.colorText : token.colorTextSecondary,
-  }
-}
+const pad = CHAT_SHELL.sidebarPad
 
 function SidebarUserFooter({ onClose }: { onClose?: () => void }) {
   const { t } = useTranslation()
-  const { token } = theme.useToken()
-  const { isDark } = useTheme()
   const { user, loading } = useAuth()
+  const { isAdmin } = useAdminAccess()
   const openAuthModal = useUIStore(s => s.openAuthModal)
-
-  const handleLogin = () => {
-    openAuthModal('login')
-    onClose?.()
-  }
-
-  const handleLogout = () => {
-    void signOut()
-    onClose?.()
-  }
+  const c = useChatShell()
 
   const displayName =
     (user?.user_metadata as { full_name?: string; name?: string } | undefined)?.full_name ??
@@ -80,293 +46,213 @@ function SidebarUserFooter({ onClose }: { onClose?: () => void }) {
     user?.email ??
     'User'
 
+  if (loading) {
+    return <Skeleton.Button active block style={{ height: 40, borderRadius: c.radius }} />
+  }
+
+  if (!user) {
+    return (
+      <Button
+        type="primary"
+        block
+        icon={<LoginOutlined />}
+        onClick={() => {
+          openAuthModal('login')
+          onClose?.()
+        }}
+        style={{
+          height: 42,
+          background: c.accent,
+          borderColor: c.accent,
+          fontWeight: 600,
+          borderRadius: c.radius,
+          boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)',
+        }}
+      >
+        {t('auth.login.submit')}
+      </Button>
+    )
+  }
+
   return (
-    <div
-      style={{
-        flexShrink: 0,
-        marginTop: 8,
-        paddingTop: 12,
-        borderTop: `1px solid ${token.colorBorderSecondary}`,
-      }}
-    >
-      {loading ? (
-        <Skeleton.Button active block style={{ height: 40, borderRadius: 10 }} />
-      ) : user ? (
-        <Dropdown
-          trigger={['click']}
-          menu={{
-            items: [{
+    <Flex vertical gap={4}>
+      {isAdmin && (
+        <Link
+          href="/admin"
+          onClick={() => onClose?.()}
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm no-underline"
+          style={{ color: c.sidebarText }}
+        >
+          <SettingOutlined style={{ fontSize: 14 }} />
+          {t('chat.shell.adminLink')}
+        </Link>
+      )}
+      <Dropdown
+        trigger={['click']}
+        menu={{
+          items: [
+            {
               key: 'logout',
               label: t('auth.logout'),
               icon: <LogoutOutlined />,
               danger: true,
-              onClick: handleLogout,
-            }],
-          }}
-        >
-          <Button
-            type="text"
-            block
-            style={{
-              height: 44,
-              borderRadius: 10,
-              justifyContent: 'flex-start',
-              padding: '0 10px',
-              ...(isDark ? { background: 'transparent' } : {}),
-            }}
-          >
-            <Flex align="center" gap={10} style={{ width: '100%', minWidth: 0 }}>
-              <Avatar
-                src={
-                  (user.user_metadata as { avatar_url?: string; picture?: string } | undefined)
-                    ?.avatar_url ??
-                  (user.user_metadata as { picture?: string } | undefined)?.picture
-                }
-                size={32}
-                icon={<UserOutlined />}
-                style={{ flexShrink: 0 }}
-              />
-              <span
-                style={{
-                  flex: 1,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  fontSize: 13,
-                  fontWeight: 500,
-                  textAlign: 'left',
-                }}
-              >
-                {displayName}
-              </span>
-            </Flex>
-          </Button>
-        </Dropdown>
-      ) : (
+              onClick: () => void signOut(),
+            },
+          ],
+        }}
+      >
         <button
           type="button"
-          onClick={handleLogin}
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            height: 44,
-            padding: '0 12px',
-            borderRadius: 10,
-            border: 'none',
-            background: isDark ? 'transparent' : token.colorBgContainer,
-            color: token.colorText,
-            fontSize: 14,
-            fontWeight: 500,
-            cursor: 'pointer',
-            transition: 'background 0.15s',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = isDark ? CHAT_DARK.input : token.colorFillSecondary
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = isDark ? 'transparent' : token.colorBgContainer
-          }}
+          className="w-full flex items-center gap-3 px-2 py-2 rounded-lg"
+          style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
         >
-          <LoginOutlined style={{ fontSize: 16, color: token.colorTextSecondary }} />
-          <span>{t('landing.nav.login')}</span>
+          <Avatar
+            size={32}
+            src={
+              (user.user_metadata as { avatar_url?: string; picture?: string } | undefined)?.avatar_url ??
+              (user.user_metadata as { picture?: string } | undefined)?.picture
+            }
+            icon={<UserOutlined />}
+          />
+          <span
+            className="flex-1 truncate text-left text-sm font-medium"
+            style={{ color: c.sidebarTextActive }}
+          >
+            {displayName}
+          </span>
         </button>
-      )}
-    </div>
+      </Dropdown>
+    </Flex>
   )
 }
 
-export function ChatSidebar({
-  productPanelOpen,
-  activeStore = null,
-  sidebarOpen = true,
-  onToggleSidebar,
-  onNewChat,
-  onSelectSession,
-  onDeleteSession,
-  onOpenProductStore,
-  onClose,
-}: Props) {
+function SidebarInner({ onNewChat, onSelectSession, onDeleteSession, onClose }: Props) {
   const { t } = useTranslation()
-  const { token } = theme.useToken()
-  const { isDark } = useTheme()
+  const router = useRouter()
+  const c = useChatShell()
   const sessions = useChatStore(s => s.sessions)
   const activeId = useChatStore(s => s.activeId)
-  const screens = useBreakpoint()
-  const isMobile = !screens.md
 
-  const handleNew = () => { onNewChat(); onClose?.() }
-
-  const handleToggle = () => {
-    onToggleSidebar?.()
-    if (isMobile) onClose?.()
+  const handleNewChat = () => {
+    onNewChat()
+    onClose?.()
+    router.push('/')
   }
 
-  const menuItems = sessions.map(s => ({
-    key: s.id,
-    label: (
-      <Flex align="center" gap={6}>
-        <MessageOutlined style={{ fontSize: 12, opacity: 0.4, flexShrink: 0 }} />
-        <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: 13 }}>
-          {s.title}
-        </span>
-        <DeleteOutlined
-          className="delete-icon"
-          style={{ fontSize: 12, opacity: 0, flexShrink: 0 }}
-          onClick={e => { e.stopPropagation(); onDeleteSession(s.id) }}
-        />
-      </Flex>
-    ),
-  }))
-
-  const storeBtnStyle = (store: 'tiki' | 'fpt') =>
-    navItemStyle(productPanelOpen && activeStore === store, isDark, token)
-
   return (
-    <Flex
-      vertical
-      style={{
-        height: '100%',
-        padding: isMobile ? '16px 12px 12px' : '12px 10px 10px',
-      }}
-    >
-      <Flex
-        align="center"
-        justify="space-between"
-        style={{
-          height: 48,
-          marginBottom: 16,
-          paddingLeft: 2,
-          paddingRight: 2,
-          flexShrink: 0,
-        }}
-      >
-        <span style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
-          <Logo size={isMobile ? 44 : 48} />
-        </span>
-        {onToggleSidebar && (
-          <Tooltip destroyOnHidden title={t('chat.hideSidebar')}>
-            <Button
-              type="text"
-              size="small"
-              icon={<MenuFoldOutlined />}
-              onClick={handleToggle}
-              aria-label={t('chat.hideSidebar')}
-              style={{ color: token.colorTextSecondary }}
-            />
-          </Tooltip>
-        )}
+    <Flex vertical className="h-full min-h-0" style={{ background: c.sidebarBg }}>
+      <Flex align="center" gap={12} className="shrink-0" style={{ padding: `${pad}px ${pad}px 14px`, borderBottom: `1px solid ${c.sidebarBorder}` }}>
+        <Logo size={36} />
+        <div className="min-w-0">
+          <Text strong className="text-sm block leading-tight truncate" style={{ color: c.sidebarTextActive }}>
+            {APP_NAME}
+          </Text>
+          <Text className="text-[10px] block truncate" style={{ color: c.sidebarText }}>
+            {t('app.tagline')}
+          </Text>
+        </div>
       </Flex>
 
-      <Button
-        block
-        icon={<EditOutlined />}
-        onClick={handleNew}
-        style={{
-          marginBottom: 14,
-          borderRadius: 10,
-          height: 40,
-          justifyContent: 'flex-start',
-          paddingLeft: 14,
-          flexShrink: 0,
-          fontWeight: 500,
-          ...(isDark
-            ? {
-                background: 'transparent',
-                borderColor: CHAT_DARK.borderSubtle,
-                color: CHAT_DARK.text,
-              }
-            : {}),
-        }}
-      >
-        {t('chat.newChat')}
-      </Button>
-
-      <div style={{ marginBottom: 12, flexShrink: 0 }}>
-        <Text
-          type="secondary"
+      <div className="shrink-0" style={{ padding: `${12}px ${pad}px` }}>
+        <Button
+          type="primary"
+          block
+          icon={<PlusOutlined />}
+          onClick={handleNewChat}
           style={{
-            display: 'block',
-            fontSize: 11,
+            height: 40,
+            background: c.accent,
+            borderColor: c.accent,
             fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            paddingLeft: 10,
-            paddingBottom: 6,
+            borderRadius: c.radius,
           }}
         >
-          {t('chat.prepareSection')}
+          {t('chat.newChat')}
+        </Button>
+      </div>
+
+      <div className="flex-1 min-h-0 flex flex-col" style={{ padding: `0 ${pad}px` }}>
+        <Text
+          className="text-[10px] font-semibold uppercase tracking-wider block shrink-0"
+          style={{ color: c.sidebarText, padding: '8px 4px 10px' }}
+        >
+          {t('chat.recents')}
         </Text>
-
-        <Button
-          type="text"
-          block
-          onClick={() => { onOpenProductStore('tiki'); onClose?.() }}
-          style={{ ...storeBtnStyle('tiki'), marginBottom: 2 }}
-        >
-          <Flex align="center" gap={10}>
-            <ShoppingOutlined style={{ fontSize: 14, opacity: 0.75 }} />
-            <span>{t('utilities.product.tabLabel')}</span>
-          </Flex>
-        </Button>
-
-        <Button
-          type="text"
-          block
-          onClick={() => { onOpenProductStore('fpt'); onClose?.() }}
-          style={storeBtnStyle('fpt')}
-        >
-          <Flex align="center" gap={10}>
-            <MobileOutlined style={{ fontSize: 14, opacity: 0.75 }} />
-            <span>{t('utilities.fpt.tabLabel')}</span>
-          </Flex>
-        </Button>
+        <div className="flex-1 overflow-y-auto">
+          {sessions.length === 0 ? (
+            <Text className="text-xs block text-center px-3 py-6" style={{ color: c.sidebarText }}>
+              {t('chat.noChats')}
+            </Text>
+          ) : (
+            sessions.map(s => {
+              const active = activeId === s.id
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    onSelectSession(s.id)
+                    onClose?.()
+                    router.push('/')
+                  }}
+                  className="w-full flex items-center gap-2 rounded-lg text-left text-sm group mb-1"
+                  style={{
+                    color: active ? c.sidebarTextActive : c.sidebarText,
+                    background: active ? c.sidebarActive : 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '9px 10px',
+                  }}
+                >
+                  <MessageOutlined style={{ fontSize: 12, opacity: 0.5, flexShrink: 0 }} />
+                  <span className="flex-1 truncate">{s.title}</span>
+                  <DeleteOutlined
+                    className="opacity-0 group-hover:opacity-60 shrink-0"
+                    style={{ fontSize: 11 }}
+                    onClick={e => {
+                      e.stopPropagation()
+                      onDeleteSession(s.id)
+                    }}
+                  />
+                </button>
+              )
+            })
+          )}
+        </div>
       </div>
 
-      <Text
-        type="secondary"
-        style={{
-          display: 'block',
-          fontSize: 11,
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em',
-          paddingLeft: 8,
-          paddingBottom: 8,
-          flexShrink: 0,
-        }}
-      >
-        {t('chat.recents')}
-      </Text>
-
-      <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingTop: 4 }}>
-        {sessions.length === 0 ? (
-          <Text
-            type="secondary"
-            style={{
-              display: 'block',
-              textAlign: 'center',
-              marginTop: 20,
-              fontSize: 12,
-              lineHeight: 1.6,
-              padding: '0 12px',
-            }}
-          >
-            {t('chat.noChats')}
-          </Text>
-        ) : (
-          <Menu
-            mode="inline"
-            selectedKeys={activeId ? [activeId] : []}
-            items={menuItems}
-            onClick={({ key }) => { onSelectSession(key); onClose?.() }}
-            style={{ background: 'transparent', border: 'none', padding: 0 }}
-          />
-        )}
+      <div className="shrink-0 mt-auto" style={{ padding: `${pad}px`, borderTop: `1px solid ${c.sidebarBorder}` }}>
+        <SidebarUserFooter onClose={onClose} />
       </div>
-
-      <SidebarUserFooter onClose={onClose} />
     </Flex>
+  )
+}
+
+export function ChatSidebar(props: Props) {
+  return (
+    <aside
+      className="hidden md:flex flex-col h-full shrink-0"
+      style={{ width: CHAT_SHELL.sidebarWidth, height: '100%', background: CHAT_SHELL.sidebarBg }}
+    >
+      <SidebarInner {...props} />
+    </aside>
+  )
+}
+
+export function ChatMobileDrawer({
+  open,
+  onClose,
+  ...props
+}: Props & { open: boolean; onClose: () => void }) {
+  return (
+    <Drawer
+      open={open}
+      onClose={onClose}
+      placement="left"
+      size={280}
+      styles={{ body: { padding: 0 }, header: { display: 'none' } }}
+    >
+      <SidebarInner {...props} onClose={onClose} />
+    </Drawer>
   )
 }

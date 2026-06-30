@@ -5,7 +5,6 @@ export type {
   ChatSession,
   HistoryMessage,
   ChatPayload,
-  ProductContext,
   ChatResponse,
   ShortenRequest,
   ShortenResult,

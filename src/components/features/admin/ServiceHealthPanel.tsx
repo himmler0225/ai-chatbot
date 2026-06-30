@@ -1,11 +1,10 @@
 'use client'
 
 import { CheckCircleFilled, CloseCircleFilled, WarningFilled } from '@ant-design/icons'
-import { Card, Flex, List, Typography } from 'antd'
+import { Card, Col, Flex, Row, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
-import { adminCardStyle, useAdminColors } from '@/constants/admin-theme'
-import { PRIM } from '@/constants/brand'
+import { useAdminColors, adminCardStyle } from '@/constants/admin-theme'
 
 const { Text, Title } = Typography
 
@@ -16,15 +15,15 @@ type Service = {
   latencyMs: number
 }
 
-const STATUS_META = {
-  ok: { color: PRIM, Icon: CheckCircleFilled },
-  degraded: { color: '#faad14', Icon: WarningFilled },
-  down: { color: '#ff4d4f', Icon: CloseCircleFilled },
-} as const
-
 export function ServiceHealthPanel({ services }: { services: Service[] }) {
   const { t } = useTranslation()
   const c = useAdminColors()
+
+  const STATUS_META = {
+    ok: { color: c.success, bg: 'rgba(22,163,74,0.1)', Icon: CheckCircleFilled },
+    degraded: { color: c.warning, bg: 'rgba(217,119,6,0.1)', Icon: WarningFilled },
+    down: { color: c.danger, bg: 'rgba(220,38,38,0.1)', Icon: CloseCircleFilled },
+  } as const
 
   return (
     <Card
@@ -33,39 +32,51 @@ export function ServiceHealthPanel({ services }: { services: Service[] }) {
           {t('admin.health.title')}
         </Title>
       }
-      style={adminCardStyle(c)}
-      styles={{ body: { paddingTop: 8 } }}
+      style={{ ...adminCardStyle(c), boxShadow: '0 1px 2px rgba(15,23,42,0.04)' }}
+      styles={{ body: { padding: '20px 22px 22px' } }}
     >
-      <List
-        dataSource={services}
-        split={false}
-        renderItem={service => {
+      <Row gutter={[16, 16]}>
+        {services.map(service => {
           const meta = STATUS_META[service.status]
           return (
-            <List.Item className="!px-0 !py-3">
-              <Flex justify="space-between" align="center" className="w-full gap-3">
-                <div className="min-w-0">
-                  <Text className="block" style={{ color: c.text }}>
+            <Col xs={24} sm={12} key={service.name}>
+              <Flex
+                vertical
+                gap={10}
+                className="rounded-xl h-full"
+                style={{
+                  padding: '16px 18px',
+                  background: c.bg,
+                  border: `1px solid ${c.border}`,
+                }}
+              >
+                <Flex justify="space-between" align="center">
+                  <Text className="font-medium" style={{ color: c.text }}>
                     {service.name}
                   </Text>
-                  <Text className="text-xs" style={{ color: c.textMuted }}>
-                    {service.detail}
-                  </Text>
-                </div>
-                <Flex align="center" gap={8} className="shrink-0">
-                  <Text
-                    className="text-[10px] font-bold tracking-wider"
-                    style={{ color: meta.color }}
+                  <meta.Icon style={{ color: meta.color, fontSize: 16 }} />
+                </Flex>
+                <Text className="text-xs" style={{ color: c.textMuted }}>
+                  {service.detail}
+                </Text>
+                <Flex justify="space-between" align="center">
+                  <span
+                    className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded"
+                    style={{ color: meta.color, background: meta.bg }}
                   >
                     {t(`admin.health.status.${service.status}`)}
-                  </Text>
-                  <meta.Icon style={{ color: meta.color, fontSize: 18 }} />
+                  </span>
+                  {service.latencyMs > 0 && (
+                    <Text className="text-[11px]" style={{ color: c.textMuted }}>
+                      {service.latencyMs}ms
+                    </Text>
+                  )}
                 </Flex>
               </Flex>
-            </List.Item>
+            </Col>
           )
-        }}
-      />
+        })}
+      </Row>
     </Card>
   )
 }

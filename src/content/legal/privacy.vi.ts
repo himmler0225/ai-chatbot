@@ -4,13 +4,13 @@ export const privacyVi: LegalDocument = {
   title: 'Chính sách bảo mật',
   lastUpdated: '26/06/2026',
   intro:
-    'Chính sách này mô tả cách {{operator}} (“chúng tôi”) thu thập, sử dụng và bảo vệ thông tin khi bạn sử dụng ReviewMine AI tại reviewmine.ai và các subdomain liên quan.',
+    'Chính sách này mô tả cách {{operator}} (“chúng tôi”) thu thập, sử dụng và bảo vệ thông tin khi bạn sử dụng KiraAI tại reviewmine.ai và các subdomain liên quan.',
   sections: [
     {
       id: 'controller',
       title: '1. Chủ thể xử lý dữ liệu',
       paragraphs: [
-        'ReviewMine AI được vận hành bởi {{operator}} — cá nhân đăng ký và hoạt động tại Việt Nam.',
+        'KiraAI được vận hành bởi {{operator}} — cá nhân đăng ký và hoạt động tại Việt Nam.',
         'Mọi yêu cầu liên quan đến quyền riêng tư gửi tới: {{email}}.',
       ],
     },
@@ -43,8 +43,7 @@ export const privacyVi: LegalDocument = {
       paragraphs: [
         'Câu hỏi của bạn có thể được gửi tới các nhà cung cấp mô hình ngôn ngữ (ví dụ OpenAI, DeepSeek) để tạo câu trả lời. Chúng tôi không gửi mật khẩu hoặc thông tin thanh toán (dịch vụ hiện miễn phí).',
         'Dữ liệu tài khoản và lịch sử chat được lưu trữ qua Supabase. Đăng nhập Google tuân theo chính sách của Google.',
-        'ReviewMine AI tổng hợp nội dung công khai từ YouTube và TikTok; chúng tôi không truy cập tài khoản mạng xã hội cá nhân của bạn.',
-        'Tính năng tìm sản phẩm có thể liên kết tới cửa hàng đối tác (Tiki, FPT Shop). Khi bạn rời khỏi ReviewMine AI, chính sách của website đó sẽ áp dụng.',
+        'KiraAI tổng hợp nội dung công khai từ YouTube và TikTok; chúng tôi không truy cập tài khoản mạng xã hội cá nhân của bạn.',
       ],
     },
     {

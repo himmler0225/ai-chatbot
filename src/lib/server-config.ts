@@ -76,7 +76,6 @@ export async function resolveDataMiner(config?: ConfigMap) {
   return {
     url: getService(c, 'data_miner', 'url', process.env.DATA_MINER_URL ?? 'http://localhost:8000'),
     key: getService(c, 'data_miner', 'key', process.env.DATA_MINER_KEY ?? ''),
-    bffToken: process.env.DATA_MINER_BFF_TOKEN ?? '',
   }
 }
 

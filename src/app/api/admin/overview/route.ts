@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import axios from 'axios'
 import { requireAdmin, adminErrorResponse } from '@/lib/admin/auth'
-import { getSupabaseAdmin } from '@/lib/admin/supabase-admin'
+import { canUseDevConfigFallback } from '@/lib/admin/dev-config'
+import { tryGetSupabaseAdmin } from '@/lib/admin/supabase-admin'
 import { withBffAccess } from '@/lib/guard/bff-access'
 import { getAiLayerClient } from '@/lib/api/server'
 import { resolveAiLayer, resolveDataMiner } from '@/lib/server-config'
@@ -37,17 +38,30 @@ async function pingHealth(
 
 export const GET = withBffAccess(async (req: NextRequest) => {
   try {
-    await requireAdmin(req.headers.get('authorization'))
+    const ctx = await requireAdmin(req.headers.get('authorization'))
 
-    const admin = getSupabaseAdmin()
-    const { count: userCount } = await admin
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
+    const admin = tryGetSupabaseAdmin()
+    let totalUsers = 0
+    let adminUsers = 0
+    let devMode = false
 
-    const { count: adminCount } = await admin
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .eq('role', 'admin')
+    if (admin) {
+      const { count: userCount } = await admin
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+
+      const { count: adminCount } = await admin
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('role', 'admin')
+
+      totalUsers = userCount ?? 0
+      adminUsers = adminCount ?? 0
+    } else if (canUseDevConfigFallback()) {
+      totalUsers = 1
+      adminUsers = ctx.profile.role === 'admin' ? 1 : 0
+      devMode = true
+    }
 
     const [{ url: aiLayerUrl }, { url: dataMinerUrl }] = await Promise.all([
       resolveAiLayer(),
@@ -66,9 +80,9 @@ export const GET = withBffAccess(async (req: NextRequest) => {
     ])
 
     const chatbot = {
-      name: 'ai-chatbot',
+      name: 'KiraAI',
       status: 'ok' as ServiceStatus,
-      detail: 'This instance',
+      detail: devMode ? 'Dev mode' : 'This instance',
       latencyMs: 0,
     }
 
@@ -78,9 +92,10 @@ export const GET = withBffAccess(async (req: NextRequest) => {
     return NextResponse.json({
       success: true,
       data: {
+        devMode,
         stats: {
-          totalUsers: userCount ?? 0,
-          adminUsers: adminCount ?? 0,
+          totalUsers,
+          adminUsers,
           chatSessionsToday: chatStats?.sessionsToday ?? null,
           totalChatSessions: chatStats?.totalSessions ?? null,
           errors24h,

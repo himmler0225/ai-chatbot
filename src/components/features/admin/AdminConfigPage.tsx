@@ -2,17 +2,16 @@
 
 import { useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Alert, Button, Flex, Form, Input, Tabs, Typography, message } from 'antd'
+import { Alert, Button, Form, Input, Tabs, Typography, message } from 'antd'
 import { SaveOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import { adminFetch } from '@/lib/admin/client'
 import { ADMIN_CONFIG_GROUPS } from '@/lib/admin/config-keys'
-import { AdminHeader } from '@/components/features/admin/AdminHeader'
-import { AdminPageBody } from '@/components/features/admin/AdminPageBody'
+import { AdminPageLayout } from '@/components/features/admin/AdminPageLayout'
 import { AdminConfigSkeleton } from '@/components/features/admin/AdminSkeletons'
 import { useAdminConfigStore } from '@/stores/adminConfigStore'
-import { PRIM } from '@/constants/brand'
+import { useAdminColors } from '@/constants/admin-theme'
 
 const { TextArea } = Input
 const { Text } = Typography
@@ -21,12 +20,14 @@ type ConfigRes = {
   success: boolean
   data: {
     config: Record<string, string>
+    devMode?: boolean
     meta: { longTextKeys: string[]; jsonKeys: string[] }
   }
 }
 
 export function AdminConfigPage() {
   const { t } = useTranslation()
+  const c = useAdminColors()
   const qc = useQueryClient()
   const { draft, dirty, setKey, resetDraft } = useAdminConfigStore()
 
@@ -66,7 +67,7 @@ export function AdminConfigPage() {
           <Form.Item
             key={key}
             label={
-              <Text code style={{ color: PRIM, fontSize: 12 }}>
+              <Text code style={{ color: c.accent, fontSize: 12 }}>
                 {key}
               </Text>
             }
@@ -95,41 +96,43 @@ export function AdminConfigPage() {
   }))
 
   return (
-    <>
-      <AdminHeader titleKey="admin.config.title" subtitleKey="admin.config.subtitle" />
-      <AdminPageBody>
-        <Flex
-          gap={12}
-          align="flex-start"
-          justify="space-between"
-          wrap="wrap"
-          className="mb-6"
+    <AdminPageLayout
+      breadcrumbs={[t('admin.breadcrumb'), t('admin.nav.config')]}
+      title={t('admin.config.title')}
+      description={t('admin.config.restartWarning')}
+      actions={
+        <Button
+          type="primary"
+          icon={<SaveOutlined />}
+          loading={saveMut.isPending}
+          disabled={!dirty || isLoading}
+          onClick={() => saveMut.mutate()}
+          style={{ background: c.accent }}
         >
-          <Alert
-            type="warning"
-            showIcon
-            message={t('admin.config.restartWarning')}
-            className="flex-1 min-w-[min(100%,280px)] !mb-0"
-          />
-          <Button
-            type="primary"
-            icon={<SaveOutlined />}
-            loading={saveMut.isPending}
-            disabled={!dirty || isLoading}
-            onClick={() => saveMut.mutate()}
-            className="w-full sm:w-auto shrink-0"
-            style={{ background: PRIM, borderColor: PRIM, color: '#0a0c10' }}
-          >
-            {t('admin.config.save')}
-          </Button>
-        </Flex>
+          {t('admin.config.save')}
+        </Button>
+      }
+    >
+      {data?.data?.devMode && (
+        <Alert
+          type="info"
+          showIcon
+          className="mb-6"
+          title={t('admin.devMode.title')}
+          description={t('admin.devMode.desc')}
+        />
+      )}
 
-        {isLoading ? (
-          <AdminConfigSkeleton />
-        ) : (
+      {isLoading ? (
+        <AdminConfigSkeleton />
+      ) : (
+        <div
+          className="rounded-xl p-4 md:p-6"
+          style={{ background: c.cardBg, border: `1px solid ${c.border}` }}
+        >
           <Tabs items={tabItems} className="admin-tabs" />
-        )}
-      </AdminPageBody>
-    </>
+        </div>
+      )}
+    </AdminPageLayout>
   )
 }

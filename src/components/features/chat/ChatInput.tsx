@@ -1,16 +1,14 @@
 'use client'
 
 import { Button, Flex, Input, Tooltip, Typography } from 'antd'
-import { SendOutlined, ShopOutlined, StopOutlined } from '@ant-design/icons'
-import { theme } from 'antd'
+import { PaperClipOutlined, SendOutlined, StopOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import { useAuth } from '@/hooks/common/useAuth'
 import { useChatStore } from '@/stores/chatStore'
 import { useUIStore } from '@/stores/uiStore'
 import { GUEST_MESSAGE_LIMIT } from '@/constants/api'
-import { useTheme } from '@/contexts/theme'
-import { CHAT_DARK } from '@/lib/theme'
+import { useChatShell } from '@/constants/chat-shell-theme'
 
 const { Text } = Typography
 const GUEST_LIMIT = GUEST_MESSAGE_LIMIT
@@ -19,14 +17,11 @@ interface Props {
   sendMessage: () => Promise<void>
   stopMessage: () => void
   isMobile: boolean
-  onSearchOnTiki?: (query: string) => void
-  onSearchOnFpt?: (query: string) => void
 }
 
-export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, onSearchOnFpt }: Props) {
+export function ChatInput({ sendMessage, stopMessage, isMobile }: Props) {
   const { t } = useTranslation()
-  const { token } = theme.useToken()
-  const { isDark } = useTheme()
+  const c = useChatShell()
   const { user, loading: authLoading } = useAuth()
   const input = useChatStore(s => s.input)
   const isStreaming = useChatStore(s => s.isStreaming)
@@ -42,41 +37,43 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
   }
 
   const atLimit = !user && !authLoading && guestMsgCount >= GUEST_LIMIT
-
-  const inputPlaceholder = isMobile
-    ? t('chat.inputPlaceholderShort', { defaultValue: 'Nhập câu hỏi...' })
+  const placeholder = isMobile
+    ? t('chat.inputPlaceholderShort')
     : t('chat.inputPlaceholder')
 
-  const shellBg = isDark ? CHAT_DARK.input : token.colorBgElevated
-  const pageBg = isDark ? CHAT_DARK.bg : token.colorBgLayout
+  const hPad = isMobile ? 16 : c.sidebarPad
 
   return (
     <div
+      className="shrink-0"
       style={{
-        flexShrink: 0,
-        background: pageBg,
-        padding: isMobile ? '8px 16px max(16px, env(safe-area-inset-bottom))' : '12px 24px 20px',
+        background: c.mainBg,
+        padding: isMobile
+          ? `12px ${hPad}px max(16px, env(safe-area-inset-bottom))`
+          : `16px ${hPad}px 20px`,
+        borderTop: `1px solid ${c.border}`,
       }}
     >
-      <div style={{ maxWidth: 768, margin: '0 auto', width: '100%' }}>
+      <div style={{ maxWidth: c.contentMax, margin: '0 auto', width: '100%' }}>
         <Flex
           align="center"
-          gap={8}
+          gap={6}
           className="chat-input-shell"
           style={{
-            borderRadius: 26,
-            padding: '6px 8px 6px 16px',
-            minHeight: 48,
-            border: `1px solid ${isDark ? CHAT_DARK.borderSubtle : token.colorBorderSecondary}`,
-            background: shellBg,
+            borderRadius: c.radius,
+            padding: '8px 8px 8px 16px',
+            minHeight: 52,
+            border: `1px solid ${c.inputBorder}`,
+            background: c.inputBg,
+            boxShadow: '0 1px 2px rgba(15,23,42,0.05)',
           }}
         >
           <Input.TextArea
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={atLimit ? t('chat.guestLimitReached') : inputPlaceholder}
-            autoSize={{ minRows: 1, maxRows: isMobile ? 4 : 6 }}
+            placeholder={atLimit ? t('chat.guestLimitReached') : placeholder}
+            autoSize={{ minRows: 1, maxRows: isMobile ? 4 : 5 }}
             variant="borderless"
             disabled={isStreaming || atLimit}
             onClick={atLimit ? () => openAuthModal('login') : undefined}
@@ -84,93 +81,57 @@ export function ChatInput({ sendMessage, stopMessage, isMobile, onSearchOnTiki, 
             style={{
               flex: 1,
               fontSize: isMobile ? 16 : 15,
-              lineHeight: isMobile ? '24px' : '22px',
-              padding: 0,
-              margin: 0,
+              lineHeight: '22px',
+              padding: '6px 0',
               resize: 'none',
-              boxShadow: 'none',
               background: 'transparent',
+              color: c.text,
             }}
           />
-          {isStreaming ? (
-            <Tooltip title={t('chat.stop')}>
+          <Flex align="center" gap={2} className="shrink-0 self-end pb-0.5">
+            <Tooltip title={t('chat.attachSoon')}>
               <Button
-                shape="circle"
-                size={isMobile ? 'middle' : 'large'}
-                danger
-                icon={<StopOutlined />}
-                onClick={stopMessage}
-                style={{ flexShrink: 0 }}
+                type="text"
+                icon={<PaperClipOutlined />}
+                disabled
+                style={{ color: c.textSubtle, width: 36, height: 36 }}
               />
             </Tooltip>
-          ) : (
-            <Button
-              type="primary"
-              shape="circle"
-              size={isMobile ? 'middle' : 'large'}
-              icon={<SendOutlined />}
-              onClick={() => void sendMessage()}
-              disabled={!input.trim() || atLimit}
-              style={{ flexShrink: 0 }}
-            />
-          )}
-        </Flex>
-
-        {(onSearchOnTiki || onSearchOnFpt) && input.trim() && !isStreaming && (
-          <Flex justify="center" gap={12} wrap="wrap" style={{ marginTop: 8 }}>
-            {onSearchOnTiki && (
+            {isStreaming ? (
+              <Tooltip title={t('chat.stop')}>
+                <Button
+                  shape="circle"
+                  size="middle"
+                  danger
+                  icon={<StopOutlined />}
+                  onClick={stopMessage}
+                />
+              </Tooltip>
+            ) : (
               <Button
-                type="link"
-                size="small"
-                icon={<ShopOutlined />}
-                onClick={() => onSearchOnTiki(input.trim())}
-                style={{ fontSize: 12, height: 'auto', padding: '2px 8px', color: token.colorTextSecondary }}
-              >
-                {t('chat.searchOnTiki')}
-              </Button>
-            )}
-            {onSearchOnFpt && (
-              <Button
-                type="link"
-                size="small"
-                icon={<ShopOutlined />}
-                onClick={() => onSearchOnFpt(input.trim())}
-                style={{ fontSize: 12, height: 'auto', padding: '2px 8px', color: token.colorTextSecondary }}
-              >
-                {t('chat.searchOnFpt')}
-              </Button>
+                type="primary"
+                shape="circle"
+                size="middle"
+                icon={<SendOutlined />}
+                onClick={() => void sendMessage()}
+                disabled={!input.trim() || atLimit}
+                style={{ background: c.accent, borderColor: c.accent }}
+              />
             )}
           </Flex>
-        )}
+        </Flex>
 
-        <Text
-          type="secondary"
-          style={{
-            display: 'block',
-            textAlign: 'center',
-            fontSize: 11,
-            lineHeight: 1.6,
-            marginTop: 10,
-            padding: '0 8px',
-            wordBreak: 'break-word',
-            color: token.colorTextTertiary,
-          }}
-        >
-          {t('app.disclaimer')}
-        </Text>
+        <Flex justify="center" align="center" gap={6} className="mt-3">
+          <InfoCircleOutlined style={{ fontSize: 12, color: c.textSubtle }} />
+          <Text style={{ fontSize: 12, color: c.textSubtle, textAlign: 'center' }}>
+            {t('app.disclaimer')}
+          </Text>
+        </Flex>
 
         {!user && !authLoading && guestMsgCount > 0 && (
           <Text
-            style={{
-              display: 'block',
-              textAlign: 'center',
-              fontSize: 11,
-              lineHeight: 1.6,
-              marginTop: 6,
-              padding: '0 8px',
-              color: atLimit ? '#ff4d4f' : token.colorTextSecondary,
-              cursor: atLimit ? 'pointer' : undefined,
-            }}
+            className="block text-center mt-2 text-xs"
+            style={{ color: atLimit ? '#dc2626' : c.textMuted, cursor: atLimit ? 'pointer' : undefined }}
             onClick={atLimit ? () => openAuthModal('login') : undefined}
           >
             {atLimit

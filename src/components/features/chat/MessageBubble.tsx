@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { Avatar, Button, Flex, Grid, Tooltip, theme } from 'antd'
 import { RobotOutlined, UserOutlined, SoundOutlined, PauseOutlined, ReloadOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
@@ -12,6 +13,7 @@ import SourceChips from './SourceChips'
 import ReviewSummary from './ReviewSummary'
 import { VideoChart } from './VideoChart'
 import StreamingStatus from './StreamingStatus'
+import { useChatShell, assistantBubbleRadius, userBubbleRadius } from '@/constants/chat-shell-theme'
 
 const { useBreakpoint } = Grid
 
@@ -35,9 +37,10 @@ function Timestamp({ ts, light }: { ts: Date; light?: boolean }) {
   )
 }
 
-export default function MessageBubble({ msg, isStreaming, activeTool, activeToolDetail, onSpeak, isSpeaking, canSpeak, onRetry }: Props) {
+function MessageBubbleInner({ msg, isStreaming, activeTool, activeToolDetail, onSpeak, isSpeaking, canSpeak, onRetry }: Props) {
   const { t } = useTranslation()
   const { token } = theme.useToken()
+  const c = useChatShell()
   const screens = useBreakpoint()
   const isMobile = !screens.md
   const isUser = msg.role === 'user'
@@ -48,9 +51,9 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 6 }}
+      initial={isStreaming ? false : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2, ease: 'easeOut' }}
+      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
     >
       <Flex
         gap={12}
@@ -62,9 +65,9 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
           icon={isUser ? <UserOutlined /> : <RobotOutlined />}
           className="shrink-0"
           style={{
-            background: isUser ? token.colorPrimary : token.colorBgElevated,
-            color: isUser ? '#fff' : token.colorPrimary,
-            border: isUser ? 'none' : `1px solid ${token.colorPrimary}`,
+            background: isUser ? c.accent : c.assistantBubbleBg,
+            color: isUser ? '#fff' : c.accent,
+            border: isUser ? 'none' : `1px solid ${c.border}`,
           }}
         />
 
@@ -72,7 +75,7 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
           {isUser ? (
             <div
               className="text-sm leading-relaxed break-words whitespace-pre-wrap text-white"
-              style={{ background: token.colorPrimary, boxShadow: '0 1px 2px rgba(0,0,0,0.12)', padding: '10px 16px', borderRadius: '18px 18px 18px 18px' }}
+              style={{ background: c.accent, boxShadow: '0 1px 2px rgba(37,99,235,0.2)', padding: '10px 16px', borderRadius: userBubbleRadius }}
             >
               {msg.content}
               <span className="float-right ml-3 mt-1 text-[10px] text-white/65 select-none">
@@ -81,8 +84,8 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
             </div>
           ) : (
             <div
-              className="text-sm leading-relaxed break-words"
-              style={{ background: token.colorBgElevated, color: token.colorText, padding: '12px 16px', borderRadius: '18px 18px 18px 18px', minHeight: isStreaming ? 44 : undefined }}
+              className="assistant-bubble"
+              style={{ background: c.assistantBubbleBg, color: c.text, padding: '12px 16px', borderRadius: assistantBubbleRadius, border: `1px solid ${c.border}`, minHeight: isStreaming ? 44 : undefined }}
             >
               <div className="message-content">
                 {showStreamingStatus && (
@@ -91,17 +94,23 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
 
                 {msg.content ? (
                   <>
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        table: ({ children }) => (
-                          <div className="md-table-wrap"><table>{children}</table></div>
-                        ),
-                      }}
-                    >
-                      {msg.content}
-                    </ReactMarkdown>
-                    {isStreaming && <span className="streaming-cursor" />}
+                    {isStreaming ? (
+                      <div className="streaming-text text-sm leading-relaxed">
+                        {msg.content}
+                        <span className="streaming-cursor" aria-hidden />
+                      </div>
+                    ) : (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          table: ({ children }) => (
+                            <div className="md-table-wrap"><table>{children}</table></div>
+                          ),
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
+                    )}
                   </>
                 ) : null}
               </div>
@@ -149,3 +158,21 @@ export default function MessageBubble({ msg, isStreaming, activeTool, activeTool
     </motion.div>
   )
 }
+
+function bubblePropsEqual(prev: Props, next: Props): boolean {
+  return (
+    prev.msg.id === next.msg.id
+    && prev.msg.content === next.msg.content
+    && prev.msg.reviewSummary === next.msg.reviewSummary
+    && prev.msg.cancelled === next.msg.cancelled
+    && prev.msg.videos === next.msg.videos
+    && prev.msg.sources === next.msg.sources
+    && prev.isStreaming === next.isStreaming
+    && prev.activeTool === next.activeTool
+    && prev.activeToolDetail === next.activeToolDetail
+    && prev.isSpeaking === next.isSpeaking
+    && prev.canSpeak === next.canSpeak
+  )
+}
+
+export default memo(MessageBubbleInner, bubblePropsEqual)

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import '@/i18n/config'
 import { useTheme } from '@/contexts/theme'
 import { Logo } from '@/components/common/ui/Logo'
-import { useColors } from '@/components/features/landing'
+import { usePageColors } from '@/lib/page-colors'
 import { PRIM, APP_NAME } from '@/constants/brand'
 
 const { Title, Text } = Typography
@@ -15,7 +15,7 @@ const { Title, Text } = Typography
 export default function NotFound() {
   const { t } = useTranslation()
   const { isDark } = useTheme()
-  const C = useColors(isDark)
+  const C = usePageColors(isDark)
 
   return (
     <div

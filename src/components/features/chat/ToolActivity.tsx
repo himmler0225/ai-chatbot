@@ -4,6 +4,7 @@ import { Avatar, Flex, Typography, theme } from 'antd'
 import { RobotOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { TOOL_LABELS } from '@/constants/chat'
+import { assistantBubbleRadius } from '@/constants/chat-shell-theme'
 import { useAppLocale } from '@/i18n/locale'
 
 const { Text } = Typography
@@ -39,7 +40,7 @@ export default function ToolActivity({ tool, isStreaming }: Props) {
       <div
         style={{
           padding: '10px 16px',
-          borderRadius: '4px 16px 16px 16px',
+          borderRadius: assistantBubbleRadius,
           background: token.colorBgElevated,
           display: 'flex',
           alignItems: 'center',

@@ -38,13 +38,12 @@ function readInitialLocale(): AppLocale {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState(true)
-  const [locale, setLocaleState] = useState<AppLocale>(() =>
-    normalizeLocale(i18n.language || readInitialLocale()),
-  )
+  const [locale, setLocaleState] = useState<AppLocale>(DEFAULT_LOCALE)
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme === 'light') setIsDark(false)
+    else if (savedTheme === 'dark') setIsDark(true)
 
     const initial = readInitialLocale()
     if (normalizeLocale(i18n.language) !== initial) {
@@ -65,7 +64,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const theme = isDark ? 'dark' : 'light'
     document.documentElement.dataset.theme = theme
-    document.documentElement.style.background = isDark ? '#0d0d0d' : '#f5f5f5'
+    document.documentElement.style.background = isDark ? '#0f172a' : '#ffffff'
   }, [isDark])
 
   const toggleTheme = useCallback(() => {

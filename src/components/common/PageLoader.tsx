@@ -2,7 +2,7 @@
 import { Flex, Typography } from 'antd'
 import { motion } from 'framer-motion'
 import { useTheme } from '@/contexts/theme'
-import { useColors } from '@/components/features/landing'
+import { usePageColors } from '@/lib/page-colors'
 import { Logo } from '@/components/common/ui/Logo'
 import { APP_NAME, PRIM } from '@/constants/brand'
 
@@ -10,7 +10,7 @@ const { Text } = Typography
 
 export function PageLoader() {
   const { isDark } = useTheme()
-  const C = useColors(isDark)
+  const C = usePageColors(isDark)
 
   return (
     <Flex align="center" justify="center" style={{ height: '100vh', background: C.bg }}>

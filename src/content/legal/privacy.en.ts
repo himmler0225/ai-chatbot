@@ -4,13 +4,13 @@ export const privacyEn: LegalDocument = {
   title: 'Privacy Policy',
   lastUpdated: 'June 26, 2026',
   intro:
-    'This policy describes how {{operator}} (“we”) collects, uses, and protects information when you use ReviewMine AI at reviewmine.ai and related subdomains.',
+    'This policy describes how {{operator}} (“we”) collects, uses, and protects information when you use KiraAI at reviewmine.ai and related subdomains.',
   sections: [
     {
       id: 'controller',
       title: '1. Data controller',
       paragraphs: [
-        'ReviewMine AI is operated by {{operator}}, an individual based in Vietnam.',
+        'KiraAI is operated by {{operator}}, an individual based in Vietnam.',
         'Privacy requests: {{email}}.',
       ],
     },
@@ -43,8 +43,7 @@ export const privacyEn: LegalDocument = {
       paragraphs: [
         'Your questions may be sent to language-model providers (e.g. OpenAI, DeepSeek) to generate answers. We do not send passwords or payment data (the service is currently free).',
         'Account and chat data is stored via Supabase. Google Sign-In is subject to Google’s policies.',
-        'ReviewMine AI aggregates public content from YouTube and TikTok; we do not access your personal social accounts.',
-        'Product search may link to partner stores (Tiki, FPT Shop). Their policies apply when you leave ReviewMine AI.',
+        'KiraAI aggregates public content from YouTube and TikTok; we do not access your personal social accounts.',
       ],
     },
     {

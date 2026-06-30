@@ -1,32 +1,22 @@
 {
   "app": {
-    "name": "ReviewMine AI",
-    "tagline": "Thu thập thông tin và tóm gọn đánh giá sản phẩm từ YouTube và TikTok",
-    "disclaimer": "ReviewMine AI có thể mắc lỗi. Hãy xác minh thông tin quan trọng."
+    "name": "KiraAI",
+    "tagline": "Trợ lý review phim — tổng hợp ý kiến người xem",
+    "disclaimer": "KiraAI có thể mắc lỗi. Hãy xác minh thông tin quan trọng."
   },
   "meta": {
-    "title": "ReviewMine AI",
-    "description": "Thu thập và tóm tắt đánh giá sản phẩm từ YouTube và TikTok — biết sản phẩm tốt trước khi mua.",
-    "titleTemplate": "%s | ReviewMine AI",
+    "title": "KiraAI",
+    "description": "Hỏi AI về phim — tổng hợp review và so sánh ý kiến người xem.",
+    "titleTemplate": "%s | KiraAI",
     "adminTitle": "Quản trị"
   },
   "chat": {
     "newChat": "Cuộc trò chuyện mới",
     "noChats": "Chưa có cuộc trò chuyện nào",
     "tabChat": "Chat",
-    "tabUtilities": "Tiện ích",
-    "utilitiesSection": "Tiện ích",
-    "prepareSection": "Chuẩn bị hỏi AI",
-    "findOnTiki": "Tìm sản phẩm trên Tiki trước",
-    "findOnFpt": "Tìm sản phẩm trên FPT Shop",
-    "searchOnTiki": "Tìm sản phẩm này trên Tiki",
-    "searchOnFpt": "Tìm sản phẩm này trên FPT Shop",
     "recents": "Gần đây",
     "showSidebar": "Mở sidebar",
     "hideSidebar": "Đóng sidebar",
-    "shortcuts": {
-      "product": "Tìm sản phẩm Tiki"
-    },
     "inputPlaceholder": "Nhập câu hỏi... (Shift+Enter xuống dòng)",
     "inputPlaceholderShort": "Nhập câu hỏi...",
     "stop": "Dừng trả lời",
@@ -37,10 +27,39 @@
     "reviewSummary": "Tổng hợp từ reviews thực tế",
     "greeting": "Hôm nay bạn muốn hỏi gì?",
     "thinking": "Đang suy nghĩ...",
+    "attachSoon": "Đính kèm (sắp có)",
+    "shell": {
+      "control": "Enterprise Control",
+      "guestRole": "Khách",
+      "memberRole": "Thành viên",
+      "adminLink": "Admin"
+    },
+    "emptyState": {
+      "title": "Hôm nay tôi có thể giúp gì?",
+      "subtitle": "Hỏi về phim, tóm tắt review và so sánh ý kiến người xem — KiraAI tổng hợp insight tự động.",
+      "cards": [
+        {
+          "category": "Phân tích phim",
+          "prompt": "Dune Part Two có đáng xem không theo review cộng đồng?"
+        },
+        {
+          "category": "So sánh dữ liệu",
+          "prompt": "So sánh Oppenheimer và Barbie — người xem nói gì?"
+        },
+        {
+          "category": "Tóm tắt review",
+          "prompt": "Tóm tắt đánh giá chung về Squid Game."
+        },
+        {
+          "category": "Chi tiết tập phim",
+          "prompt": "Tập 5 Squid Game có gì đặc biệt?"
+        }
+      ]
+    },
     "suggestions": [
-      "Người dùng nói gì về iPhone 16 Pro Max?",
-      "Review Samsung Galaxy S24 trên YouTube có đáng mua không?",
-      "So sánh MacBook Air M3 vs Dell XPS trên TikTok"
+      "Dune Part Two có đáng xem không theo review cộng đồng?",
+      "Tập 5 Squid Game có gì đặc biệt?",
+      "So sánh Oppenheimer và Barbie — người xem nói gì?"
     ]
   },
   "theme": {
@@ -53,79 +72,6 @@
     "en": "Tiếng Anh"
   },
   "utilities": {
-    "product": {
-      "tabLabel": "Sản phẩm Tiki",
-      "panelTitle": "Tìm sản phẩm Tiki",
-      "panelHint": "Chọn sản phẩm → hỏi AI review",
-      "closePanel": "Đóng panel sản phẩm",
-      "placeholder": "Tìm sản phẩm Tiki...",
-      "searchBtn": "Tìm",
-      "hint": "Tìm sản phẩm, rồi bấm Hỏi AI review để phân tích YouTube & TikTok",
-      "resultCount": "{{count}} sản phẩm",
-      "empty": "Không tìm thấy sản phẩm nào",
-      "loadError": "Không thể tải danh sách sản phẩm",
-      "authentic": "Chính hãng",
-      "tikinow": "TikiNow",
-      "sold": "{{count}}k bán",
-      "soldFew": "{{count}} bán",
-      "shorten": "Rút gọn",
-      "copyLink": "Copy link",
-      "copied": "Đã sao chép!",
-      "shortenTooltip": "Rút gọn & copy link",
-      "qrTooltip": "Tạo mã QR",
-      "qrTitle": "Mã QR — {{name}}",
-      "qrHint": "Quét để mở trang sản phẩm Tiki",
-      "aiReview": "AI Review",
-      "aiReviewBtn": "Hỏi AI review",
-      "aiReviewTooltip": "Hỏi AI review sản phẩm này trên YouTube & TikTok",
-      "aiReviewPrompt": "Review sản phẩm \"{{name}}\" trên YouTube và TikTok. Giá Tiki: {{price}}. Link: {{url}}",
-      "tabSearch": "Tìm kiếm",
-      "tabFlashSale": "Flash Sale",
-      "tabTopDeals": "Top Deals",
-      "tabLike": "Gợi ý",
-      "noData": "Không có dữ liệu",
-      "loadError": "Không thể tải dữ liệu",
-      "allShown": "Đã hiển thị tất cả {{count}} sản phẩm",
-      "reviewsTitle": "Đánh giá khách hàng",
-      "noReviews": "Chưa có đánh giá",
-      "reviewsError": "Không tải được đánh giá. Thử lại sau.",
-      "reviewCount": "{{rating}} · {{count}} đánh giá",
-      "viewOnTiki": "Xem trên Tiki ↗"
-    },
-    "fpt": {
-      "tabLabel": "Sản phẩm FPT Shop",
-      "panelTitle": "Tìm sản phẩm FPT Shop",
-      "panelHint": "Chọn sản phẩm → hỏi AI review",
-      "placeholder": "Tìm sản phẩm FPT Shop...",
-      "searchBtn": "Tìm",
-      "hint": "Tìm sản phẩm FPT Shop, rồi bấm Hỏi AI review để phân tích YouTube & TikTok",
-      "resultCount": "{{count}} sản phẩm",
-      "empty": "Không tìm thấy sản phẩm nào",
-      "loadError": "Không thể tải danh sách sản phẩm FPT Shop",
-      "allShown": "Đã hiển thị tất cả {{count}} sản phẩm",
-      "inStock": "Còn hàng",
-      "shorten": "Rút gọn",
-      "copied": "Đã sao chép!",
-      "shortenTooltip": "Rút gọn & copy link",
-      "qrTooltip": "Tạo mã QR",
-      "qrTitle": "Mã QR — {{name}}",
-      "qrHint": "Quét để mở trang sản phẩm FPT Shop",
-      "aiReviewBtn": "Hỏi AI review",
-      "aiReviewPrompt": "Review sản phẩm \"{{name}}\" trên YouTube và TikTok. Giá FPT Shop: {{price}}. Link: {{url}}",
-      "reviewsTitle": "Đánh giá khách hàng",
-      "noReviews": "Chưa có đánh giá",
-      "viewOnFpt": "Xem trên FPT Shop ↗",
-      "sortPlaceholder": "Sắp xếp",
-      "pricePlaceholder": "Khoảng giá",
-      "sortFeatured": "Nổi bật",
-      "sortPriceAsc": "Giá thấp → cao",
-      "sortPriceDesc": "Giá cao → thấp",
-      "sortInstallment": "Trả góp 0%",
-      "priceUnder2m": "Dưới 2 triệu",
-      "price2to5m": "2 – 5 triệu",
-      "price5to10m": "5 – 10 triệu",
-      "priceOver10m": "Trên 10 triệu"
-    },
     "shortener": {
       "tabLabel": "Rút gọn URL",
       "placeholder": "Nhập URL dài cần rút gọn...",
@@ -156,7 +102,7 @@
       "title1": "Biết",
       "titleHighlight": "chất lượng",
       "title2": "sản phẩm trước khi mua",
-      "desc": "Hỏi ReviewMine AI về bất kỳ sản phẩm nào. AI tự động tổng hợp đánh giá thực từ YouTube và TikTok — không quảng cáo, không định kiến.",
+      "desc": "Hỏi KiraAI về bất kỳ sản phẩm nào. AI tự động tổng hợp đánh giá thực từ YouTube và TikTok — không quảng cáo, không định kiến.",
       "cta": "Trải nghiệm ngay",
       "howto": "Xem cách hoạt động",
       "realReviewsBadge": "100% Review thực",
@@ -204,7 +150,7 @@
         {
           "n": "02",
           "title": "AI tự động tìm kiếm",
-          "body": "ReviewMine AI tự động quét hàng ngàn video và bình luận từ YouTube và TikTok chỉ trong tích tắc."
+          "body": "KiraAI tự động quét hàng ngàn video và bình luận từ YouTube và TikTok chỉ trong tích tắc."
         },
         {
           "n": "03",
@@ -292,7 +238,7 @@
     "cta": {
       "title": "Bắt đầu ngay hôm nay",
       "desc": "Không cần thẻ tín dụng.",
-      "btn": "Mở ReviewMine AI"
+      "btn": "Mở KiraAI"
     },
     "nav": {
       "login": "Đăng nhập",
@@ -308,7 +254,7 @@
       }
     },
     "footer": {
-      "copyright": "© 2026 ReviewMine AI. All rights reserved.",
+      "copyright": "© 2026 KiraAI. All rights reserved.",
       "support": {
         "privacy": "Chính sách bảo mật",
         "terms": "Điều khoản dịch vụ",
@@ -371,74 +317,162 @@
     }
   },
   "admin": {
-    "console": "Admin Console",
-    "breadcrumb": "Dashboard",
-    "roleAdmin": "Administrator",
-    "backToChat": "Về Chat",
+    "console": "Bảng điều khiển KiraAI",
+    "consoleShort": "Quản trị",
+    "support": "Trợ giúp",
+    "devMode": {
+      "title": "Đang chạy ở chế độ phát triển",
+      "desc": "Cấu hình đang lưu tạm trên máy hoặc trong file .env. Khi triển khai thật, hãy thêm SUPABASE_URL và SUPABASE_SERVICE_KEY."
+    },
+    "breadcrumb": "Trang quản trị",
+    "roleAdmin": "Quản trị viên",
+    "backToChat": "Quay lại chat",
     "logout": "Đăng xuất",
     "langToggle": "Ngôn ngữ",
     "openMenu": "Mở menu",
     "nav": {
       "overview": "Tổng quan",
+      "prompts": "Prompt",
       "config": "Cấu hình",
       "users": "Người dùng",
       "system": "Hệ thống"
     },
     "overview": {
-      "title": "Tổng quan hệ thống",
-      "subtitle": "Overview",
-      "totalUsers": "Tổng người dùng",
-      "adminCount": "{{count}} admin",
-      "chatSessions": "Phiên chat",
-      "totalSessions": "{{count}} tổng",
-      "noData": "Chưa có dữ liệu",
-      "alerts24h": "Cảnh báo 24h",
-      "allClear": "Ổn định",
-      "serviceDegraded": "Service suy giảm",
+      "title": "Tổng quan",
+      "subtitle": "Tổng quan",
+      "welcome": "Xin chào, {{name}}",
+      "welcomeDesc": "Xem nhanh tình hình chat, dịch vụ và chỉnh prompt hay cấu hình tại đây.",
+      "quick": {
+        "prompts": "Chỉnh prompt và RAG",
+        "config": "Model, agent, dịch vụ",
+        "users": "Phân quyền quản trị"
+      },
+      "servicesUp": "Dịch vụ đang chạy",
+      "latencyHint": "ai-layer · data-miner · chat",
+      "totalUsers": "Người dùng",
+      "adminCount": "{{count}} quản trị viên",
+      "chatSessions": "Phiên chat hôm nay",
+      "totalSessions": "{{count}} phiên tổng cộng",
+      "noData": "Chưa có số liệu",
+      "alerts24h": "Cảnh báo 24 giờ qua",
+      "allClear": "Mọi thứ ổn",
+      "serviceDegraded": "Có dịch vụ đang chậm",
       "chartTitle": "Phiên chat theo ngày",
-      "chartSummary": "{{total}} phiên trong {{days}} ngày",
+      "chartSummary": "{{total}} phiên trong {{days}} ngày qua",
       "chartSessions": "{{count}} phiên",
-      "chartDays": "{{days}}D"
+      "chartDays": "{{days}} ngày"
     },
     "config": {
-      "title": "Remote Config",
-      "subtitle": "Config",
-      "restartWarning": "Sau khi lưu, restart ai-layer và data-miner để áp dụng.",
+      "title": "Cấu hình",
+      "subtitle": "Cấu hình",
+      "restartWarning": "Lưu xong nhớ khởi động lại ai-layer và data-miner để áp dụng thay đổi.",
       "save": "Lưu thay đổi",
-      "saved": "Đã lưu config",
-      "emptyPlaceholder": "Chưa cấu hình",
-      "jsonHint": "JSON hợp lệ bắt buộc",
+      "saved": "Đã lưu cấu hình",
+      "emptyPlaceholder": "Chưa thiết lập",
+      "jsonHint": "Cần nhập JSON hợp lệ",
       "tabs": {
-        "models": "Models",
+        "models": "Model",
         "agent": "Agent",
-        "limits": "Rate limits",
-        "services": "Services",
-        "prompts": "Prompts",
-        "miner": "Data Miner"
+        "limits": "Giới hạn tốc độ",
+        "services": "Dịch vụ",
+        "miner": "Data miner"
+      }
+    },
+    "prompts": {
+      "title": "Chỉnh prompt",
+      "subtitle": "Prompt",
+      "guideTitle": "Prompt cho agent và RAG",
+      "guideBody": "Chọn nhóm bên trái, chỉnh nội dung rồi bấm Lưu prompt.",
+      "restartWarning": "Lưu xong nhớ khởi động lại ai-layer để nạp prompt mới.",
+      "navLabel": "Nhóm prompt",
+      "pickGroup": "Chọn nhóm cần chỉnh",
+      "unsaved": "Chưa lưu",
+      "save": "Lưu prompt",
+      "saved": "Đã lưu prompt",
+      "emptyPlaceholder": "Nhập nội dung prompt...",
+      "groups": {
+        "agent": {
+          "title": "Agent chat",
+          "hint": "Prompt hệ thống khi người dùng chat"
+        },
+        "review_summary": {
+          "title": "Tóm tắt review",
+          "hint": "Tóm tắt review mạng xã hội trước khi đưa vào RAG"
+        },
+        "aspect_group": {
+          "title": "Nhóm theo khía cạnh",
+          "hint": "Gom review theo từng khía cạnh (hình ảnh, âm thanh...)"
+        },
+        "aspect_summary": {
+          "title": "Tóm tắt khía cạnh",
+          "hint": "Tạo bản tóm tắt cấp 1 cho từng khía cạnh"
+        }
+      },
+      "fields": {
+        "system": {
+          "title": "Vai trò & quy tắc chung",
+          "desc": "Persona, giọng điệu và các quy tắc model phải tuân theo."
+        },
+        "synth_system": {
+          "title": "Hướng dẫn tổng hợp",
+          "desc": "Cách ghép thông tin thành câu trả lời cuối cùng cho người dùng."
+        },
+        "prompt": {
+          "title": "Mẫu nhiệm vụ",
+          "desc": "Template mô tả việc cần làm với dữ liệu đầu vào."
+        }
       }
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Users",
-      "roleUpdated": "Đã cập nhật role",
+      "title": "Người dùng",
+      "subtitle": "Phân quyền",
+      "description": "Quản lý tài khoản và phân quyền trên hệ thống.",
+      "filters": "Lọc",
+      "addUser": "Thêm người dùng",
+      "emptyTitle": "Chưa có ai",
+      "emptyDesc": "Thêm người dùng hoặc kết nối Supabase để đồng bộ danh sách.",
+      "createFirst": "Tạo người dùng đầu tiên",
+      "importCsv": "Nhập từ CSV",
+      "showing": "Đang hiển thị {{shown}} / {{total}} người dùng",
+      "stats": {
+        "total": "Tổng số",
+        "totalHint": "Lấy từ Supabase",
+        "active": "Đang hoạt động",
+        "stable": "Ổn định",
+        "admins": "Quản trị viên",
+        "adminHint": "{{count}} người",
+        "pending": "Lời mời chờ",
+        "inReview": "Đang xem xét"
+      },
+      "rolesCard": {
+        "title": "Vai trò trong hệ thống",
+        "desc": "Thiết lập quyền quản trị viên và người dùng thường.",
+        "cta": "Xem chi tiết vai trò"
+      },
+      "ssoCard": {
+        "title": "Đăng nhập một lần (SSO)",
+        "desc": "Kết nối Supabase Auth hoặc nhà cung cấp OAuth.",
+        "cta": "Thiết lập đăng nhập"
+      },
+      "roleUpdated": "Đã cập nhật vai trò",
       "columns": {
         "email": "Email",
         "name": "Tên",
-        "role": "Role",
-        "badge": "Badge",
-        "joined": "Tham gia"
+        "role": "Vai trò",
+        "badge": "Nhãn",
+        "joined": "Ngày tham gia"
       }
     },
     "system": {
       "title": "Hệ thống",
-      "subtitle": "System"
+      "subtitle": "Hệ thống"
     },
     "health": {
-      "title": "Service Health",
+      "title": "Tình trạng dịch vụ",
       "status": {
-        "ok": "OK",
-        "degraded": "DEGRADED",
-        "down": "DOWN"
+        "ok": "Bình thường",
+        "degraded": "Chậm / lỗi một phần",
+        "down": "Ngừng hoạt động"
       }
     }
   }

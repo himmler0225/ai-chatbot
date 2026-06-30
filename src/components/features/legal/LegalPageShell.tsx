@@ -8,7 +8,7 @@ import { Logo } from '@/components/common/ui/Logo'
 import { LocaleDropdown } from '@/components/common/ui/LocaleDropdown'
 import { APP_NAME } from '@/constants/brand'
 import { useTheme } from '@/contexts/theme'
-import { useColors } from '@/components/features/landing/shared/useColors'
+import { usePageColors } from '@/lib/page-colors'
 import {
   LegalBrand,
   LegalHeader,
@@ -20,7 +20,7 @@ import {
 export function LegalPageShell({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation()
   const { isDark, toggleTheme } = useTheme()
-  const C = useColors(isDark)
+  const C = usePageColors(isDark)
 
   return (
     <LegalPageRoot $C={C}>
@@ -39,7 +39,7 @@ export function LegalPageShell({ children }: { children: React.ReactNode }) {
               onClick={toggleTheme}
               title={isDark ? t('theme.light') : t('theme.dark')}
             />
-            <Link href="/app" style={{ fontSize: 13, fontWeight: 500, color: C.fg }}>
+            <Link href="/" style={{ fontSize: 13, fontWeight: 500, color: C.fg }}>
               {t('legal.openApp')}
             </Link>
           </LegalHeaderActions>

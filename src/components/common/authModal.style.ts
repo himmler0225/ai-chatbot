@@ -1,12 +1,14 @@
 'use client'
 
 import styled from 'styled-components'
-import { PRIM } from '@/constants/brand'
+import { CHAT_SHELL } from '@/constants/chat-shell-theme'
 import { getModalColors } from '@/constants/brand'
+
+const ACCENT = CHAT_SHELL.accent
 
 export const AuthAccent = styled.div`
   height: 3px;
-  background: linear-gradient(90deg, transparent, ${PRIM}, transparent);
+  background: linear-gradient(90deg, transparent, ${ACCENT}, transparent);
 `
 
 export const AuthBody = styled.div`
@@ -63,12 +65,12 @@ export const ModeButton = styled.button<{ $active: boolean; $isDark: boolean }>`
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: ${p => (p.$active ? (p.$isDark ? '#0a0c14' : '#0a0c14') : getModalColors(p.$isDark).muted)};
-  background: ${p => (p.$active ? PRIM : 'transparent')};
-  box-shadow: ${p => (p.$active ? `0 4px 14px ${PRIM}35` : 'none')};
+  color: ${p => (p.$active ? '#ffffff' : getModalColors(p.$isDark).muted)};
+  background: ${p => (p.$active ? ACCENT : 'transparent')};
+  box-shadow: ${p => (p.$active ? `0 4px 14px rgba(37,99,235,0.25)` : 'none')};
 
   &:hover {
-    color: ${p => (p.$active ? '#0a0c14' : getModalColors(p.$isDark).fg)};
+    color: ${p => (p.$active ? '#ffffff' : getModalColors(p.$isDark).fg)};
   }
 `
 
@@ -84,9 +86,9 @@ export const ErrorBox = styled.div`
   border-radius: 10px;
   font-size: 12px;
   line-height: 1.5;
-  color: #ff6b6b;
-  background: rgba(255, 77, 79, 0.1);
-  border: 1px solid rgba(255, 77, 79, 0.22);
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.2);
 `
 
 export const OrRow = styled.div<{ $isDark: boolean }>`
@@ -120,7 +122,7 @@ export const SwitchLink = styled.button`
   margin-left: 4px;
   font-size: 13px;
   font-weight: 600;
-  color: ${PRIM};
+  color: ${ACCENT};
   cursor: pointer;
 
   &:hover {
@@ -144,9 +146,9 @@ export const SuccessIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${PRIM}18;
-  border: 1px solid ${PRIM}35;
-  color: ${PRIM};
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  color: ${ACCENT};
   font-size: 30px;
 `
 
@@ -167,8 +169,8 @@ export const GoogleBtn = styled.button<{ $isDark: boolean; $loading?: boolean }>
   transition: border-color 0.2s ease, background 0.2s ease;
 
   &:hover:not(:disabled) {
-    border-color: ${PRIM}55;
-    background: ${p => (p.$isDark ? '#1a1f2b' : '#f3f4f6')};
+    border-color: rgba(37, 99, 235, 0.35);
+    background: ${p => (p.$isDark ? '#1e293b' : '#f8fafc')};
   }
 
   &:disabled {

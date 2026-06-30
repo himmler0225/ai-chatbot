@@ -1,32 +1,32 @@
-export const APP_NAME = 'ReviewMine AI'
-export const APP_TAGLINE_VI = 'Tóm gọn đánh giá sản phẩm từ YouTube và TikTok'
-export const APP_TAGLINE_EN = 'Summarize product reviews from YouTube and TikTok'
+export const APP_NAME = 'KiraAI'
+export const APP_TAGLINE_VI = 'Trợ lý review phim — tổng hợp ý kiến người xem'
+export const APP_TAGLINE_EN = 'Movie review assistant — aggregates viewer insights'
 
 export const TOOL_LABELS: Record<string, { vi: string; en: string; icon: string }> = {
-  youtube_search: { vi: 'Đang tìm kiếm trên YouTube...', en: 'Searching YouTube...', icon: '🔍' },
+  youtube_search: { vi: 'Đang tìm nội dung liên quan...', en: 'Searching related content...', icon: '🔍' },
   youtube_get_comments_batch: {
-    vi: 'Đang lấy bình luận nhiều video YouTube...',
-    en: 'Fetching YouTube comments (batch)...',
+    vi: 'Đang thu thập bình luận...',
+    en: 'Collecting comments...',
     icon: '💬',
   },
   youtube_get_comments: {
-    vi: 'Đang lấy bình luận YouTube...',
-    en: 'Fetching YouTube comments...',
+    vi: 'Đang thu thập bình luận...',
+    en: 'Collecting comments...',
     icon: '💬',
   },
   youtube_get_transcript: {
-    vi: 'Đang lấy transcript YouTube...',
-    en: 'Fetching YouTube transcript...',
+    vi: 'Đang đọc nội dung video...',
+    en: 'Reading video content...',
     icon: '📝',
   },
   youtube_get_transcript_batch: {
-    vi: 'Đang lấy transcript nhiều video...',
-    en: 'Fetching YouTube transcripts...',
+    vi: 'Đang đọc nội dung nhiều video...',
+    en: 'Reading video content...',
     icon: '📝',
   },
   tiktok_transcript: {
-    vi: 'Đang lấy transcript TikTok...',
-    en: 'Fetching TikTok transcript...',
+    vi: 'Đang đọc nội dung video...',
+    en: 'Reading video content...',
     icon: '📝',
   },
   youtube_get_detail: {
@@ -49,7 +49,7 @@ export const TOOL_LABELS: Record<string, { vi: string; en: string; icon: string 
     en: 'Browsing by topic...',
     icon: '🏷️',
   },
-  youtube_get_shorts: { vi: 'Đang lấy YouTube Shorts...', en: 'Loading Shorts...', icon: '⚡' },
+  youtube_get_shorts: { vi: 'Đang lấy video ngắn...', en: 'Loading short videos...', icon: '⚡' },
   youtube_get_live: { vi: 'Đang tìm video đang live...', en: 'Finding live videos...', icon: '🔴' },
   youtube_get_by_region: {
     vi: 'Đang tìm video theo khu vực...',
@@ -66,18 +66,18 @@ export const TOOL_LABELS: Record<string, { vi: string; en: string; icon: string 
     en: 'Loading playlist videos...',
     icon: '📋',
   },
-  tiktok_search: { vi: 'Đang tìm kiếm trên TikTok...', en: 'Searching TikTok...', icon: '🎵' },
+  tiktok_search: { vi: 'Đang tìm nội dung liên quan...', en: 'Searching related content...', icon: '🎵' },
   tiktok_comments: {
-    vi: 'Đang lấy bình luận TikTok...',
-    en: 'Fetching TikTok comments...',
+    vi: 'Đang thu thập bình luận...',
+    en: 'Collecting comments...',
     icon: '💬',
   },
   tiktok_video_info: {
-    vi: 'Đang xem thông tin video TikTok...',
-    en: 'Loading TikTok video...',
+    vi: 'Đang xem thông tin video...',
+    en: 'Loading video details...',
     icon: '🎵',
   },
-  tiktok_profile: { vi: 'Đang xem profile TikTok...', en: 'Loading TikTok profile...', icon: '👤' },
+  tiktok_profile: { vi: 'Đang xem hồ sơ người đăng...', en: 'Loading creator profile...', icon: '👤' },
   extract_id_from_url: { vi: 'Đang xử lý URL...', en: 'Processing URL...', icon: '🔗' },
   search_product_summary: { vi: 'Đang tìm tổng quan review...', en: 'Searching review summary...', icon: '📋' },
   search_aspect_evidence: { vi: 'Đang tìm chi tiết review...', en: 'Searching review details...', icon: '🔎' },

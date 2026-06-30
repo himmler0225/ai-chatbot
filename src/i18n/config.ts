@@ -9,12 +9,13 @@ import {
   DEFAULT_LOCALE,
   normalizeLocale,
   readLocaleFromUrl,
-  readStoredLocale,
   type AppLocale,
 } from './locale'
 
 function resolveInitialLocale(): AppLocale {
-  return readLocaleFromUrl() ?? readStoredLocale() ?? DEFAULT_LOCALE
+  // SSR and first client paint must match — stored locale applied in ThemeProvider useEffect.
+  if (typeof window === 'undefined') return DEFAULT_LOCALE
+  return readLocaleFromUrl() ?? DEFAULT_LOCALE
 }
 
 const initialLocale = resolveInitialLocale()

@@ -1,32 +1,22 @@
 {
   "app": {
-    "name": "ReviewMine AI",
-    "tagline": "Crawl & summarize product reviews from YouTube and TikTok",
-    "disclaimer": "ReviewMine AI can make mistakes. Please verify important information."
+    "name": "KiraAI",
+    "tagline": "Movie review assistant — aggregates viewer insights",
+    "disclaimer": "KiraAI can make mistakes. Please verify important information."
   },
   "meta": {
-    "title": "ReviewMine AI",
-    "description": "Crawl & summarize product reviews from YouTube and TikTok — know good products before you buy.",
-    "titleTemplate": "%s | ReviewMine AI",
+    "title": "KiraAI",
+    "description": "Ask AI about movies — summarize reviews and compare viewer opinions.",
+    "titleTemplate": "%s | KiraAI",
     "adminTitle": "Admin"
   },
   "chat": {
     "newChat": "New conversation",
     "noChats": "No conversations yet",
     "tabChat": "Chat",
-    "tabUtilities": "Utilities",
-    "utilitiesSection": "Utilities",
-    "prepareSection": "Prepare for AI",
-    "findOnTiki": "Find products on Tiki first",
-    "findOnFpt": "Find products on FPT Shop",
-    "searchOnTiki": "Search this on Tiki",
-    "searchOnFpt": "Search this on FPT Shop",
     "recents": "Recents",
     "showSidebar": "Open sidebar",
     "hideSidebar": "Close sidebar",
-    "shortcuts": {
-      "product": "Search Tiki products"
-    },
     "inputPlaceholder": "Ask a question... (Shift+Enter for new line)",
     "inputPlaceholderShort": "Ask anything...",
     "stop": "Stop responding",
@@ -37,10 +27,39 @@
     "reviewSummary": "Summary from real reviews",
     "greeting": "What would you like to ask today?",
     "thinking": "Thinking...",
+    "attachSoon": "Attach file (coming soon)",
+    "shell": {
+      "control": "Enterprise Control",
+      "guestRole": "Guest",
+      "memberRole": "Member",
+      "adminLink": "Admin"
+    },
+    "emptyState": {
+      "title": "How can I help you today?",
+      "subtitle": "Ask about movies, summarize reviews, and compare viewer opinions — KiraAI aggregates insights automatically.",
+      "cards": [
+        {
+          "category": "Media Analysis",
+          "prompt": "Is Dune Part Two worth watching based on community reviews?"
+        },
+        {
+          "category": "Data Comparison",
+          "prompt": "Compare Oppenheimer and Barbie — what do viewers say?"
+        },
+        {
+          "category": "Review Summary",
+          "prompt": "Summarize overall reviews of Squid Game."
+        },
+        {
+          "category": "Episode Intel",
+          "prompt": "What happens in Squid Game episode 5?"
+        }
+      ]
+    },
     "suggestions": [
-      "What do users say about iPhone 16 Pro Max?",
-      "Is the Samsung Galaxy S24 worth buying based on YouTube reviews?",
-      "Compare MacBook Air M3 vs Dell XPS on TikTok"
+      "Is Dune Part Two worth watching based on community reviews?",
+      "What happens in Squid Game episode 5?",
+      "Compare Oppenheimer and Barbie — what do viewers say?"
     ]
   },
   "theme": {
@@ -53,79 +72,6 @@
     "en": "English"
   },
   "utilities": {
-    "product": {
-      "tabLabel": "Tiki Products",
-      "panelTitle": "Find Tiki Products",
-      "panelHint": "Pick a product → ask AI for reviews",
-      "closePanel": "Close product panel",
-      "placeholder": "Search Tiki products...",
-      "searchBtn": "Search",
-      "hint": "Find a product, then tap Ask AI review to analyze YouTube & TikTok",
-      "resultCount": "{{count}} products",
-      "empty": "No products found",
-      "loadError": "Could not load products",
-      "authentic": "Authentic",
-      "tikinow": "TikiNow",
-      "sold": "{{count}}k sold",
-      "soldFew": "{{count}} sold",
-      "shorten": "Shorten",
-      "copyLink": "Copy link",
-      "copied": "Copied!",
-      "shortenTooltip": "Shorten & copy link",
-      "qrTooltip": "Generate QR code",
-      "qrTitle": "QR Code — {{name}}",
-      "qrHint": "Scan to open Tiki product page",
-      "aiReview": "AI Review",
-      "aiReviewBtn": "Ask AI review",
-      "aiReviewTooltip": "Ask AI to review this product on YouTube & TikTok",
-      "aiReviewPrompt": "Review the product \"{{name}}\" on YouTube and TikTok. Tiki price: {{price}}. Link: {{url}}",
-      "tabSearch": "Search",
-      "tabFlashSale": "Flash Sale",
-      "tabTopDeals": "Top Deals",
-      "tabLike": "Suggestions",
-      "noData": "No data available",
-      "loadError": "Failed to load data",
-      "allShown": "Showing all {{count}} products",
-      "reviewsTitle": "Customer Reviews",
-      "noReviews": "No reviews yet",
-      "reviewsError": "Could not load reviews. Try again later.",
-      "reviewCount": "{{rating}} · {{count}} reviews",
-      "viewOnTiki": "View on Tiki ↗"
-    },
-    "fpt": {
-      "tabLabel": "FPT Shop Products",
-      "panelTitle": "Find FPT Shop Products",
-      "panelHint": "Pick a product → ask AI for reviews",
-      "placeholder": "Search FPT Shop products...",
-      "searchBtn": "Search",
-      "hint": "Find FPT Shop products, then tap Ask AI review to analyze YouTube & TikTok",
-      "resultCount": "{{count}} products",
-      "empty": "No products found",
-      "loadError": "Could not load FPT Shop products",
-      "allShown": "Showing all {{count}} products",
-      "inStock": "In stock",
-      "shorten": "Shorten",
-      "copied": "Copied!",
-      "shortenTooltip": "Shorten & copy link",
-      "qrTooltip": "Generate QR code",
-      "qrTitle": "QR Code — {{name}}",
-      "qrHint": "Scan to open FPT Shop product page",
-      "aiReviewBtn": "Ask AI review",
-      "aiReviewPrompt": "Review the product \"{{name}}\" on YouTube and TikTok. FPT Shop price: {{price}}. Link: {{url}}",
-      "reviewsTitle": "Customer Reviews",
-      "noReviews": "No reviews yet",
-      "viewOnFpt": "View on FPT Shop ↗",
-      "sortPlaceholder": "Sort by",
-      "pricePlaceholder": "Price range",
-      "sortFeatured": "Featured",
-      "sortPriceAsc": "Price: low to high",
-      "sortPriceDesc": "Price: high to low",
-      "sortInstallment": "0% installment",
-      "priceUnder2m": "Under 2M",
-      "price2to5m": "2M – 5M",
-      "price5to10m": "5M – 10M",
-      "priceOver10m": "Over 10M"
-    },
     "shortener": {
       "tabLabel": "URL Shortener",
       "placeholder": "Enter a long URL to shorten...",
@@ -156,7 +102,7 @@
       "title1": "Know",
       "titleHighlight": "product quality",
       "title2": "before you buy",
-      "desc": "Ask ReviewMine AI about any product. AI automatically aggregates real reviews from YouTube and TikTok — no ads, no bias.",
+      "desc": "Ask KiraAI about any product. AI automatically aggregates real reviews from YouTube and TikTok — no ads, no bias.",
       "cta": "Experience now",
       "howto": "See how it works",
       "realReviewsBadge": "100% Real Reviews",
@@ -204,7 +150,7 @@
         {
           "n": "02",
           "title": "AI searches automatically",
-          "body": "ReviewMine AI scans thousands of videos and comments from YouTube and TikTok in seconds."
+          "body": "KiraAI scans thousands of videos and comments from YouTube and TikTok in seconds."
         },
         {
           "n": "03",
@@ -292,7 +238,7 @@
     "cta": {
       "title": "Get started today",
       "desc": "No credit card required.",
-      "btn": "Open ReviewMine AI"
+      "btn": "Open KiraAI"
     },
     "nav": {
       "login": "Login",
@@ -308,7 +254,7 @@
       }
     },
     "footer": {
-      "copyright": "© 2026 ReviewMine AI. All rights reserved.",
+      "copyright": "© 2026 KiraAI. All rights reserved.",
       "support": {
         "privacy": "Privacy Policy",
         "terms": "Terms of Service",
@@ -371,61 +317,149 @@
     }
   },
   "admin": {
-    "console": "Admin Console",
-    "breadcrumb": "Dashboard",
+    "console": "KiraAI Admin",
+    "consoleShort": "Admin",
+    "support": "Help",
+    "devMode": {
+      "title": "Running in development mode",
+      "desc": "Settings are stored locally or in your .env file. Add SUPABASE_URL and SUPABASE_SERVICE_KEY for production."
+    },
+    "breadcrumb": "Admin",
     "roleAdmin": "Administrator",
-    "backToChat": "Back to Chat",
+    "backToChat": "Back to chat",
     "logout": "Sign out",
     "langToggle": "Language",
     "openMenu": "Open menu",
     "nav": {
       "overview": "Overview",
-      "config": "Config",
+      "prompts": "Prompts",
+      "config": "Settings",
       "users": "Users",
       "system": "System"
     },
     "overview": {
-      "title": "System Overview",
+      "title": "Overview",
       "subtitle": "Overview",
-      "totalUsers": "Total Users",
-      "adminCount": "{{count}} admin",
-      "chatSessions": "Chat Sessions",
-      "totalSessions": "{{count}} total",
+      "welcome": "Hi, {{name}}",
+      "welcomeDesc": "Keep an eye on chat activity, services, and tweak prompts or settings from here.",
+      "quick": {
+        "prompts": "Edit prompts and RAG",
+        "config": "Models, agent, services",
+        "users": "Manage admin access"
+      },
+      "servicesUp": "Services running",
+      "latencyHint": "ai-layer · data-miner · chat",
+      "totalUsers": "Users",
+      "adminCount": "{{count}} administrators",
+      "chatSessions": "Chats today",
+      "totalSessions": "{{count}} total sessions",
       "noData": "No data yet",
-      "alerts24h": "24H Alerts",
-      "allClear": "All clear",
-      "serviceDegraded": "Service degraded",
-      "chartTitle": "Chat sessions per day",
-      "chartSummary": "{{total}} sessions over {{days}} days",
+      "alerts24h": "Alerts in the last 24 hours",
+      "allClear": "All good",
+      "serviceDegraded": "A service is struggling",
+      "chartTitle": "Daily chat sessions",
+      "chartSummary": "{{total}} sessions over the last {{days}} days",
       "chartSessions": "{{count}} sessions",
-      "chartDays": "{{days}}D"
+      "chartDays": "{{days}} days"
     },
     "config": {
-      "title": "Remote Config",
-      "subtitle": "Config",
-      "restartWarning": "After saving, restart ai-layer and data-miner to apply changes.",
+      "title": "Settings",
+      "subtitle": "Settings",
+      "restartWarning": "After saving, restart ai-layer and data-miner for changes to take effect.",
       "save": "Save changes",
-      "saved": "Config saved",
-      "emptyPlaceholder": "Not configured",
-      "jsonHint": "Valid JSON required",
+      "saved": "Settings saved",
+      "emptyPlaceholder": "Not set",
+      "jsonHint": "Must be valid JSON",
       "tabs": {
         "models": "Models",
         "agent": "Agent",
         "limits": "Rate limits",
         "services": "Services",
-        "prompts": "Prompts",
-        "miner": "Data Miner"
+        "miner": "Data miner"
+      }
+    },
+    "prompts": {
+      "title": "Prompts",
+      "subtitle": "Prompts",
+      "guideTitle": "Agent and RAG prompts",
+      "guideBody": "Pick a group on the left, edit the content, then save.",
+      "restartWarning": "After saving, restart ai-layer to load the new prompts.",
+      "navLabel": "Prompt groups",
+      "pickGroup": "Choose a group to edit",
+      "unsaved": "Unsaved changes",
+      "save": "Save prompts",
+      "saved": "Prompts saved",
+      "emptyPlaceholder": "Enter prompt text...",
+      "groups": {
+        "agent": {
+          "title": "Chat agent",
+          "hint": "System prompt when users chat"
+        },
+        "review_summary": {
+          "title": "Review summary",
+          "hint": "Summarize social reviews before RAG ingest"
+        },
+        "aspect_group": {
+          "title": "Aspect grouping",
+          "hint": "Group reviews by aspect (visuals, sound, etc.)"
+        },
+        "aspect_summary": {
+          "title": "Aspect summary",
+          "hint": "Build a level-1 summary for each aspect"
+        }
+      },
+      "fields": {
+        "system": {
+          "title": "Role & core rules",
+          "desc": "Persona, tone, and the rules the model should follow."
+        },
+        "synth_system": {
+          "title": "Synthesis instructions",
+          "desc": "How to combine information into the final answer."
+        },
+        "prompt": {
+          "title": "Task template",
+          "desc": "The instruction template for this specific job."
+        }
       }
     },
     "users": {
-      "title": "Users & Roles",
-      "subtitle": "Users",
+      "title": "Users",
+      "subtitle": "Access",
+      "description": "Manage accounts and permissions across the platform.",
+      "filters": "Filter",
+      "addUser": "Add user",
+      "emptyTitle": "No users yet",
+      "emptyDesc": "Add users or connect Supabase to sync your list.",
+      "createFirst": "Create your first user",
+      "importCsv": "Import CSV",
+      "showing": "Showing {{shown}} of {{total}} users",
+      "stats": {
+        "total": "Total",
+        "totalHint": "From Supabase",
+        "active": "Active",
+        "stable": "Stable",
+        "admins": "Administrators",
+        "adminHint": "{{count}} people",
+        "pending": "Pending invites",
+        "inReview": "Under review"
+      },
+      "rolesCard": {
+        "title": "Roles in the system",
+        "desc": "Set up administrator and regular user permissions.",
+        "cta": "Learn about roles"
+      },
+      "ssoCard": {
+        "title": "Single sign-on (SSO)",
+        "desc": "Connect Supabase Auth or an OAuth provider.",
+        "cta": "Set up sign-in"
+      },
       "roleUpdated": "Role updated",
       "columns": {
         "email": "Email",
         "name": "Name",
         "role": "Role",
-        "badge": "Badge",
+        "badge": "Label",
         "joined": "Joined"
       }
     },
@@ -434,11 +468,11 @@
       "subtitle": "System"
     },
     "health": {
-      "title": "Service Health",
+      "title": "Service status",
       "status": {
-        "ok": "OK",
-        "degraded": "DEGRADED",
-        "down": "DOWN"
+        "ok": "Healthy",
+        "degraded": "Degraded",
+        "down": "Offline"
       }
     }
   }

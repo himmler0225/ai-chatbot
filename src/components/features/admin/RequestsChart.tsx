@@ -3,8 +3,7 @@
 import { Card, Flex, Skeleton, Tag, Tooltip, Typography } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useAppLocale } from '@/i18n/locale'
-import { adminCardStyle, useAdminColors } from '@/constants/admin-theme'
-import { PRIM } from '@/constants/brand'
+import { useAdminColors, adminCardStyle } from '@/constants/admin-theme'
 
 const { Text, Title } = Typography
 
@@ -20,8 +19,8 @@ type Props = {
 
 export function RequestsChart({ points, loading }: Props) {
   const { t } = useTranslation()
-  const c = useAdminColors()
   const { intlLocale: locale } = useAppLocale()
+  const c = useAdminColors()
 
   if (loading) {
     return (
@@ -51,7 +50,7 @@ export function RequestsChart({ points, loading }: Props) {
             })}
           </Text>
         </div>
-        <Tag color={PRIM} style={{ background: 'rgba(0,229,153,0.12)', border: 'none' }}>
+        <Tag color={c.accent} style={{ background: c.accentSoft, border: 'none', color: c.accent }}>
           {t('admin.overview.chartDays', { days: data.length })}
         </Tag>
       </Flex>
@@ -73,8 +72,8 @@ export function RequestsChart({ points, loading }: Props) {
                 className="w-full rounded-t transition-all"
                 style={{
                   height: Math.max(4, (p.count / max) * 160),
-                  background: `linear-gradient(180deg, ${PRIM} 0%, rgba(0,229,153,0.15) 100%)`,
-                  boxShadow: i === data.length - 1 ? `0 0 12px ${PRIM}55` : undefined,
+                  background: `linear-gradient(180deg, ${c.accent} 0%, rgba(37,99,235,0.15) 100%)`,
+                  boxShadow: i === data.length - 1 ? `0 0 12px rgba(37,99,235,0.25)` : undefined,
                 }}
               />
             </Tooltip>

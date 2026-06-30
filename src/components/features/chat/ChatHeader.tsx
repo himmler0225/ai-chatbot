@@ -1,96 +1,106 @@
 'use client'
 
-import { Button, Flex, Grid, Tooltip, Typography } from 'antd'
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  MoonOutlined,
-  SunOutlined,
-} from '@ant-design/icons'
+import Link from 'next/link'
+import { Avatar, Button, Flex, Grid, Typography } from 'antd'
+import { MenuOutlined, MoonOutlined, SettingOutlined, SunOutlined, UserOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
-import { theme } from 'antd'
-import '@/i18n/config'
 import { useTheme } from '@/contexts/theme'
 import { LocaleDropdown } from '@/components/common/ui/LocaleDropdown'
+import { useAuth } from '@/hooks/common/useAuth'
+import { useAdminAccess } from '@/hooks/admin/useAdminAccess'
 import { APP_NAME } from '@/constants/brand'
-import { CHAT_DARK } from '@/lib/theme'
+import { useChatShell } from '@/constants/chat-shell-theme'
 
 const { Text } = Typography
 const { useBreakpoint } = Grid
 
 interface Props {
-  sidebarOpen: boolean
-  onToggleSidebar: () => void
+  onOpenMenu?: () => void
 }
 
-export function ChatHeader({ sidebarOpen, onToggleSidebar }: Props) {
+export function ChatHeader({ onOpenMenu }: Props) {
   const { isDark, toggleTheme } = useTheme()
   const { t } = useTranslation()
-  const { token } = theme.useToken()
+  const { user } = useAuth()
+  const { isAdmin } = useAdminAccess()
   const screens = useBreakpoint()
   const isMobile = !screens.md
+  const c = useChatShell()
 
-  const showHeaderToggle = isMobile || !sidebarOpen
-
-  const toggleBtn = (
-    <Button
-      type="text"
-      size="small"
-      icon={sidebarOpen ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
-      onClick={onToggleSidebar}
-      aria-label={sidebarOpen ? t('chat.hideSidebar') : t('chat.showSidebar')}
-      style={{ color: token.colorTextSecondary, flexShrink: 0 }}
-    />
-  )
+  const meta = user?.user_metadata as { full_name?: string; name?: string; avatar_url?: string; picture?: string } | undefined
+  const name = meta?.full_name ?? meta?.name ?? user?.email?.split('@')[0] ?? ''
+  const avatarUrl = meta?.avatar_url ?? meta?.picture
 
   return (
-    <Flex
-      align="center"
-      justify="space-between"
+    <header
+      className="shrink-0 flex items-center justify-between"
       style={{
-        flexShrink: 0,
-        paddingTop: 20,
-        paddingBottom: 12,
-        paddingLeft: 12,
-        paddingRight: 12,
-        background: isDark ? CHAT_DARK.bg : token.colorBgLayout,
+        height: 60,
+        background: c.mainBg,
+        borderBottom: `1px solid ${c.border}`,
+        padding: `0 ${c.sidebarPad}px`,
       }}
     >
-      <Flex align="center" gap={8} style={{ minWidth: 0, flex: 1 }}>
-        {showHeaderToggle && (
-          isMobile ? toggleBtn : (
-            <Tooltip destroyOnHidden title={t('chat.showSidebar')}>
-              {toggleBtn}
-            </Tooltip>
-          )
+      <Flex align="center" gap={12} className="min-w-0">
+        {isMobile && onOpenMenu && (
+          <Button
+            type="text"
+            icon={<MenuOutlined />}
+            onClick={onOpenMenu}
+            aria-label={t('chat.showSidebar')}
+            style={{ color: c.textMuted }}
+          />
         )}
-        <Text
-          strong
-          style={{
-            fontSize: 15,
-            letterSpacing: '-0.01em',
-            color: token.colorText,
-            lineHeight: 1,
-            margin: 0,
-          }}
-          className="truncate"
-        >
+        <Text strong style={{ fontSize: 18, color: c.text, letterSpacing: '-0.02em', lineHeight: 1 }}>
           {APP_NAME}
         </Text>
       </Flex>
 
-      <Flex gap={4} align="center" style={{ flexShrink: 0 }}>
-        <LocaleDropdown buttonStyle={{ color: token.colorTextSecondary }} />
-        <Tooltip title={isDark ? t('theme.light') : t('theme.dark')}>
-          <Button
-            type="text"
-            size="small"
-            icon={isDark ? <SunOutlined /> : <MoonOutlined />}
-            onClick={toggleTheme}
-            style={{ color: token.colorTextSecondary }}
-          />
-        </Tooltip>
+      <Flex align="center" gap={2} className="shrink-0">
+        {isAdmin && !isMobile && (
+          <Link href="/admin">
+            <Button type="text" size="small" icon={<SettingOutlined />} style={{ color: c.textMuted }}>
+              {t('chat.shell.adminLink')}
+            </Button>
+          </Link>
+        )}
+        <LocaleDropdown buttonStyle={{ color: c.textMuted }} />
+        <Button
+          type="text"
+          size="small"
+          icon={isDark ? <SunOutlined /> : <MoonOutlined />}
+          onClick={toggleTheme}
+          title={isDark ? t('theme.light') : t('theme.dark')}
+          style={{ color: c.textMuted }}
+        />
+        {user && (
+          <Flex
+            align="center"
+            gap={12}
+            className="ml-2 pl-4"
+            style={{ borderLeft: `1px solid ${c.border}`, minHeight: 40 }}
+          >
+            {!isMobile && (
+              <div className="text-right hidden sm:block" style={{ lineHeight: 1.25 }}>
+                <Text className="text-sm font-medium block" style={{ color: c.text }}>
+                  {name}
+                </Text>
+                <Text className="text-[10px] font-semibold tracking-wide block mt-0.5" style={{ color: c.textSubtle }}>
+                  {t('chat.shell.memberRole').toUpperCase()}
+                </Text>
+              </div>
+            )}
+            <Avatar
+              size={38}
+              src={avatarUrl}
+              icon={!avatarUrl ? <UserOutlined /> : undefined}
+              style={{ background: c.accent, color: '#fff', fontWeight: 700, flexShrink: 0 }}
+            >
+              {name.charAt(0).toUpperCase()}
+            </Avatar>
+          </Flex>
+        )}
       </Flex>
-    </Flex>
+    </header>
   )
 }

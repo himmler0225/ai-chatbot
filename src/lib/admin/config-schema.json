@@ -5,7 +5,6 @@
       "models": ["AI_MODELS"],
       "agent": ["AI_AGENT"],
       "limits": ["RATE_LIMIT"],
-      "prompts": ["PROMPTS"],
       "services": ["SERVICES"],
       "miner": ["PROXY_POOLS"]
     },

@@ -3,7 +3,7 @@ import { LegalDocumentPage } from '@/components/features/legal/LegalDocumentPage
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'ReviewMine AI privacy policy — how we collect and protect your data.',
+  description: 'KiraAI privacy policy — how we collect and protect your data.',
   robots: { index: true, follow: true },
 }
 

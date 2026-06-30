@@ -2,10 +2,10 @@
 
 import { useLayoutEffect } from 'react'
 import { Analytics } from '@vercel/analytics/next'
-import { useTheme } from '@/contexts/theme'
+import { useChatShell } from '@/constants/chat-shell-theme'
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
-  const { isDark } = useTheme()
+  const c = useChatShell()
 
   useLayoutEffect(() => {
     document.documentElement.style.opacity = '1'
@@ -17,7 +17,7 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
       style={{
         height: '100vh',
         overflow: 'hidden',
-        background: isDark ? '#0d0d0d' : '#f5f5f5',
+        background: c.mainBg,
       }}
     >
       {children}

@@ -2,15 +2,13 @@
 export const ALLOWED_API_PREFIXES = [
   '/api/admin',
   '/api/chat',
-  '/api/fpt-shop',
   '/api/guard',
   '/api/history',
-  '/api/tiki',
   '/api/utilities',
 ] as const
 
 /** Public page paths on the FE domain. Everything else → 404 UI. */
-export const ALLOWED_PAGE_PATHS = new Set(['/', '/app', '/privacy', '/terms'])
+export const ALLOWED_PAGE_PATHS = new Set(['/', '/privacy', '/terms'])
 
 export const ALLOWED_PAGE_PREFIXES = ['/admin', '/auth'] as const
 

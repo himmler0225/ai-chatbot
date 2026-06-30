@@ -15,7 +15,8 @@ import {
 import { signInWithGoogle, signInWithEmail, signUpWithEmail } from '@/lib/supabase'
 import { useTheme } from '@/contexts/theme'
 import { Logo } from '@/components/common/ui/Logo'
-import { PRIM, APP_NAME, getModalColors } from '@/constants/brand'
+import { APP_NAME, getModalColors } from '@/constants/brand'
+import { CHAT_SHELL } from '@/constants/chat-shell-theme'
 import { useAuthModalStore } from '@/stores/authModalStore'
 import {
   AuthAccent,
@@ -60,13 +61,13 @@ export default function AuthModal({ open, defaultMode, onClose }: Props) {
 
   const modalCardStyle = {
     padding: 0,
-    borderRadius: 20,
+    borderRadius: 12,
     overflow: 'hidden' as const,
     background: BG,
     border: `1px solid ${BORDER}`,
     boxShadow: isDark
       ? '0 24px 64px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255,255,255,0.04)'
-      : '0 24px 56px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(0, 229, 153, 0.06)',
+      : '0 24px 56px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.06)',
   }
 
   const { mode, name, email, password, loading, googleLoading, error, registered, set, reset } =
@@ -85,7 +86,7 @@ export default function AuthModal({ open, defaultMode, onClose }: Props) {
 
   const afterLogin = () => {
     close()
-    if (!window.location.pathname.startsWith('/app')) router.push('/app')
+    if (window.location.pathname.startsWith('/admin')) router.push('/')
   }
 
   const switchMode = (next: Mode) => {
@@ -129,7 +130,7 @@ export default function AuthModal({ open, defaultMode, onClose }: Props) {
   const handleGoogle = async () => {
     set({ googleLoading: true })
     try {
-      await signInWithGoogle('/app')
+      await signInWithGoogle('/')
     } finally {
       set({ googleLoading: false })
     }
@@ -177,8 +178,8 @@ export default function AuthModal({ open, defaultMode, onClose }: Props) {
               marginTop: 8,
               height: 46,
               borderRadius: 12,
-              background: PRIM,
-              borderColor: PRIM,
+              background: CHAT_SHELL.accent,
+              borderColor: CHAT_SHELL.accent,
               fontWeight: 600,
             }}
           >
@@ -268,8 +269,8 @@ export default function AuthModal({ open, defaultMode, onClose }: Props) {
               style={{
                 height: 46,
                 borderRadius: 12,
-                background: PRIM,
-                borderColor: PRIM,
+                background: CHAT_SHELL.accent,
+                borderColor: CHAT_SHELL.accent,
                 fontWeight: 600,
                 fontSize: 15,
               }}

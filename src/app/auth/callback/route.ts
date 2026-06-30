@@ -5,7 +5,7 @@ import { getSiteUrl, getSupabasePublicConfig } from '@/lib/env'
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/app'
+  const next = searchParams.get('next') ?? '/'
 
   const proto = request.headers.get('x-forwarded-proto') ?? 'https'
   const host  = request.headers.get('x-forwarded-host') ?? request.headers.get('host') ?? ''

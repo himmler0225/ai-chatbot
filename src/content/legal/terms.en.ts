@@ -4,13 +4,13 @@ export const termsEn: LegalDocument = {
   title: 'Terms of Service',
   lastUpdated: 'June 26, 2026',
   intro:
-    'By accessing or using ReviewMine AI, you agree to these terms between you and {{operator}}.',
+    'By accessing or using KiraAI, you agree to these terms between you and {{operator}}.',
   sections: [
     {
       id: 'service',
       title: '1. The service',
       paragraphs: [
-        'ReviewMine AI is an AI chat tool that aggregates and analyzes product reviews from public sources (YouTube, TikTok) and helps find products via partner links. The service is currently free; we may change features or usage limits without prior notice.',
+        'KiraAI is an AI chat tool that aggregates and analyzes product reviews from public sources (YouTube, TikTok) and helps find products via partner links. The service is currently free; we may change features or usage limits without prior notice.',
       ],
     },
     {
@@ -38,7 +38,7 @@ export const termsEn: LegalDocument = {
       id: 'ai-disclaimer',
       title: '4. AI disclaimer',
       paragraphs: [
-        'AI-generated answers may be wrong, incomplete, or outdated. ReviewMine AI is not professional, technical, legal, or financial advice.',
+        'AI-generated answers may be wrong, incomplete, or outdated. KiraAI is not professional, technical, legal, or financial advice.',
         'Purchase decisions are your responsibility. Verify important information from official sources before deciding.',
       ],
     },
@@ -54,7 +54,7 @@ export const termsEn: LegalDocument = {
       id: 'ip',
       title: '6. Intellectual property',
       paragraphs: [
-        'ReviewMine AI branding, interface, and code are owned by {{operator}}, except third-party content. You may not copy, reverse-engineer, or commercially exploit the service without written permission.',
+        'KiraAI branding, interface, and code are owned by {{operator}}, except third-party content. You may not copy, reverse-engineer, or commercially exploit the service without written permission.',
       ],
     },
     {

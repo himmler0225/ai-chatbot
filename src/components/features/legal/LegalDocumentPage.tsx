@@ -6,7 +6,7 @@ import { LEGAL_CONTACT_EMAIL, LEGAL_OPERATOR } from '@/constants/legal'
 import { useAppLocale } from '@/i18n/locale'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/contexts/theme'
-import { useColors } from '@/components/features/landing/shared/useColors'
+import { usePageColors } from '@/lib/page-colors'
 import { LegalPageShell } from './LegalPageShell'
 import {
   LegalDocTitle,
@@ -27,7 +27,7 @@ function interpolate(text: string): string {
     .replaceAll('{{email}}', email)
 }
 
-function renderText(text: string, C: ReturnType<typeof useColors>) {
+function renderText(text: string, C: ReturnType<typeof usePageColors>) {
   const value = interpolate(text)
   const email = LEGAL_CONTACT_EMAIL || 'contact@reviewmine.ai'
   if (value.includes(email)) {
@@ -51,7 +51,7 @@ export function LegalDocumentPage({ docKey }: Props) {
   const { t } = useTranslation()
   const { locale } = useAppLocale()
   const { isDark } = useTheme()
-  const C = useColors(isDark)
+  const C = usePageColors(isDark)
   const doc = getLegalDocument(docKey, locale)
   const otherKey = docKey === 'privacy' ? 'terms' : 'privacy'
 

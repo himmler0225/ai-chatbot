@@ -27,7 +27,7 @@ export function useAdmin() {
   const denied = !authLoading && !q.isLoading && (!user || q.isError || !isAdmin)
 
   useEffect(() => {
-    if (denied) router.replace('/app')
+    if (denied) router.replace('/')
   }, [denied, router])
 
   return {

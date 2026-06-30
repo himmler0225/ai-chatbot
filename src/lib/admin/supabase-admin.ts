@@ -2,6 +2,17 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 let _admin: SupabaseClient | null = null
 
+export function isSupabaseAdminConfigured(): boolean {
+  const url = process.env.SUPABASE_URL ?? ''
+  const key = process.env.SUPABASE_SERVICE_KEY ?? ''
+  return Boolean(url && key)
+}
+
+export function tryGetSupabaseAdmin(): SupabaseClient | null {
+  if (!isSupabaseAdminConfigured()) return null
+  return getSupabaseAdmin()
+}
+
 export function getSupabaseAdmin(): SupabaseClient {
   if (_admin) return _admin
 

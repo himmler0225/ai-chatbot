@@ -1,6 +1,7 @@
 'use client'
 import { Flex, Grid, Layout, Skeleton } from 'antd'
 import { theme } from 'antd'
+import { CHAT_SHELL as c } from '@/constants/chat-shell-theme'
 
 const { Sider, Content } = Layout
 const { useBreakpoint } = Grid
@@ -22,9 +23,9 @@ export function ChatSkeleton() {
             padding: '16px 12px',
           }}
         >
-          <Skeleton.Button active block style={{ height: 40, borderRadius: 10, marginBottom: 12 }} />
+          <Skeleton.Button active block style={{ height: 40, borderRadius: c.radius, marginBottom: 12 }} />
           <Skeleton.Input active size="small" style={{ width: 80, height: 12, marginBottom: 8, marginLeft: 10 }} />
-          <Skeleton.Button active block style={{ height: 36, borderRadius: 10, marginBottom: 16 }} />
+          <Skeleton.Button active block style={{ height: 36, borderRadius: c.radius, marginBottom: 16 }} />
           <Skeleton.Input active size="small" style={{ width: 70, height: 12, margin: '12px 0 8px 10px' }} />
           {Array.from({ length: 6 }).map((_, i) => (
             <Flex key={i} align="center" gap={8} style={{ marginBottom: 10 }}>
@@ -70,8 +71,8 @@ export function ChatSkeleton() {
         </Flex>
 
         <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6 overflow-y-hidden" style={{ paddingBottom: '12vh' }}>
-          <Skeleton.Avatar active size={52} shape="square" style={{ borderRadius: 26 }} />
-          <Skeleton.Input active style={{ width: 280, height: 32, borderRadius: 8 }} />
+          <Skeleton.Avatar active size={52} shape="square" style={{ borderRadius: c.radius }} />
+          <Skeleton.Input active style={{ width: 280, height: 32, borderRadius: c.radius }} />
           <div
             style={{
               display: 'grid',
@@ -81,9 +82,9 @@ export function ChatSkeleton() {
               maxWidth: 640,
             }}
           >
-            <Skeleton.Button active style={{ height: 44, borderRadius: 24 }} />
-            <Skeleton.Button active style={{ height: 44, borderRadius: 24 }} />
-            <Skeleton.Button active style={{ height: 44, borderRadius: 24 }} />
+            <Skeleton.Button active style={{ height: 44, borderRadius: c.radius }} />
+            <Skeleton.Button active style={{ height: 44, borderRadius: c.radius }} />
+            <Skeleton.Button active style={{ height: 44, borderRadius: c.radius }} />
           </div>
         </div>
 
@@ -97,7 +98,7 @@ export function ChatSkeleton() {
           }}
         >
           <div className="max-w-[760px] w-full mx-auto">
-            <Skeleton.Input active block style={{ height: 52, borderRadius: 24 }} />
+            <Skeleton.Input active block style={{ height: 52, borderRadius: c.radius }} />
           </div>
         </Flex>
       </Content>

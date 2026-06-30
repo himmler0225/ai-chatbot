@@ -4,13 +4,13 @@ export const termsVi: LegalDocument = {
   title: 'Điều khoản dịch vụ',
   lastUpdated: '26/06/2026',
   intro:
-    'Bằng việc truy cập hoặc sử dụng ReviewMine AI, bạn đồng ý với các điều khoản dưới đây giữa bạn và {{operator}}.',
+    'Bằng việc truy cập hoặc sử dụng KiraAI, bạn đồng ý với các điều khoản dưới đây giữa bạn và {{operator}}.',
   sections: [
     {
       id: 'service',
       title: '1. Dịch vụ',
       paragraphs: [
-        'ReviewMine AI là công cụ trò chuyện AI giúp tổng hợp và phân tích đánh giá sản phẩm từ nguồn công khai (YouTube, TikTok) và hỗ trợ tìm sản phẩm qua liên kết đối tác. Dịch vụ hiện được cung cấp miễn phí; chúng tôi có thể thay đổi tính năng hoặc giới hạn sử dụng mà không cần thông báo trước.',
+        'KiraAI là công cụ trò chuyện AI giúp tổng hợp và phân tích đánh giá sản phẩm từ nguồn công khai (YouTube, TikTok) và hỗ trợ tìm sản phẩm qua liên kết đối tác. Dịch vụ hiện được cung cấp miễn phí; chúng tôi có thể thay đổi tính năng hoặc giới hạn sử dụng mà không cần thông báo trước.',
       ],
     },
     {
@@ -38,7 +38,7 @@ export const termsVi: LegalDocument = {
       id: 'ai-disclaimer',
       title: '4. Tuyên bố về AI',
       paragraphs: [
-        'Câu trả lời do AI tạo ra có thể sai, không đầy đủ hoặc lỗi thời. ReviewMine AI không thay thế tư vấn chuyên môn, kỹ thuật, pháp lý hay tài chính.',
+        'Câu trả lời do AI tạo ra có thể sai, không đầy đủ hoặc lỗi thời. KiraAI không thay thế tư vấn chuyên môn, kỹ thuật, pháp lý hay tài chính.',
         'Quyết định mua hàng là trách nhiệm của bạn. Hãy kiểm tra thông tin quan trọng từ nguồn chính thức trước khi quyết định.',
       ],
     },
@@ -54,7 +54,7 @@ export const termsVi: LegalDocument = {
       id: 'ip',
       title: '6. Sở hữu trí tuệ',
       paragraphs: [
-        'Thương hiệu, giao diện và mã nguồn ReviewMine AI thuộc quyền của {{operator}}, trừ nội dung bên thứ ba. Bạn không được sao chép, reverse-engineer hoặc khai thác thương mại dịch vụ mà không có sự cho phép bằng văn bản.',
+        'Thương hiệu, giao diện và mã nguồn KiraAI thuộc quyền của {{operator}}, trừ nội dung bên thứ ba. Bạn không được sao chép, reverse-engineer hoặc khai thác thương mại dịch vụ mà không có sự cho phép bằng văn bản.',
       ],
     },
     {

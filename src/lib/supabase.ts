@@ -16,7 +16,7 @@ export function getSupabase(): SupabaseClient {
   return _client
 }
 
-export async function signInWithGoogle(redirectPath = '/app') {
+export async function signInWithGoogle(redirectPath = '/') {
   return getSupabase().auth.signInWithOAuth({
     provider: 'google',
     options: { redirectTo: `${window.location.origin}/auth/callback?next=${redirectPath}` },
